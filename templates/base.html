@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to awdplaform</title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css">
+	<script src="/static/js/jquery.min.js"></script>
+	<script src="/static/js/bootstrap.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                <a class="navbar-brand" href="#">Welcome to awdplaform</a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li class="{% if url_for('index') == request.path %}active{% endif %}"><a href="{{ url_for('index') }}">Index</a></li>
+                        <li><a class="about" data-toggle="modal" data-target="#myModal1">队伍信息</a></li>
+                        <li><a class="about" data-toggle="modal" data-target="#myModal2">解题提示</a></li>
+                        <li><a class="about" data-toggle="modal" data-target="#myModal3">得分情况</a></li>
+                        <li><a class="about" data-toggle="modal" data-target="#myModal4">参赛规则</a></li>
+                        <li><a class="about" data-toggle="modal" href="/admin">后台管理</a></li>
+                        <li><a class="about" data-toggle="modal" href="/logout">退出登录</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					队伍信息
+				</h4>
+			</div>
+			<div class="modal-body">
+                <div class="modal-body">
+                	<div class="panel-body">
+            		<table class="table">
+                      <thead>
+                        <tr>
+                          <th>TEAM</th>
+                          <th>TOKEN</th>
+                          <th>SSH-USER</th>
+                          <th>SSH-PASS</th>
+                          <th>SSH-PORT</th>
+                        </tr>
+                      </thead>
+                      <tbody id="ssh_info">
+
+                      </tbody>
+                </table>
+            	</div>
+
+			</div>			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default"
+						data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					解题提示
+				</h4>
+			</div>
+			<div class="modal-body" id="infos">
+
+                <br />
+                <br />
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default"
+						data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					得分情况
+				</h4>
+			</div>
+			<div class="modal-body">
+                	<div class="panel-body">
+            		<table class="table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>消息</th>
+                          <th>得分</th>
+                          <th>轮询次数</th>
+                          <th>攻击时间</th>
+                        </tr>
+                      </thead>
+                      <tbody id="rounds">
+
+                      </tbody>
+                </table>
+            	</div>
+
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					参赛规则
+				</h4>
+			</div>
+			<div class="modal-body">
+                主机信息
+                <ul>
+                    <li>队伍分配主机，通过指定的端口和密码进行连接</li>
+                    <li>主机上运行一个web或多个服务，需要选手保证其可用性审计代码，攻击其他队伍</li>
+                    <li>通过漏洞获取其他队伍主机权限，读取服务器上的flag并提交到flag服务器</li>
+                </ul>
+                攻击检测
+                <ul>
+                    <li>每次成功攻击，攻击队伍可平分该flag的200分，被攻击者扣除200分，轮询时间1分钟</li>
+                    <li>选手需要保证己方服务的可用性，服务故障扣除200分，被服务无故障的队伍平分，轮询时间1分钟</li>
+                    <li>得分在下一轮开始时计算</li>
+                </ul>
+                其他
+                <ul>
+                    <li>选手可以获取所有的攻击情况以及当前的分数，刷新间隔1分钟</li>
+                    <li>不允许使用任何形式的DOS攻击</li>
+                </ul>
+                <br />
+                <br />
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default"
+						data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% block index %}{% endblock %}
+
+
+<div id="collapseTwo" class="container panel-collapse collapse in">
+	<div class="panel-body">
+    <h1>当前轮次：<label id='cround'></label></h1>
+    <h2><label id='ctoken'></label></h2>
+		<table class="table">
+          <caption></caption>
+          <thead>
+            <tr>
+              <th>TEAM</th>             
+              <th>实时分数</th>
+              <th>WEB端口</th>
+            </tr>
+          </thead>
+        <tbody id="team">
+        </tbody>
+    </table>
+	</div>
+</div>
+
+<div class="container well" style="margin-top: 1%">
+    <div class="row">
+        <div class="footer text-center">
+    <div class="footer-title">
+        <h4>提交Flag</h4>
+    </div>
+
+    
+    <div class="footer-banner" id='flagform'>
+        <form method="POST" id="myform" action="flag?token=' + token + '" onsubmit="return submitflag()">
+                <input type="text" name="flag" id="flag">
+                <input type="submit" value="提交">
+        </form>
+        <label id="msg"></label>
+    </div>
+    
+    <div class="footer-banner">
+        <small>自动提交：<label id='mytoken'></label></small>        
+    </div>    
+    
+    
+    <script>
+    function submitflag(){
+    //$('#test').value(mytoken);
+    
+    /*
+    $.post('flag?token='+mytoken,
+    {flag:$("#flag").val()},
+    function(data,status){
+        $("#msg").text(data['msg']);
+    }
+    );
+    
+    */
+    
+    $.ajax({
+            url:'flag?token='+mytoken,
+            data:{flag:$("#flag").val()},
+            type : 'post',
+            dataType : 'json',  
+            success:function(data,status){
+                $("#msg").text(data['msg']);
+            }
+    });
+    
+    return false;
+    }
+    //setInterval('submitflag()',1000);
+    
+    </script>
+</div>
+    </div>
+</div>
+</body>
+</html>

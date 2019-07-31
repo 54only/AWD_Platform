@@ -1,0 +1,35 @@
+{% extends 'base_admin.html' %}
+
+{% block admin_content %}
+<div class="entry-box" style="font-size: 16px">
+    <h4><strong>Awdplaform 帮助页面</strong></h4>
+    <hr/>
+    <h5 style="color: #337ab7"><strong>1.后台管理</strong></h5>
+    <p>
+        1.后台可以任意添加账户,前台添加账户受限,是根据 Teams 的数量决定的
+    </p>
+    <p>
+        2.可以添加队伍数, 当然也可以重置, 删除操作 (重置适用于容器故障恢复)
+    </p>
+    <p>
+        3.请根据电脑配置合理添加队伍数, 默认情况队伍为3只, 管理员占用了第一位
+    </p>
+    <p>
+        4.后台可以添加提示, 将在前台的解题提示显示出来.
+    </p>
+    <p>
+        5.暂时想不到别的, 就这样
+    </p>
+<br>
+    <h5 style="color: #337ab7"><strong>2.其他</strong></h5>
+    <p>
+        1.后台点击新建队伍或者重置队伍都需要开启 Docker需要等待大约30-60s左右.请耐心等待
+    </p>
+    <p>
+        2.Flag 提交机制变更, 第一次提交直接获取200分, 之后其他选手提交均不得分
+    </p>
+<br>
+    <strong>有问题请在 WeiXin 上给我留言，作者承诺将无限期提供技术支持。</strong>
+
+</div>
+{% endblock %}

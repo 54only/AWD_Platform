@@ -1,0 +1,39 @@
+{% extends 'base_admin.html' %}
+
+{% block admin_content %}
+<div class="entry-box">
+    <p style="color:red;">{{error}}</p>
+        <form action='/info' method="POST">
+            <p style="color:red;">{{error}}</p>
+            <div class="form-group">
+                <label for="InputUser"></label>
+                <input type="text" class="form-control" name="information" id="information" value="提示一: ">
+            </div>
+            <center><button type="submit" class="btn btn-default">Submit</button></center>
+        </form>
+
+
+
+<table class="table" style="margin-top: 5%">
+    <thead>
+
+    </thead>
+    <tbody>
+    {% for key in infolist %}
+    <tr>
+        <td>{{key.id}}</td>
+        <td>{{key.information}}</td>
+        <td>
+            <form id="_form" method="post" action="/info/{{key.id}}">
+              <input type="hidden" name="name" value="value" /> 
+              <a onclick="document.getElementById('_form').submit();">删除</a>
+            </form>
+            
+        </td>
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}
+
