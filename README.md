@@ -24,17 +24,16 @@
 ```
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://debian-sys-maint:Ihpz39779MWqW4zq@127.0.0.1:3306/awd?charset=utf8&autocommit=true"          # 设定数据库用户密码
 ```
-
-* 编辑 init.py
-```
-teams = 10          # 设定比赛环境数量
-```
 * 编辑 users.txt
 ```
 teamname teampass   # 设定队伍账号密码
 ```
-* 启动比赛环境
+* 编辑 start.py
+```
+teams = 10          # 设定比赛环境数量
+```
 
+* 启动比赛环境
 ```
 python start.py     # 一键启动比赛环境
 python server.py    # 启动竞赛平台
