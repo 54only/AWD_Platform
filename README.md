@@ -17,10 +17,12 @@
 - 10支队伍建议内存保障在6G以上
 
 ## 基本使用方式
-
+* 准备 docker 服务
 * 准备 mysql ，并建立 awd 数据库
-
-* 编辑 model.py
+```
+pip install -r requirements.txt
+```
+* 编辑 model.py 修改数据库配置
 ```
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://debian-sys-maint:Ihpz39779MWqW4zq@127.0.0.1:3306/awd?charset=utf8&autocommit=true"          # 设定数据库用户密码
 ```
