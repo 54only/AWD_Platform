@@ -7,7 +7,7 @@ from models import Teams
 
 
 teamid = int(sys.argv[1])
-team = Teams.query.filter(Teams.id==teamid).first()
+team = Teams.query.filter(Teams.teamcontainer==teamid).first()
 start_docker(team)
 
 
