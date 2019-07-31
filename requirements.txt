@@ -1,0 +1,7 @@
+hashlib
+flask_sqlalchemy
+flask
+docker
+flask
+flask_login
+pymysql
