@@ -40,6 +40,13 @@ teams = 10          # 设定比赛环境数量
 python start.py     # 一键启动比赛环境
 python server.py    # 启动竞赛平台
 ```
+
+* 重置队伍环境
+```
+python team_restart.py team1    # 队伍docker重置，container name
+```
+
+
 ## 自定义比赛环境
 
 dockercontr.py
