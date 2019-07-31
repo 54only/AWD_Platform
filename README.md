@@ -18,22 +18,22 @@
 
 ## 基本使用方式
 
-准备 mysql ，并建立 awd 数据库
+* 准备 mysql ，并建立 awd 数据库
 
-编辑 model.py
+* 编辑 model.py
 ```
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://debian-sys-maint:Ihpz39779MWqW4zq@127.0.0.1:3306/awd?charset=utf8&autocommit=true"          # 设定数据库用户密码
 ```
 
-编辑 init.py
+* 编辑 init.py
 ```
 teams = 10          # 设定比赛环境数量
 ```
-编辑 users.txt
+* 编辑 users.txt
 ```
 teamname teampass   # 设定队伍账号密码
 ```
-启动比赛环境
+* 启动比赛环境
 
 ```
 python start.py     # 一键启动比赛环境
