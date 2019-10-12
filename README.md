@@ -92,4 +92,5 @@ dockercontr.py
 ![](https://raw.githubusercontent.com/54only/AWD_Platform/master/img/11.jpg =310x420)
 
 ![](img/22.jpg =300x450)
-
+![](img/11.jpg)
+![](img/22.jpg)
