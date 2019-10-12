@@ -88,6 +88,6 @@ dockercontr.py
 ## 捐助
 如果您觉得该训练平台对您有帮助，欢迎给予我们一定的捐助，也是帮助该训练平台更好的发展。
 
-![](img/11.jpg)
+![微信](https://github.com/54only/AWD_Platform/blob/master/img/11.jpg =100x100)
 
-![](img/22.jpg)
+![支付宝](https://github.com/54only/AWD_Platform/blob/master/img/22.jpg =100x100)
