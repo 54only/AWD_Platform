@@ -1,4 +1,3 @@
-#<<<<<<< HEAD
 from dockercontr import clear_container
 from models import db,Teams
 
@@ -37,4 +36,4 @@ if __name__ == "__main__":
     main()
 
     print('''# docker container prune\n# docker volume rm $(docker volume ls -qf dangling=true)''')
-#>>>>>>> 24f7ab02afd9b07609236db5546f84dd55656685
+
