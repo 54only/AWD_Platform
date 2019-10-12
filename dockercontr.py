@@ -81,7 +81,7 @@ def yunnansimple_run(name,www_pass,ports={'22/tcp':9922}):
     c.start()  
 
     while True:
-        time.sleep(1)  
+        time.sleep(10)  
         if b'MySQL init process done. Ready for start up.' in c.logs():
             if b'/var/run/mysqld/mysqld.sock' in c.logs():
                 msg = 'mysql init ok'
@@ -106,15 +106,22 @@ def yunnansimple_run(name,www_pass,ports={'22/tcp':9922}):
     logger.info("%s %s"%(name,msg)) 
     
 
-    for i in range(10):
-        time.sleep(10) 
-        if b'denied' in c.exec_run('/bin/sh -c "mysql -uroot -proot < /var/www/html/test.sql"')[1]:
+    while True:
+        time.sleep(2) 
+        if b'denied' in c.exec_run('/bin/sh -c "mysql -uroot -proot < /var/www/html/test.sql"'):
             msg = 'source database password wrong'
             logger.info("%s %s"%(name,msg)) 
             break
+        elif b'denied' in c.exec_run('/bin/sh -c "mysql -uroot -proot2 < /var/www/html/test.sql"'):
+            msg = 'Database Password is ok!'
+            logger.info("%s %s"%(name,msg)) 
+            break            
         else:
             msg = 'source database false , sleep 10 seconds'
             logger.warning("%s %s"%(name,msg))
+    msg="container is ready"   
+    logger.info("%s %s"%(name,msg)) 
+    return True
                    
 
     logger.info('%s container start ok'%name)

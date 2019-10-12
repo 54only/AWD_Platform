@@ -1,4 +1,4 @@
-#coding=utf-8
+# -*- coding: utf-8 -*-
 from models import db,Teams,Flags,Round
 import time
 import requests
@@ -47,7 +47,7 @@ def service_checker(teamid,rounds):
             return 'team %d already checke false' % teamid
         else:
             team = Teams.query.filter(Teams.id==1).first()
-            db.session.add(Round(0,teamid,rounds,'{} 服务故障'.format(team.name),service_down))
+            db.session.add(Round(0,teamid,rounds,'{} check False'.format(team.name.encode('utf-8')),service_down))
             #Round(j,i,round_cont,'%s 躺赢获取 %s 的故障分'%(teamname[j],teamname[i]),scroe_avg))
             db.session.commit()
         #db.session.query(Round).filter(Round.defenseteamid ==i[0],Round.rounds==rounds).update({"score":scroe_avg})

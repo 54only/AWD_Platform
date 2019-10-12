@@ -32,7 +32,7 @@ teamname teampass   # 设定队伍账号密码
 ```
 * 编辑 start.py
 ```
-teams = 10          # 设定比赛环境数量
+teams = 10          # 设定比赛环境数量，建议比赛环境数量多于队伍数量
 ```
 
 * 启动比赛环境
@@ -46,6 +46,14 @@ python server.py    # 启动竞赛平台
 python team_restart.py team1    # 队伍docker重置，container name
 ```
 
+* 退出环境
+```
+python stop.py
+
+#由于docker的卷比较占磁盘空间，建议本环境只提供比赛docker，方便将多余的container和卷一起删除，stop.py执行完后在shell中执行下面命令
+
+docker container prune && docker volume rm $(docker volume ls -qf dangling=true)
+```
 
 ## 自定义比赛环境
 
@@ -68,6 +76,13 @@ dockercontr.py
 
    * 选手可以获取所有的攻击情况以及当前的分数，刷新间隔1分钟
    * 不允许使用任何形式的DOS攻击
+
+
+## 更新
+### 2019-10-13 
+
+* 修复环境初始化吊死的问题
+* 解决容器只能建立23个的问题，需要执行 ```sudo sysctl -w fs.aio-max-nr=2097152```
 
 
 ## 捐助

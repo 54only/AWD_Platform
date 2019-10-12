@@ -7,7 +7,7 @@ import models
 #os.system('/bin/bash -c "docker volume rm $(docker volume ls -qf dangling=true)"')
 # docker volume rm $(docker volume ls -qf dangling=true)
 
-teams = 10
+teams = 40
 
 
 
