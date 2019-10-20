@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import random
-from models import db,Teams,Flags,Round
+from models import db,Teams,Flags,Round,math
 import time
 import hashlib
 import base64
 from sqlalchemy import func
 from checker import service_checker
 from dockercontr import freshflag2
-
+import datetime
 
 timespan = 1 * 60
 round_cont = 0
@@ -75,8 +75,38 @@ def count_score(round_cont):
 
 
 def init_team_flag(teams):
-    global round_cont
-    round_cont+=1
+    global timespan
+    themath = math.query.first()
+
+    if themath:
+        timespan = themath.flagflash * 60
+        if (datetime.datetime.now()-themath.endtime).total_seconds() > 0 or (datetime.datetime.now()-themath.starttime).total_seconds() < 0 :
+            print('=== Time up ===')
+            print('[+]starttime',themath.starttime)
+            print('[+]the time',datetime.datetime.now())
+            print('[+]endtime',themath.endtime)
+            print((datetime.datetime.now()-themath.endtime).total_seconds())
+            print((datetime.datetime.now()-themath.starttime).total_seconds())
+            return False
+
+    else:
+        print('=== No math infomation ===')
+        return False
+
+    #global round_cont
+    #round_cont+=1
+    round_cont = db.session.query(func.max(Flags.rounds)).scalar() #Round.query.fields(Round.rounds).first()
+
+
+    #exit()
+
+    if round_cont:
+        #print round_cont
+        #print '[-]Find round' , round_cont
+        round_cont=round_cont+1
+    else:
+        round_cont=1
+
     flag_list=[]
     for i in teams:
         flag = Flags(i.id,make_flag_str(i.teamcontainer),round_cont)
@@ -97,9 +127,10 @@ def main(r=0):
     global round_cont
     round_cont = r
     
-    while round_cont < round_max+1:
+    while True:
         teams = Teams.query.all()
         init_team_flag(teams)
+        print('sleep',timespan,type(timespan))
         time.sleep(timespan)
 
     

@@ -4,6 +4,7 @@ import json
 from flask import Flask
 from time import strftime,localtime
 from log import logger
+import datetime
 
 
 
@@ -18,6 +19,18 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app)
 
+class math(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    starttime = db.Column(db.DateTime)
+    endtime = db.Column(db.DateTime)
+    flagflash = db.Column(db.Integer)
+    startscore = db.Column(db.Integer)
+    def __init__(self, starttime, endtime, flagflash,startscore=10000):
+        #self.teamid = teamid
+        self.starttime = starttime
+        self.endtime = endtime
+        self.flagflash = flagflash
+        self.startscore = startscore
 
 class User(db.Model):
     teamid = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -100,6 +113,7 @@ class Round(db.Model):
         self.msg = text
 
 
+
 class Flags(db.Model):
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     teamid = db.Column(db.Integer, db.ForeignKey('teams.id'))
@@ -116,6 +130,9 @@ class Flags(db.Model):
 def main(teams=10):
     db.drop_all()
     db.create_all()
+    db.session.add(math(localtime(), datetime.datetime.now()+datetime.timedelta(minutes=1), 1))  #datetime.timedelta(hours=3,minutes=30,seconds=30,days=3)
+    db.session.commit()
+
     from init import init_main
     init_main(teams)
     import batch

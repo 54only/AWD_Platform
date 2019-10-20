@@ -2,7 +2,10 @@
 <html>
 <head>
 <title>Welcome to awdplaform</title>
+
+    <link rel="stylesheet" href="/static/css/countdown.demo.css">
 	<link rel="stylesheet" href="/static/css/bootstrap.css">
+
 	<script src="/static/js/jquery.min.js"></script>
 	<script src="/static/js/bootstrap.js"></script>
 </head>
@@ -16,12 +19,14 @@
                 </div>
                 <div>
                     <ul class="nav navbar-nav">
-                        <li class="{% if url_for('index') == request.path %}active{% endif %}"><a href="{{ url_for('index') }}">Index</a></li>
+                        <li class="{% if url_for('index') == request.path %}active{% endif %}"><a href="{{ url_for('index') }}">首页</a></li>
                         <li><a class="about" data-toggle="modal" data-target="#myModal1">队伍信息</a></li>
                         <li><a class="about" data-toggle="modal" data-target="#myModal2">解题提示</a></li>
                         <li><a class="about" data-toggle="modal" data-target="#myModal3">得分情况</a></li>
                         <li><a class="about" data-toggle="modal" data-target="#myModal4">参赛规则</a></li>
+                        {%if session.get('user_id') == 'admin'%}
                         <li><a class="about" data-toggle="modal" href="/admin">后台管理</a></li>
+                        {%endif%}
                         <li><a class="about" data-toggle="modal" href="/logout">退出登录</a></li>
                     </ul>
                 </div>
@@ -174,76 +179,226 @@
 
 
 <div id="collapseTwo" class="container panel-collapse collapse in">
-	<div class="panel-body">
-    <h1>当前轮次：<label id='cround'></label></h1>
-    <h2><label id='ctoken'></label></h2>
-		<table class="table">
-          <caption></caption>
-          <thead>
-            <tr>
-              <th>TEAM</th>             
-              <th>实时分数</th>
-              <th>WEB端口</th>
-            </tr>
-          </thead>
-        <tbody id="team">
-        </tbody>
-    </table>
+
+
+        <div > <center><h1 class="alt-1" id="mathtimeleft"></h1> <span id="mathtimelabel">距离比赛结束</span></center></div>
+
+
+    <br>
+	
+    <div class="panel-body">
+        <h1><label id='ctoken'></label></h1>
+        <center><h2>当前轮次：<label id='cround'></label> 当前排名：<label id='cround_rank'></label></h2></center>
+
+    		<table class="table">
+              <caption></caption>
+              <thead>
+                <tr>
+                    <th>#</th> 
+                  <th>TEAM</th>             
+                  <th>实时分数</th>
+                  <th>环境1</th>
+                  <th>环境2</th>
+                  <th>环境3</th>
+                  <th>环境4</th>
+                  <th>环境5</th>
+                </tr>
+              </thead>
+            <tbody id="team">
+            </tbody>
+        </table>
 	</div>
 </div>
 
 <div class="container well" style="margin-top: 1%">
     <div class="row">
         <div class="footer text-center">
-    <div class="footer-title">
-        <h4>提交Flag</h4>
-    </div>
+            <div class="footer-title">
+                <h4>提交Flag</h4>
+            </div>
 
-    
-    <div class="footer-banner" id='flagform'>
-        <form method="POST" id="myform" action="flag?token=' + token + '" onsubmit="return submitflag()">
-                <input type="text" name="flag" id="flag">
-                <input type="submit" value="提交">
-        </form>
-        <label id="msg"></label>
-    </div>
-    
-    <div class="footer-banner">
-        <small>自动提交：<label id='mytoken'></label></small>        
-    </div>    
-    
-    
-    <script>
-    function submitflag(){
-    //$('#test').value(mytoken);
-    
-    /*
-    $.post('flag?token='+mytoken,
-    {flag:$("#flag").val()},
-    function(data,status){
-        $("#msg").text(data['msg']);
-    }
-    );
-    
-    */
-    
-    $.ajax({
-            url:'flag?token='+mytoken,
-            data:{flag:$("#flag").val()},
-            type : 'post',
-            dataType : 'json',  
-            success:function(data,status){
-                $("#msg").text(data['msg']);
-            }
-    });
-    
-    return false;
-    }
-    //setInterval('submitflag()',1000);
-    
-    </script>
-</div>
+            
+            <div class="footer-banner" id='flagform'>
+                <form method="POST" id="myform" action="flag?token=' + token + '" onsubmit="return submitflag()">
+                        <input type="text" name="flag" id="flag">
+                        <input type="submit" value="提交">
+                </form>
+                <label id="msg"></label>
+            </div>
+            
+            <div class="footer-banner">
+                <small>自动提交：<label id='mytoken'></label></small>        
+            </div>            
+        </div>
     </div>
 </div>
 </body>
 </html>
+
+<script type="text/javascript">
+    var myname;
+    function get_math() {
+
+
+
+    $.getJSON('/timedelta',
+            function (result) {         
+
+                timeleft = result['timeleft'];
+                $("#mathtimeleft").html(timeleft);  
+                window.jQuery(function ($) {
+                    "use strict";
+                    $('.alt-1').countDown({
+                        css_class: 'countdown-alt-1'
+                    });
+                });
+            }
+            );   
+
+
+        $.getJSON('/team',
+            function (result) {
+                $("#ssh_info").html("");
+            
+                for (x in result){
+
+                    var name = result[x]['name'];
+                    myname=name;
+                    var token = result[x]['token'];
+                    mytoken = token;
+                    var score = result[x]['score'];
+                    //var ip = result[x]['ip'];
+                    var ssh_user = result[x]['ssh-user'];
+                    var ssh_password = result[x]['ssh-password'];
+                    var ssh_port = result[x]['ssh-port'];
+                    var web_port = result[x]['web-port'];
+                    $("#ssh_info").append('<tr>'+
+                    '<td>'+name+'</td>' +
+                    '<td>'+token+'</td>' +
+                    '<td>'+ssh_user+'</td>'+
+                    '<td>'+ssh_password+'</td>'+
+                    '<td>'+ssh_port+'</td>'+
+                    '</tr>');
+                    $("#myform").attr("action","flag?token=" + token );
+                    $("#mytoken").text("curl -d 'flag=flag' http://:9000/flag?token=" + token);
+                    $("#ctoken").text('队伍名:' + name + ' Token:' + token);           
+                
+                }
+            }
+        );
+    }
+get_math();                         // 比赛时间、队伍信息 刷新一次
+//setInterval('get_math()', 2*1000); // 比赛时间、队伍信息 token 每30秒刷新一次
+</script>
+
+<script src="/static/js/jquery.countdown.js"></script> 
+
+<script type="text/javascript">
+    var mytoken ;
+    function get_temps() {
+    $.getJSON('/teams',
+        function (result) {
+            $("#team").html("");
+            for (x in result){
+                var name = result[x]['name'];
+                var token = result[x]['token'];
+                var score = result[x]['score'];
+                var rank = result[x]['rank'];
+                var port1 = result[x]['port1'];
+                var port2 = result[x]['port2'];
+                var port3 = result[x]['port3'];
+                var port4 = result[x]['port4'];
+                var port5 = result[x]['port5'];
+                $("#team").append('<tr>'+
+                '<td>'+rank+'</td>' +    
+                '<td>'+name+'</td>' +
+                //'<td>'+token+'</td>'+
+                '<td>'+score+'</td>'+
+                //'<td>'+ip+'</td>'+
+                '<td>'+port1+'</td>'+
+                '<td>'+port2+'</td>'+
+                '<td>'+port3+'</td>'+
+                '<td>'+port4+'</td>'+
+                '<td>'+port5+'</td>'+
+                '</tr>');
+
+                if(name == myname){
+                    $("#cround_rank").html(rank);
+                }
+            }
+        }
+    );
+    $.getJSON('/rounds',
+        function (result) {
+            $("#rounds").html("");
+            for (x in result){
+                var _id = result[x]['id'];
+                var msg = result[x]['msg'];
+                var score = result[x]['score'];
+                var rounds = result[x]['rounds'];
+                var time = result[x]['time'];
+                $("#rounds").append('<tr>'+
+                '<td>'+_id+'</td>' +
+                '<td>'+msg+'</td>'+
+                '<td>'+score+'</td>'+
+                '<td>'+rounds+'</td>'+
+                '<td>'+time+'</td>'+
+                '</tr>');
+            }
+        }
+    );
+
+    $.getJSON('/current_rounds',
+        function (result) {
+            $("#cround").html(result);           
+        }
+    );
+    
+    
+    $.getJSON('/info/2',
+        function (result) {
+            $("#infos").html("");
+            for (x in result){
+                var infos = result[x]['id'];
+                $("#infos").append('<ul>'+
+                '<li>'+infos+'</li>' +
+                '</ul>');
+                //alert(infos)
+            }
+            
+        }
+    );
+}
+get_temps();
+setInterval('get_temps()', 1000); // 队伍情况每一秒刷新一次
+</script>
+
+<script>
+function submitflag(){
+//$('#test').value(mytoken);
+
+/*
+$.post('flag?token='+mytoken,
+{flag:$("#flag").val()},
+function(data,status){
+    $("#msg").text(data['msg']);
+}
+);
+
+*/
+
+$.ajax({
+        url:'flag?token='+mytoken,
+        data:{flag:$("#flag").val()},
+        type : 'post',
+        dataType : 'json',  
+        success:function(data,status){
+            $("#msg").text(data['msg']);
+        }
+});
+
+return false;
+}
+//setInterval('submitflag()',1000);
+
+</script>

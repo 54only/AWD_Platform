@@ -29,7 +29,6 @@ def get_host_ip():
         ip = s.getsockname()[0]
     finally:
         s.close()
-
     return ip
 
 
@@ -48,7 +47,28 @@ app.config['JSON_AS_ASCII'] = False
 @app.route('/')
 @login_required
 def index():
-    return render_template('base.html', ip=get_host_ip())
+    return render_template('base.html')
+
+
+@app.route('/timedelta')
+@login_required
+def timedelta():
+    
+    mathmsg=math.query.first()
+    msg={}
+    msg['starttime']=mathmsg.starttime.strftime( '%Y-%m-%d %H:%M')  
+    msg['endtime']=mathmsg.endtime.strftime( '%Y-%m-%d %H:%M')  
+    msg['flagflash']=mathmsg.flagflash
+    msg['timeleft']=str(mathmsg.endtime-datetime.datetime.now()).split('.')[0]
+    msg['now']=datetime.datetime.now().strftime( '%Y-%m-%d %H:%M') 
+    msg['startscore']=mathmsg.startscore
+
+    if str(mathmsg.endtime-datetime.datetime.now()).startswith('-'):
+        msg['timeleft']='比赛已经结束'
+
+
+    return jsonify(msg)
+    #return render_template('base.html', ip=get_host_ip())
 
 
 def query_user(username):
@@ -160,6 +180,33 @@ def admin():
     else:
         return render_template('other.html')
 
+
+@app.route('/admin/math', methods=['GET', 'POST'])
+@login_required
+def admin_math():
+    if session.get('user_id') != 'admin':
+        return render_template("login.html", error="No privileges")
+    else:
+
+        if request.method=='POST':
+
+            endtime=request.form['endtime'];
+            starttime=request.form['starttime'];
+            flagflash=request.form['flagflash'];
+            startscore = request.form['startscore'];
+            themath = math.query.first()
+            themath.endtime=endtime
+            themath.starttime=starttime
+            themath.flagflash=flagflash
+            themath.startscore=startscore
+
+            db.session.commit()
+
+            return render_template('math.html')
+        else:
+            return render_template('math.html')
+
+
 @app.route('/info', methods=['GET', 'POST'])
 @login_required
 def info():
@@ -224,7 +271,7 @@ def add():
         else:
             teamid = request.form['teamid']
             username = request.form['username']
-            password = User.psw_to_md5(request.form['password'])
+            password = request.form['password']
             teamname = request.form['teamname']
             try:
                 user = User.query.filter_by(username = username).first_or_404()
@@ -383,7 +430,7 @@ def showteam():
         teamid = User.query.filter(User.username==user_id).with_entities(User.teamname).all()[0][0]
         team = Teams.query.filter(Teams.teamcontainer == teamid).first()
         msg = {
-            'ip': get_host_ip(),
+            #'ip': get_host_ip(),
             'id': team.id,
             'name': team.name,
             'country': team.country,
@@ -401,6 +448,14 @@ def showteam():
 
 @app.route('/teams', methods=['GET'])
 def showteams():
+    
+    mathmsg=math.query.first()
+
+    if not mathmsg:
+        print 'Error Get mathmsg'
+        return False
+
+
     teamlist = list()
     teamnum = User.query.count()
     
@@ -410,18 +465,31 @@ def showteams():
     teamlist2 = []
     for team in teams:
         msg = {
-            'ip': get_host_ip(),
+            #'ip': get_host_ip(),
+            #'rank':team.rank
             'id': team.id,
             'name': team.name,
             'country': team.country,
-            'token': team.token,
-            'score': team.score(),
+            #'token': team.token,
+            'score': team.score(mathmsg.startscore),
             'ssh-port': 30022+team.id*100,
-            'web-port': 30080+team.id*100
+            'port1': 30080+team.id*100,
+            'port2': 30081+team.id*100,
+            'port3': 30083+team.id*100,
+            'port4': 30084+team.id*100,
+            'port5': 30085+team.id*100,
         }
         teamlist2.append(msg)    
     teamlist = (sorted(teamlist2,key=lambda x:x['score'],reverse = True))
     #print('team')
+    j=1
+    for i in teamlist:
+        i['rank']=j
+        j+=1
+        #if session.get('user_id') == i['name']:
+        #    break
+    #print i,session.get('user_id')
+
     return json.dumps(teamlist, ensure_ascii=False)
 
 @app.route('/teamall', methods=['GET'])
@@ -543,8 +611,7 @@ def showrounds():
 def showcurrent_rounds():   
     current_rounds = Flags.query.order_by(Flags.rounds.desc()).limit(1).first()
     
-    if current_rounds:
-    
+    if current_rounds:    
         return jsonify(current_rounds.rounds)
     else:
         return jsonify(0)
@@ -592,8 +659,9 @@ def flagcheck():
         Flags.rounds == lastround, Flags.flag == flag).first()
     print('rounds', lastround)
     print('flag', flag)
-    for i in Flags.query.filter(Flags.rounds == lastround).all():
-        print(i.flag)
+    
+    #for i in Flags.query.filter(Flags.rounds == lastround).all():
+    #    print(i.flag)
 
     if defenseteam:
         defenseteamid = defenseteam.teamid

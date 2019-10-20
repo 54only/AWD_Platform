@@ -78,6 +78,7 @@ def yunnansimple_run(name,www_pass,ports={'22/tcp':9922}):
     
     c = create_containers(image_name,cmd,volpath,ports=ports,tag=name)
 
+    # here timeout
     c.start()  
 
     while True:
@@ -108,17 +109,30 @@ def yunnansimple_run(name,www_pass,ports={'22/tcp':9922}):
 
     while True:
         time.sleep(2) 
-        if b'denied' in c.exec_run('/bin/sh -c "mysql -uroot -proot < /var/www/html/test.sql"'):
+
+        #output = c.exec_run('/bin/sh -c "mysql -uroot -proot < /var/www/html/test.sql"')
+
+        #print type(output),len(output)
+
+        #return
+
+        statuscode,output = c.exec_run('/bin/sh -c "mysql -uroot -proot < /var/www/html/test.sql"')
+        statuscode2,output2 = c.exec_run('/bin/sh -c "mysql -uroot -proot2 < /var/www/html/test.sql"')
+
+
+        if b'denied' in output:
             msg = 'source database password wrong'
             logger.info("%s %s"%(name,msg)) 
             break
-        elif b'denied' in c.exec_run('/bin/sh -c "mysql -uroot -proot2 < /var/www/html/test.sql"'):
+        elif b'denied' in output2:
             msg = 'Database Password is ok!'
             logger.info("%s %s"%(name,msg)) 
             break            
         else:
             msg = 'source database false , sleep 10 seconds'
             logger.warning("%s %s"%(name,msg))
+            logger.warning("%s %s"%(name,output))
+            logger.warning("%s %s"%(name,output2))
     msg="container is ready"   
     logger.info("%s %s"%(name,msg)) 
     return True
