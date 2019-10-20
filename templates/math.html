@@ -1,0 +1,132 @@
+
+{% extends 'base_admin.html' %}
+
+{% block admin_content %}
+
+
+<div class="container">
+    <form action="" class="form-horizontal"  role="form" method="POST">
+        <fieldset>
+            <legend>比赛管理</legend>
+
+            <div class="form-group">
+                <label for="dtp_input1" class="col-md-2 control-label">当前服务器时间</label>
+                <div class="input-group date form_datetime col-md-5">
+                    <input class="form-control" size="16" type="text" value="" id="now_input" readonly>
+                </div><br/>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <label for="dtp_input1" class="col-md-2 control-label">比赛开始时间</label>
+                <div class="input-group date form_datetime col-md-5" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1" id="starttime">
+                    <input class="form-control" size="16" type="text" value="" id="starttime_input" readonly name="starttime">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+                <input type="hidden" id="dtp_input1" value="" /><br/>
+            </div>
+            <div class="form-group">
+                <label for="dtp_input2" class="col-md-2 control-label">比赛结束时间</label>
+                <div class="input-group date form_datetime col-md-5" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input2" id="endtime">
+                    <input class="form-control" size="16" type="text" value="" id="endtime_input" readonly name="endtime">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+                <input type="hidden" id="dtp_input2" value="" /><br/>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">flag刷新（分钟）</label>
+                <div class="input-group col-md-1">
+                    <input type="text" name="flagflash" value="1" class="form-control" id='flagflash'/>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">起始分数</label>
+                <div class="input-group col-md-1">
+                    <input type="text" name="startscore" value="1" class="form-control" id='startscore'/>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="dtp_input1" class="col-md-2 control-label"></label>
+                 <input type="submit" />
+            </div>
+
+        </fieldset>
+    </form>
+</div>
+
+
+<!--
+  "endtime": "Sun, 20 Oct 2019 22:00:00 GMT", 
+  "flagflash": 1, 
+  "starttime": "Sun, 20 Oct 2019 21:46:07 GMT", 
+  "timeleft": "0:08:48"
+-->
+
+<script type="text/javascript">
+    
+
+
+
+    $.getJSON('/timedelta',
+            function (result) {         
+
+                timeleft = result['timeleft'];
+                endtime=result['endtime'];
+                starttime=result['starttime'];
+                flagflash=result['flagflash'];
+                now = result['now'];
+                startscore= result['startscore'];
+                $('#flagflash').val(flagflash);
+                $('#starttime_input').val(starttime);
+                $('#endtime_input').val(endtime);
+                $('#now_input').val(now);
+                $('#startscore').val(startscore);
+
+
+                $('#dtp_input1').val(starttime);
+                $('#dtp_input2').val(endtime);
+            }
+            );  
+</script>
+<script type="text/javascript" src="/static/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/static/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+    $('#starttime').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+
+    $('#endtime').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+</script>
+
+
+
+
+
+{% endblock %}
