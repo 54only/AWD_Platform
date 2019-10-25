@@ -9,6 +9,14 @@
         <fieldset>
             <legend>比赛管理</legend>
 
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">比赛标题</label>
+                <div class="input-group col-md-5">
+                    <input type="text" name="name" class="form-control" id='name'/>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="dtp_input1" class="col-md-2 control-label">当前服务器时间</label>
                 <div class="input-group date form_datetime col-md-5">
@@ -54,10 +62,22 @@
                 </div>
             </div>
 
-
+            <div class="form-group">
+                <label class="col-md-2 control-label">攻击分数</label>
+                <div class="input-group col-md-1">
+                    <input type="text" name="atacckscore" value="1" class="form-control" id='atacckscore'/>
+                </div>
+            </div>
 
             <div class="form-group">
-                <label for="dtp_input1" class="col-md-2 control-label"></label>
+                <label class="col-md-2 control-label">check分数</label>
+                <div class="input-group col-md-1">
+                    <input type="text" name="checkscore" value="1" class="form-control" id='checkscore'/>
+                </div>
+            </div>            
+
+            <div class="form-group">
+                <label class="col-md-2 control-label"></label>
                  <input type="submit" />
             </div>
 
@@ -80,19 +100,23 @@
 
     $.getJSON('/timedelta',
             function (result) {         
-
+                name = result['name'];
                 timeleft = result['timeleft'];
                 endtime=result['endtime'];
                 starttime=result['starttime'];
                 flagflash=result['flagflash'];
                 now = result['now'];
                 startscore= result['startscore'];
+                checkscore = result['checkscore'];
+                atacckscore = result['atacckscore'];
                 $('#flagflash').val(flagflash);
                 $('#starttime_input').val(starttime);
                 $('#endtime_input').val(endtime);
                 $('#now_input').val(now);
                 $('#startscore').val(startscore);
-
+                $('#atacckscore').val(atacckscore);
+                $('#checkscore').val(checkscore);
+                $('#name').val(name);
 
                 $('#dtp_input1').val(starttime);
                 $('#dtp_input2').val(endtime);

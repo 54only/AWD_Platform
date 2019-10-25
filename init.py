@@ -1,47 +1,57 @@
 # -*- coding: utf-8 -*-
 from models import db,Teams,Scores,Round,Flags,User
 import random
-from log import logger
+import base64
+import hashlib
+from log import logset
+import time
 #from flask_user import current_user, login_required, roles_required, UserManager, UserMixin
 
-def init_main(teams = 10):
+logger = logset('init')
+
+def make_token_str(teamname):
+    rnd = random.random()
+    s = (teamname + str(rnd) + str(time.time()))
+    token = base64.b64encode(hashlib.md5(s).hexdigest()[8:20].encode())
+    return token
+
+
+def init_main(npcteams=3):
+    userlist = []
+    teamlist = []
+    npcpassword = 'abc@123'
+    for i in open('users.txt').read().splitlines():
+        if len(i)>10:
+            team,username , userpass = i.split(' ')
+            userlist.append([team,username,userpass])
+            teamlist.append(team)
+
+    for i in xrange(npcteams):
+        team,username , userpass = 'NPC' + str(i),'NPC' + str(i),npcpassword
+        userlist.append([team,username,userpass])
+        teamlist.append(team)
+
+
+    teamlist=list(set(teamlist))
+    #print userlist
+    #print teamlist,list(set(teamlist))
     
-
-
-    for i in range(1,teams+1):
-        country=token=name='NPC'+str(i)
-        sshpassword='NULL'
-        tmpteam=Teams(i,name,country,'team'+str(i),token,sshpassword)
-        db.session.add(tmpteam)    
-        db.session.commit()
-
-
-
-    #Add administrator
-
-    #adminuser=User(1,'admin','20be459727e35f01ad0e228a2aa9579d','NPC') #Admin@123!
-    adminuser=User('admin','Admin@123!','NPC')
-    db.session.add(adminuser)    
+    for i in teamlist:
+        db.session.add(Teams(i ,'', make_token_str(i), make_token_str(i))) #name,country,token,sshpassword
     db.session.commit()
-    logger.info('awd database inited')
-    print('Add administrator admin')
 
-    #print(User.query.all())
-    #print(Teams.query.all())
+    teams = Teams.query.all()
+    teamdic={}
+    for i in teams:
+        teamdic[i.name]=i.id
+    print teamdic
+    for i in userlist:
+        team,username,userpass = i
+        teamid = teamdic[team.decode('utf-8')]
 
-
-
-    try:
-        j=1
-        for i in open('users.txt').read().splitlines():
-            username , userpass = i.split(' ')
-            db.session.add(User(username , userpass , 'team'+str(j)))
-            Teams.query.filter(Teams.teamcontainer=='team'+str(j)).update({Teams.name: username})
-            j+=1
-        db.session.commit()
-    except:
-        print('Create user error')
-        pass
+        print teamid,team,username,userpass 
+        db.session.add(User(username,userpass,teamid))
+    db.session.commit()
 
 if __name__ == "__main__":
     init_main()

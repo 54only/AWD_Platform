@@ -4,8 +4,10 @@ import time
 import hashlib
 import threading
 import base64
-from dockercontr import yunnansimple_run
-from log import logger
+#from dockercontr import yunnansimple_run
+from log import logset
+
+logger = logset('batch')
 
 def start_docker(team):
     www_pass = make_token_str(team.teamcontainer)
@@ -25,10 +27,9 @@ def make_token_str(teamname):
 
 def init_team_token(teams):
     for i in teams:
-        #print(i.name,i.token,make_token(i.teamcontainer))
-        i.token = make_token_str(i.teamcontainer)
+        i.token = make_token_str(i.name)
         db.session.commit()
-        print(i.teamcontainer,i.token)
+        print(i.name,i.token)
 
 
 def main():

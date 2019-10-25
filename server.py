@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, request, json, jsonify, render_template, make_response, redirect, url_for,abort, session,flash
+from flask import Flask, request, jsonify, render_template, make_response, redirect, url_for,abort, session,flash
 from flask_login import UserMixin, LoginManager, login_required, current_user, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from models import *
@@ -12,15 +12,34 @@ import traceback
 import time
 import datetime
 import sys
+import json
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+
+
+
+
+
+
+
+
+
+
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+
 login_manager.session_protection = "strong"
 login_manager.login_view = "login"
 login_manager.login_message = "Please LOG IN"
 login_manager.login_message_category = "info"
+
+
+
+
+
 
 def get_host_ip():
     try:
@@ -36,7 +55,7 @@ def get_host_ip():
 #app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:foru83614@127.0.0.1:3306/awd?charset=utf8&autocommit=true"
 
 
-app.config['JSON_AS_ASCII'] = False
+#app.config['JSON_AS_ASCII'] = False
 #db = SQLAlchemy(app)
 
 
@@ -47,6 +66,7 @@ app.config['JSON_AS_ASCII'] = False
 @app.route('/')
 @login_required
 def index():
+    #print session
     return render_template('base.html')
 
 
@@ -62,6 +82,9 @@ def timedelta():
     msg['timeleft']=str(mathmsg.endtime-datetime.datetime.now()).split('.')[0]
     msg['now']=datetime.datetime.now().strftime( '%Y-%m-%d %H:%M') 
     msg['startscore']=mathmsg.startscore
+    msg['name']=mathmsg.name
+    msg['checkscore']=mathmsg.checkscore
+    msg['atacckscore']=mathmsg.atacckscore
 
     if str(mathmsg.endtime-datetime.datetime.now()).startswith('-'):
         msg['timeleft']='比赛已经结束'
@@ -157,9 +180,11 @@ def login():
     #print(pw_form,pw_db)
 
     if pw_form == pw_db:
+        session['teamid']=user.teamid
         user = Users()
         user.id = username
         login_user(user, remember=True)
+        
         flash('Logged in successfully')
         return redirect(url_for('index'))
     return render_template("login.html", error="username or password error")
@@ -187,24 +212,29 @@ def admin_math():
     if session.get('user_id') != 'admin':
         return render_template("login.html", error="No privileges")
     else:
-
+        themath = math.query.first()
         if request.method=='POST':
-
+            name=request.form['name'];
             endtime=request.form['endtime'];
             starttime=request.form['starttime'];
             flagflash=request.form['flagflash'];
             startscore = request.form['startscore'];
-            themath = math.query.first()
+            atacckscore = request.form['atacckscore'];
+            checkscore = request.form['checkscore'];
+            
             themath.endtime=endtime
             themath.starttime=starttime
             themath.flagflash=flagflash
             themath.startscore=startscore
+            themath.name=name
+            themath.atacckscore=atacckscore
+            themath.checkscore=checkscore
 
             db.session.commit()
 
             return render_template('math.html')
         else:
-            return render_template('math.html')
+            return render_template('math.html',name=themath.name)
 
 
 @app.route('/info', methods=['GET', 'POST'])
@@ -258,193 +288,34 @@ def info_pro(id):
         return redirect('/info')
 
 
-@app.route('/admin/add', methods=['GET', 'POST'])
-@login_required
-def add():
-    if session.get('user_id') != 'admin':
-        return render_template("login.html", error="No privileges")
-    else:
-        usernum = User.query.count()
-        if request.method == 'GET':
-            # 如果是GET请求，则渲染创建页面
-            return render_template('add.html',usernum=usernum+1)
-        else:
-            teamid = request.form['teamid']
-            username = request.form['username']
-            password = request.form['password']
-            teamname = request.form['teamname']
-            try:
-                user = User.query.filter_by(username = username).first_or_404()
-            except:
-                user = None
-            #return(str(username+password+teamname))
-    
-            if username and teamname and password:
-                if User.query.filter_by(username = username).first() is not None:
-                    return render_template("add.html" ,user = user, error="Username already exists")
-                if User.query.filter_by(teamname = teamname).first() is not None:
-                    return render_template("add.html",user = user, error="TeamName already exists")
-                
-                user = User( username = username, password = password, teamname = teamname)
-                
-                db.session.add(user)
-                db.session.commit()
-                Teams.query.filter(Teams.teamcontainer==teamname).update({Teams.name: username})
-                db.session.commit()
-                return redirect('/admin/user')
-            else:
-                return render_template("add.html", user = user, error="Username or Password error")
-    
-
-
-@app.route('/admin/delete/<id>', methods=['GET'])
-@login_required
-def delete(id):
-    if session.get('user_id') != 'admin':
-        return render_template("login.html", error="No privileges")
-    else:
-        User.query.filter_by(teamid = id).delete()
-        db.session.commit()
-        return redirect('/admin/user')
-
-
-
-@app.route('/admin/update/<id>', methods=['GET', 'POST'])
-@login_required
-def update(id):
-    if session.get('user_id') != 'admin':
-        return render_template("login.html", error="No privileges")
-    else:
-        user = User.query.filter_by(teamid = id).first_or_404()
-        if request.method == 'GET':
-            return render_template('update.html',user = user)
-        else:
-            username = request.form['username']
-            password = User.psw_to_md5(request.form['password'])
-            teamname = request.form['teamname']
-            #return(str(username+password+teamname))
-            if username and teamname and password:
-    
-                if User.query.filter_by(username = username).first() is not None:
-                    return render_template("update.html" ,user = user, error="Username already exists")
-                if User.query.filter_by(teamname = teamname).first() is not None:
-                    return render_template("update.html",user = user, error="TeamName already exists")
-                User.query.filter_by(teamid = id).update({'username':username,'password':password,'teamname':teamname})
-                
-                Teams.query.filter(Teams.teamcontainer==teamname).update({Teams.name: username})
-                db.session.commit()
-                return redirect('/admin/user')
-            else:
-                return render_template("update.html", user = user, error="Username or Password error")
-
-@app.route('/admin/team')
-@login_required
-def teamlist():
-    if session.get('user_id') != 'admin':
-        return render_template("login.html", error="No privileges")
-    else:
-        teams = Teams.query.all()
-        teamlist=list()
-        for team in teams:
-            msg={
-                'id':team.id,
-                'name':team.name,
-                'token':team.token,
-                'sshpassword':team.sshpassword,
-            }
-            teamlist.append(msg)
-        return render_template('team.html', teamlist = teamlist)
-
-
-@app.route('/admin/teamadd', methods=['GET'])
-@login_required
-def teamadd():
-    if session.get('user_id') != 'admin':
-        return render_template("login.html", error="No privileges")
-    else:
-        teamnum = Teams.query.count()
-        id = teamnum+1
-        name = 'NPC'+str(id)
-        teamcontainer = 'team'+str(id)
-        tokens = make_token_str(teamcontainer)
-        sshpassword= make_token_str(teamcontainer)
-        team = Teams(id = id, name = name, country='',teamcontainer=teamcontainer,token=tokens,sshpassword = sshpassword)
-        db.session.add(team)
-        db.session.commit()
-        start_docker(team)
-        return redirect('/admin/team')
-
-
-@app.route('/admin/team/reset/<id>', methods=['GET'])
-@login_required
-def resetteam(id):
-    if session.get('user_id') != 'admin':
-        return render_template("login.html", error="No privileges")
-    else:
-        team = Teams.query.filter(Teams.id==id).first()
-        start_docker(team)
-        return redirect('/admin/team')
-
-
-@app.route('/admin/team/delete/<id>', methods=['GET'])
-@login_required
-def deleteteam(id):
-    if session.get('user_id') != 'admin':
-        return render_template("login.html", error="No privileges")
-    else:
-        team = Teams.query.filter(Teams.id==id).first()
-        clear_container(team.teamcontainer)
-        Flags.query.filter(Flags.teamid == id).delete()
-        User.query.filter(User.teamid == id).delete()
-        Teams.query.filter(Teams.id == id).delete()
-        db.session.commit()
-        return redirect('/admin/team')
-
-
-@app.route('/admin/user')
-@login_required
-def userlist():
-    if session.get('user_id') != 'admin':
-        return render_template("login.html", error="No privileges")
-    else:
-        users = User.query.all()
-        userlist=list()
-        for user in users:
-            msg={
-                'teamid':user.teamid,
-                'username':user.username,
-                'password':user.password,
-                'teamname':user.teamname,
-            }
-            userlist.append(msg)
-        return render_template('user.html', userlist = userlist)
-
-
 
 
 @app.route('/team', methods=['GET'])
 def showteam():
     teamlist=list()
     try:
-        user_id = session.get('user_id')
-        teamid = User.query.filter(User.username==user_id).with_entities(User.teamname).all()[0][0]
-        team = Teams.query.filter(Teams.teamcontainer == teamid).first()
-        msg = {
-            #'ip': get_host_ip(),
-            'id': team.id,
-            'name': team.name,
-            'country': team.country,
-            'token': team.token,
-            'ssh-user': 'www-data',
-            'ssh-password': team.sshpassword,
-            'score': team.score(),
-            'ssh-port': 30022+team.id*100,
-            'web-port': 30080+team.id*100
-        }
-        teamlist.append(msg)
+        teamid = session.get('teamid')
+        #teamid = User.query.filter(User.username==user_id).with_entities(User.teamname).all()[0][0]
+        #team = Teams.query.filter(Teams.teamcontainer == teamid).first()
+        mycontainers = containers.query.filter(containers.teamid==teamid).all()
+
+        #print mycontainers
+        for team in mycontainers:
+            msg = team.to_json()
+            #print msg
+            teamlist.append(msg)
     except:
         return '获取 id 出错'
-    return json.dumps(teamlist, ensure_ascii=False)
+
+    msg={}
+    t = Teams.query.filter(Teams.id == teamid).first_or_404()
+    msg['teamname'] = t.name
+    msg['token'] = t.token
+    msg['containers'] = teamlist
+
+    #print teamlist
+    return jsonify(msg)
+    #return json.dumps(teamlist, ensure_ascii=False)
 
 @app.route('/teams', methods=['GET'])
 def showteams():
