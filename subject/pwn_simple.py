@@ -39,18 +39,18 @@ class o(subjectclass):
 
     def freshflag(self,flag):
         self.ctn.exec_run('/bin/bash -c "echo %s > /home/ctf/flag"' % flag)
-        logger.info('%s\' %s freshflag %s ok'%(self.teamname,self.name,flag))
+        logger.info('%s %s freshflag %s ok'%(self.teamname,self.name,flag))
 
 
     def start(self):
         self.ctn.start()
         self.ctn.exec_run('service ssh start')
-        logger.info('[+]%s\'s container %s started'%(self.teamname,self.container_name)) 
+        logger.info('[+]%s container %s started'%(self.teamname,self.container_name)) 
 
     def run(self):
         self.ctn.start()
         self.ctn.exec_run('/bin/sh -c "echo ctf:%s | chpasswd"'%self.teampass)
         self.ctn.exec_run('service ssh start')
-        logger.info('%s\'s container %s start ok'%(self.name,self.container_name))
+        logger.info('%s container %s start ok'%(self.name,self.container_name))
 
 

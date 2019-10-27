@@ -1,7 +1,7 @@
 #-*- coding:utf-8 -*-
 from __init__ import subjectclass,client
 import time
-
+import requests
 # for import log
 import sys
 sys.path.append("..")
@@ -50,14 +50,17 @@ class o(subjectclass):
     def check_L1(self):
 
         if self.db_containers.check_stat >0:
+            self.update_checkstat()
             return self.db_containers.check_stat
 
         try:
             url = 'http://127.0.0.1:%d/'%self.serviceport
+            print url
             r =  requests.get(url,timeout=3)            
             if b'Home' not in r.content:
                 self.db_containers.check_stat = 1 
-                logger.info('[*]team %s check index.php False' % self.teamname)
+                logger.info('[*]Check %s index.php False' % self.teamname)
+                self.update_checkstat()
                 return self.db_containers.check_stat
             
 
@@ -66,11 +69,15 @@ class o(subjectclass):
 
             if r.status_code != 200 :
                 self.db_containers.check_stat = 1
-                logger.info('[*]Team %s check login.php False' % self.teamname)
+                logger.info('[*]Check %s login.php False' % self.teamname)
+                self.update_checkstat()
                 return self.db_containers.check_stat
-        except:
+        except Exception,e :
+            print e
+            print self.db_containers.check_stat
             self.db_containers.check_stat = 1 
-            logger.info('[*]Team %s check webservice False' % self.teamname)
+            logger.info('[*]Check %s webservice False:%s ' % (self.teamname,url))
+            self.update_checkstat()
             return self.db_containers.check_stat
 
 

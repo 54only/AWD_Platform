@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from models import db,Teams,Flags
 import time
 import requests
 from log import logger
@@ -13,8 +12,8 @@ def service_checker(mathobj):
 
     for i in mathobj:
         i.check_L1()
-    db.session.commit()
-    time.sleep(60)
+        #i.update_checkstat()
+    time.sleep(5)
     return
  
 

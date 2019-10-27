@@ -44,12 +44,13 @@ def init_main(npcteams=3):
     teamdic={}
     for i in teams:
         teamdic[i.name]=i.id
-    print teamdic
+    #print teamdic
+    print 'TeamId\tTeamName\tUserName\tUserPassword'
     for i in userlist:
         team,username,userpass = i
         teamid = teamdic[team.decode('utf-8')]
 
-        print teamid,team,username,userpass 
+        print '%d\t%s\t%s\t%s'%(teamid,team,username,userpass )
         db.session.add(User(username,userpass,teamid))
     db.session.commit()
 

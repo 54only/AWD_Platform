@@ -1,5 +1,6 @@
 import hashlib
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 import json
 from flask import Flask
 from time import strftime,localtime
@@ -69,6 +70,7 @@ class containers(db.Model):
     score = db.Column(db.DECIMAL(10,2))
     typename = db.Column(db.String(120), unique=False) 
     check_stat = db.Column(db.Integer)
+    attack_stat = db.Column(db.Integer)
     def __init__(self,typename, name,sshpassword, sshaccount, serviceport,sshport,teamid,score):
         self.name = name
         self.typename = typename
@@ -78,18 +80,31 @@ class containers(db.Model):
         self.sshport = sshport
         self.teamid = teamid
         self.score = score
-        self.check_stat = 0 #0 is normal , 1 is checked
+        self.check_stat = 0 #0 normal , 1 checked
+        self.attack_stat = 0#0 normal , 1 attacked
     def to_json(self):
         dict = self.__dict__
         if "_sa_instance_state" in dict:
             del dict["_sa_instance_state"]
         return dict
 
+    def to_json_secrity(self):
+        dict = self.__dict__
+
+        safedic=['typename','score','check_stat','attack_stat']
+        
+        tmp={}
+        for i in dict:
+            if i in safedic:
+                tmp[i]=dict[i]
+
+        return tmp
+
 
 class Scores(db.Model):
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     teamid = db.Column(db.Integer)
-    score = db.Column(db.Integer)
+    score = db.Column(db.DECIMAL(10,2))
     rounds = db.Column(db.Integer)
 
     def __init__(self, teamid,score, rounds):
@@ -140,12 +155,27 @@ class Teams(db.Model):
         self.token=token
         self.sshpassword=sshpassword
 
+    def status(self):
+        self.scoresum = self.score()
+        c=containers.query.filter(containers.teamid==self.id).all()
+        d=[]
+        for i in c:
+            d.append(i.to_json_secrity())
+        self.containers=d
+        
+        dic = self.__dict__
+        if "_sa_instance_state" in dic:
+            del dic["_sa_instance_state"]    
+        del dic['sshpassword']    
+        del dic['token']   
 
-    def score(self,score_start=10000):
-        score = db.func.sum(Round.score).label('score')
-        teamadd = db.session.query(Round.attackteamid, score).filter(Round.attackteamid == self.id).first()
-        teamlost = db.session.query(Round.defenseteamid, score).filter(Round.defenseteamid == self.id).first()
-        return score_start+int(teamadd.score or 0) - int(teamlost.score or 0)
+        return dic
+
+
+
+    def score(self):
+
+        return db.session.query(func.sum(containers.score)).filter(containers.teamid==self.id).first()[0]
 
     
     def show(self):
@@ -153,7 +183,13 @@ class Teams(db.Model):
     
     def __repr__(self):
         return ("<Teams %s>"%(self.name)).encode('utf-8') 
+    def to_json(self):
+        dict = self.__dict__
+        if "_sa_instance_state" in dict:
+            del dict["_sa_instance_state"]
 
+
+        return dict
 
 
 class Info(db.Model):
@@ -163,7 +199,7 @@ class Info(db.Model):
 class Round(db.Model):
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     attackteamid = db.Column(db.Integer)
-    score = db.Column(db.Integer)
+    score = db.Column(db.DECIMAL(10,2))
     rounds = db.Column(db.Integer)
     time = db.Column(db.DateTime)
     msg = db.Column(db.Text)

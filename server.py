@@ -2,6 +2,7 @@
 from flask import Flask, request, jsonify, render_template, make_response, redirect, url_for,abort, session,flash
 from flask_login import UserMixin, LoginManager, login_required, current_user, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 from models import *
 from log import logger
 from batch import *
@@ -328,30 +329,18 @@ def showteams():
 
 
     teamlist = list()
-    teamnum = User.query.count()
+    #teamnum = User.query.count()
     
     teams = Teams.query.all()
     
     #print(teams[0].score())
     teamlist2 = []
     for team in teams:
-        msg = {
-            #'ip': get_host_ip(),
-            #'rank':team.rank
-            'id': team.id,
-            'name': team.name,
-            'country': team.country,
-            #'token': team.token,
-            'score': team.score(mathmsg.startscore),
-            'ssh-port': 30022+team.id*100,
-            'port1': 30080+team.id*100,
-            'port2': 30081+team.id*100,
-            'port3': 30083+team.id*100,
-            'port4': 30084+team.id*100,
-            'port5': 30085+team.id*100,
-        }
-        teamlist2.append(msg)    
-    teamlist = (sorted(teamlist2,key=lambda x:x['score'],reverse = True))
+        msg = team.status()
+        teamlist2.append(msg)  
+
+    #print teamlist2
+    teamlist = (sorted(teamlist2,key=lambda x:x['scoresum'],reverse = True))
     #print('team')
     j=1
     for i in teamlist:
@@ -361,7 +350,22 @@ def showteams():
         #    break
     #print i,session.get('user_id')
 
-    return json.dumps(teamlist, ensure_ascii=False)
+    rtn={}
+
+    typename = db.session.query(func.distinct(containers.typename)).all()
+
+    #print typename
+    #print typename[0][0],len(typename),len(typename[0])
+
+    rtn['teams']=teamlist
+    rtn['typename']=[]
+
+    for i in typename:
+        #print i
+        rtn['typename'].append(i[0])
+
+
+    return jsonify(rtn)
 
 @app.route('/teamall', methods=['GET'])
 def showteamss():
@@ -451,7 +455,7 @@ class DateEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime.datetime):
             return obj.strftime('%Y-%m-%d %H:%M:%S')
-        elif isinstance(obj, date):
+        elif isinstance(obj, datetime.date):
             return obj.strftime("%Y-%m-%d")
         else:
             return json.JSONEncoder.default(self, obj) 
@@ -459,7 +463,7 @@ class DateEncoder(json.JSONEncoder):
 @app.route('/rounds', methods=['GET'])
 def showrounds():
 
-    Rounds = Round.query.order_by(Round.id.desc()).limit(20).all()
+    Rounds = Round.query.order_by(Round.id.desc()).limit(10).all()
     msg = {}
     msg2 = []
 
@@ -476,7 +480,8 @@ def showrounds():
                      'msg': i.msg,
                      'time': i.time,
                      })
-    return json.dumps(msg2, ensure_ascii=False,cls=DateEncoder)
+        
+    return jsonify(msg2)
 
 @app.route('/current_rounds', methods=['GET'])    
 def showcurrent_rounds():   
@@ -511,11 +516,11 @@ def flagcheck():
         msg['msg'] = '提交格式不正确'
         return json.dumps(msg, ensure_ascii=False)
 
-    print(token,flag)
+    #print(token,flag)
 
     attackteam = Teams.query.filter(Teams.token == token).first()
     
-    print(attackteam)
+    #print(attackteam)
 
     if attackteam:
         attackteamid = attackteam.id
@@ -526,53 +531,55 @@ def flagcheck():
 
     #print(attackteamid)
 
-    defenseteam = Flags.query.filter(
+    attacked_container = Flags.query.filter(
         Flags.rounds == lastround, Flags.flag == flag).first()
     print('rounds', lastround)
     print('flag', flag)
     
     #for i in Flags.query.filter(Flags.rounds == lastround).all():
     #    print(i.flag)
+    
+    
+    if attacked_container:
+        attacked_container = containers.query.filter(containers.id == attacked_container.containerid).first()
 
-    if defenseteam:
-        defenseteamid = defenseteam.teamid
-        defenseteam = Teams.query.filter(Teams.id == defenseteamid).first()
-    else:
-        msg['status'] = -1
-        msg['msg'] = 'FLAG 错误'
-        return json.dumps(msg, ensure_ascii=False)
+        if not attacked_container:
+        #attackteamid = Teams.query.filter(Teams.id == attackteam.id).first()
+            msg['status'] = -1
+            msg['msg'] = 'FLAG 错误'
+            return json.dumps(msg, ensure_ascii=False)
+        else:
+            dteam = Teams.query.filter(Teams.id == attacked_container.teamid).first()
 
-    if defenseteamid == attackteamid:
+    if attacked_container.teamid == attackteam.id:
         msg['status'] = -1
         msg['msg'] = '你不能攻击自己的队伍'
         return json.dumps(msg, ensure_ascii=False)
 
-    roundcheck = Round.query.filter(Round.defenseteamid == defenseteamid,
-                                    Round.attackteamid == attackteamid, Round.rounds == lastround).first()
+    roundcheck = Round.query.filter(Round.attackteamid == attackteam.id,
+                                    Round.containerid == attacked_container.id, Round.rounds == lastround).first()
 
     if roundcheck:
         msg['status'] = -1
         msg['msg'] = '你已经攻击了该的队伍'
         return json.dumps(msg, ensure_ascii=False)
         
-    roundcheck2 = Round.query.filter(Round.score == 200,Round.defenseteamid == defenseteamid ,Round.rounds == lastround).first()
-    if roundcheck2:
-        msg['status'] = -1
-        msg['msg'] = '该队伍Flag已经被提交'
-        return json.dumps(msg, ensure_ascii=False)
     #print(defenseteamid)
     #msg = 'rounds {} attackteamid {} defenseteamid {}'.format(lastround,attackteamid,defenseteamid)
     msg['status'] = 1
-    msg['msg'] = '提交成功，({})成功攻击了 {}'.format(
-        attackteam.name, defenseteam.name) 
-    rd = Round(attackteamid, defenseteamid, lastround,
-               '{} 攻击了 {}'.format(attackteam.name, defenseteam.name))
+    msg['msg'] = '提交成功，{} 成功攻击了 {} 的 {}'.format(
+        attackteam.name, dteam.name,attacked_container.typename) 
+
+
+    rd = Round(attackteamid,lastround, attacked_container.id,
+               '{} 攻击了 {} 的 {}'.format(attackteam.name, dteam.name,attacked_container.typename))
     db.session.add(rd)
+    attacked_container.attack_stat = 1
     db.session.commit()
     # 这里是后加的.通过队伍Flag已经被提交,就不得分的机制,直接更新分数200
     #Round.query.filter(Round.score==0).update({Round.score : 200})
     #db.session.commit()
-    logger.info('{} 成功攻击了 {}'.format(attackteam.name, defenseteam.name))
+    logger.info('{} 攻击了 {} 的 {}'.format(attackteam.name, dteam.name,attacked_container.typename))
     return json.dumps(msg, ensure_ascii=False)
 
 

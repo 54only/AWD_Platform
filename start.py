@@ -35,7 +35,7 @@ models.main(npcteams) #初始化数据库
 '''
 # port 规则为 3 00 队伍id 22 服务端口
 subject =   {
-            #'yunnam_simple': {'sshport':30022,'serviceport':30080},
+            'yunnam_simple': {'sshport':30022,'serviceport':30080},
             'pwn_simple':   {'sshport':30032,'serviceport':30090}
             }
 
@@ -71,6 +71,7 @@ def flagfresher_worker(mathobj):
 
 def checker_worker(mathobj):
     while True:
+        logger.info('[+]Service checking')
         checker.service_checker(mathobj)
 
 
@@ -122,10 +123,11 @@ def main():
     map(lambda x:x.setDaemon(True),threads)
     map(lambda x:x.start(),threads)
     map(lambda x:x.join(),threads)
+    logger.info('[+]ALL containers are ready')
     q.join()  
 
 
-    logger.info('[+]ALL containers are ready')
+    logger.info('[+]Ready to start dockers')
 
 
     for i in mathobj:

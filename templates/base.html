@@ -5,9 +5,14 @@
 
     <link rel="stylesheet" href="/static/css/countdown.demo.css">
 	<link rel="stylesheet" href="/static/css/bootstrap.css">
+<style>
+    
+           .row{
+                vertical-align: middle;
+            }
 
-	<script src="/static/js/jquery.min.js"></script>
-	<script src="/static/js/bootstrap.js"></script>
+</style>
+
 </head>
 <body>
 <div class="container">
@@ -185,27 +190,32 @@
 
     <br>
 	
+
+<div class="row" id="show_container">
+
+
+</div>
+
+
+
+
+
     <div class="panel-body">
         <h1><label id='ctoken'></label></h1>
         <center><h2>当前轮次：<label id='cround'></label> 当前排名：<label id='cround_rank'></label></h2></center>
 
     		<table class="table">
-              <caption></caption>
-              <thead>
-                <tr>
+                <caption></caption>
+                <thead>
+                <tr id="teams_tr">
                     <th>#</th> 
-                  <th>TEAM</th>             
-                  <th>实时分数</th>
-                  <th>环境1</th>
-                  <th>环境2</th>
-                  <th>环境3</th>
-                  <th>环境4</th>
-                  <th>环境5</th>
+                    <th>TEAM</th>             
+                    <th>实时分数</th>
                 </tr>
-              </thead>
-            <tbody id="team">
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="team">
+                </tbody>
+            </table>
 	</div>
 </div>
 
@@ -233,6 +243,79 @@
 </div>
 </body>
 </html>
+
+
+
+
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+
+
+
+<script type="text/javascript">
+    function show_container_ctr(data){
+
+        console.log(data);
+
+        var divshow = $("#show_container");
+        divshow.empty();;
+
+        var count=data.length;
+        console.log(count);
+        var offset = (12 - count*2)/2;
+        console.log(offset);
+
+        count = 0;
+
+        for (x in data){
+            var coldiv = $('<div></div>');
+
+            coldiv.addClass('col-lg-2 text-center');
+            if (count==0) coldiv.addClass('col-lg-offset-'+offset);
+            count++;
+            //for(y in data[x]){      
+                //console.log(y);  
+                console.log(data[x]);
+
+                var paneldiv = $('<div></div>');
+                paneldiv.addClass('panel panel-default');
+
+                var paneldheader = $('<div></div>');
+                paneldheader.addClass('panel-heading');
+                paneldheader.text(data[x]['container']);
+
+                var paneldbody = $('<div></div>');
+                paneldbody.addClass('panel-body');
+                paneldbody.text(data[x]['attack_stat']+'|'+data[x]['check_stat']);
+
+
+                var paneldfooter = $('<div></div>'); 
+                paneldfooter.addClass('panel-footer');
+                paneldfooter.text(data[x]['score']);
+                paneldiv.append(paneldheader);
+                paneldiv.append(paneldbody);
+                paneldiv.append(paneldfooter);
+                
+                
+            //}
+            coldiv.append(paneldiv);
+            divshow.append(coldiv);
+        }
+    }    
+
+    var data = [
+
+            {'container':'pwnable','stat':1,'score':999},
+            {'container':'http0','stat':0,'score':1000},
+            {'container':'http1','stat':0,'score':1000},
+            //{'container':'http2','stat':0,'score':1000},
+            ];
+
+    //show_container_ctr(data);
+
+</script> 
+
+
 
 <script type="text/javascript">
     var myname;
@@ -270,7 +353,7 @@
                 myname=name;
                 mytoken = token;
                 for (x in result['containers']){                 
-                    var cname = result['containers'][x]['name'];
+                    var cname = result['containers'][x]['typename'];
                     var score = result['containers'][x]['score'];
                     //var ip = result[x]['ip'];
                     var ssh_user = result['containers'][x]['sshaccount'];
@@ -299,84 +382,126 @@ get_math();                         // 比赛时间、队伍信息 刷新一次
 <script type="text/javascript">
     var mytoken ;
     function get_temps() {
-    $.getJSON('/teams',
-        function (result) {
-            $("#team").html("");
-            for (x in result){
-                var name = result[x]['name'];
-                var token = result[x]['token'];
-                var score = result[x]['score'];
-                var rank = result[x]['rank'];
-                var port1 = result[x]['port1'];
-                var port2 = result[x]['port2'];
-                var port3 = result[x]['port3'];
-                var port4 = result[x]['port4'];
-                var port5 = result[x]['port5'];
-                $("#team").append('<tr>'+
-                '<td>'+rank+'</td>' +    
-                '<td>'+name+'</td>' +
-                //'<td>'+token+'</td>'+
-                '<td>'+score+'</td>'+
-                //'<td>'+ip+'</td>'+
-                '<td>'+port1+'</td>'+
-                '<td>'+port2+'</td>'+
-                '<td>'+port3+'</td>'+
-                '<td>'+port4+'</td>'+
-                '<td>'+port5+'</td>'+
-                '</tr>');
 
-                if(name == myname){
-                    $("#cround_rank").html(rank);
+        $.getJSON('/team',
+            function (result) {
+                var data=new Array(); //{'container':'pwnable','stat':1,'score':999},
+
+                for(x in result['containers']){
+                    data.push({'container':result['containers'][x]['typename'],
+                                'attack_stat':result['containers'][x]['attack_stat'],
+                                'score':result['containers'][x]['score'],
+                                'check_stat':result['containers'][x]['check_stat'],
+                            });
+                }
+                show_container_ctr(data);
+
+
+
+            });
+                
+
+
+
+        $.getJSON('/teams',
+            function (result) {
+                $("#team").html("");
+
+                //$('#teams_tr').append("<th>1111</th>");
+                var a=new Array();
+                var p = 0;
+
+                var o = '<th>#</th><th>TEAM</th><th>实时分数</th>';
+
+                for(j in result['typename'])
+                {
+                    o += "<th>"+result['typename'][j]+"</th>";
+                    a[p]=result['typename'][j];
+                    p++;
+                }
+
+                $('#teams_tr').html("");
+                $('#teams_tr').append(o);
+
+
+                for (x in result['teams']){
+                    var name = result['teams'][x]['name'];
+                    //var token = result[x]['token'];
+                    var score = result['teams'][x]['scoresum'];
+                    var rank = result['teams'][x]['rank'];
+
+                    tmp=new Array();
+
+                    for(x2 in  result['teams'][x]['containers'])
+                    {
+                        for(x3 in a){
+                            if(a[x3]== result['teams'][x]['containers'][x2]['typename']){
+                                tmp[x3]=result['teams'][x]['containers'][x2]['score'] +'|' +result['teams'][x]['containers'][x2]['attack_stat']+'|'+result['teams'][x]['containers'][x2]['check_stat'] ;
+                            }
+                        }
+                    }
+                    trstring = '<tr>'+
+                    '<td>'+rank+'</td>' +    
+                    '<td>'+name+'</td>' +
+                    //'<td>'+token+'</td>'+
+                    '<td>'+score+'</td>'
+
+                    for(i=0;i<tmp.length;i++) trstring+='<td>'+tmp[i]+'</td>'
+                    //'<td>'+ip+'</td>'+
+                    trstring+='</tr>';
+                    $("#team").append(trstring);
+                    if(name == myname){
+                        $("#cround_rank").html(rank);
+                    }
                 }
             }
-        }
-    );
-    $.getJSON('/rounds',
-        function (result) {
-            $("#rounds").html("");
-            for (x in result){
-                var _id = result[x]['id'];
-                var msg = result[x]['msg'];
-                var score = result[x]['score'];
-                var rounds = result[x]['rounds'];
-                var time = result[x]['time'];
-                $("#rounds").append('<tr>'+
-                '<td>'+_id+'</td>' +
-                '<td>'+msg+'</td>'+
-                '<td>'+score+'</td>'+
-                '<td>'+rounds+'</td>'+
-                '<td>'+time+'</td>'+
-                '</tr>');
+        );
+        $.getJSON('/rounds',
+            function (result) {
+                $("#rounds").html("");
+                for (x in result){
+                    var _id = result[x]['id'];
+                    var msg = result[x]['msg'];
+                    var score = result[x]['score'];
+                    var rounds = result[x]['rounds'];
+                    var time = result[x]['time'];
+                    $("#rounds").append('<tr>'+
+                    '<td>'+_id+'</td>' +
+                    '<td>'+msg+'</td>'+
+                    '<td>'+score+'</td>'+
+                    '<td>'+rounds+'</td>'+
+                    '<td>'+time+'</td>'+
+                    '</tr>');
+                }
             }
-        }
-    );
+        );
 
-    $.getJSON('/current_rounds',
-        function (result) {
-            $("#cround").html(result);           
-        }
-    );
-    
-    
-    $.getJSON('/info/2',
-        function (result) {
-            $("#infos").html("");
-            for (x in result){
-                var infos = result[x]['id'];
-                $("#infos").append('<ul>'+
-                '<li>'+infos+'</li>' +
-                '</ul>');
-                //alert(infos)
+        $.getJSON('/current_rounds',
+            function (result) {
+                $("#cround").html(result);           
             }
-            
-        }
-    );
-}
-get_temps();
-setInterval('get_temps()', 1000); // 队伍情况每一秒刷新一次
+        );
+        
+        
+        $.getJSON('/info/2',
+            function (result) {
+                $("#infos").html("");
+                for (x in result){
+                    var infos = result[x]['id'];
+                    $("#infos").append('<ul>'+
+                    '<li>'+infos+'</li>' +
+                    '</ul>');
+                    //alert(infos)
+                }
+                
+            }
+        );
+    }
+    get_temps();
+    setInterval('get_temps()', 1000); // 队伍情况每一秒刷新一次
 </script>
 
-<script>
+<script type="text/javascript">
 function submitflag(){
 //$('#test').value(mytoken);
 

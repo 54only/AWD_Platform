@@ -21,11 +21,28 @@ class subjectclass(object):
         self.teamname=teamname
         self.score = score
         self.teampass=teampass
-
+        self.check_stat=0
         self.db_containers = containers(self.name,self.container_name,teampass, self.sshaccount, serviceport,sshport,teamid,score)
         db.session.add(self.db_containers)
         db.session.commit()       
         self.id =  self.db_containers.id
+
+    def update_score(self):
+        Q = containers.query.filter(containers.id == self.db_containers.id).first()
+        Q.score = self.db_containers.score
+        db.session.commit()
+        self.db_containers.score = Q.score
+
+    def update_checkstat(self):
+        Q = containers.query.filter(containers.id == self.db_containers.id).first()
+        Q.check_stat = self.db_containers.check_stat
+        db.session.commit()
+        self.db_containers = Q
+
+    def update_attackstat(self):
+        Q = containers.query.filter(containers.id == self.db_containers.id).first()
+        Q.attack_stat = self.db_containers.attack_stat
+        db.session.commit()
 
     def create_containers(self):
         self.ctn = client.containers.create(self.image_name,
@@ -57,6 +74,7 @@ class subjectclass(object):
 
 
     def check_L1(self):
+        self.update_checkstat()
         return self.db_containers.check_stat
     def check_L2(self):
         return self.db_containers.check_stat
