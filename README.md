@@ -28,7 +28,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://debian-sys-maint:Ihpz39
 ```
 * 编辑 users.txt
 ```
-teamname teampass   # 设定队伍账号密码
+teamname username userpassword   # 设定队伍账号密码
 ```
 * 编辑 start.py
 ```
@@ -39,11 +39,6 @@ teams = 10          # 设定比赛环境数量，建议比赛环境数量多于�
 ```
 python start.py     # 一键启动比赛环境
 python server.py    # 启动竞赛平台
-```
-
-* 重置队伍环境
-```
-python team_restart.py team1    # 队伍docker重置，container name
 ```
 
 * 退出环境
@@ -83,11 +78,13 @@ dockercontr.py
 ### 2019-10-28 
 
 * 版本重大更新，核心代码重构
-* 添加：一只队伍多个环境
+* user.txt 添加队伍名
+* 一只队伍同时开启多个awd环境
 * check状态和被攻击状态展示
 * 取消自动 pull images，需要管理员提前做好镜像
 * 添加后台功能，可以设置比赛标题、开始及结束时间、每个环境起始分数，被攻击扣分，被check扣分，即时生效
 * bugs fixed
+* 太晚了，队伍功能暂时放一下，队伍重启功能准备放到后台管理执行，下次更新
 
 
 
@@ -107,5 +104,10 @@ dockercontr.py
 
 ## 捐助墙
 
-日期|捐助者|金额|备注
-2019.10.10|*璇|0.4
+日期 | 捐助者 | 金额
+:-: | :-: | :-: | :-: 
+2019.10.10 | *璇 | 0.4 
+
+
+
+
