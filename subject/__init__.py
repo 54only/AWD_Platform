@@ -4,10 +4,11 @@ import docker
 import sys
 sys.path.append("..")
 from log import logset,console
-from models import db,containers
+from models import db,containers,Session
+
 client = docker.from_env()
 
-logger=logset('__init__')
+logger=logset('subject.__init__')
 logger.addHandler(console)
 
 
@@ -22,27 +23,58 @@ class subjectclass(object):
         self.score = score
         self.teampass=teampass
         self.check_stat=0
-        self.db_containers = containers(self.name,self.container_name,teampass, self.sshaccount, serviceport,sshport,teamid,score)
-        db.session.add(self.db_containers)
-        db.session.commit()       
-        self.id =  self.db_containers.id
+        
+        self.session = Session()
+        self.containers=containers
+        self.db_containers = containers(self.name,self.container_name,self.teampass, self.sshaccount, self.serviceport,self.sshport,self.teamid,self.score)
+        try:
+            self.session.add(self.db_containers)
+            self.session.commit()        
+            self.id =  self.db_containers.id
+        except:
+            pass
+        self.session.close()
 
     def update_score(self):
-        Q = containers.query.filter(containers.id == self.db_containers.id).first()
+        self.session = Session()
+        Q = self.containers.query.with_session(self.session).filter(containers.id == self.db_containers.id).first()
         Q.score = self.db_containers.score
-        db.session.commit()
-        self.db_containers.score = Q.score
+        self.session.commit()
+        self.session.close()
+        #self.db_containers.score = Q.score
+        print self.container_name,'update_score sucessed'
+        return
 
     def update_checkstat(self):
-        Q = containers.query.filter(containers.id == self.db_containers.id).first()
-        Q.check_stat = self.db_containers.check_stat
-        db.session.commit()
-        self.db_containers = Q
+        try:
+            #print '__init__, update_checkstat',self.db_containers.id
+            #db.session.commit()
+            self.session = Session()
+            Q = self.containers.query.with_session(self.session).filter(containers.id == self.db_containers.id).first()
+            #if Q.check_stat != self.db_containers.check_stat or Q.attack_stat != self.db_containers.attack_stat:
+            Q.check_stat = self.db_containers.check_stat
+            #Q.attack_stat = self.db_containers.attack_stat
+            self.session.commit()
+            #self.db_containers = Q
+            self.session.close()
+            #self.db_containers = containers.query.filter(containers.id == self.db_containers.id).first()
+
+
+        except Exception,e:
+            print '[*]__init__, update_checkstat ERROR',self.container_name
+            print e
 
     def update_attackstat(self):
-        Q = containers.query.filter(containers.id == self.db_containers.id).first()
-        Q.attack_stat = self.db_containers.attack_stat
-        db.session.commit()
+        try:
+            #db.session.commit()
+            self.session = Session()
+            Q = self.containers.query.with_session(self.session).filter(containers.id == self.db_containers.id).first()
+            Q.attack_stat = self.db_containers.attack_stat
+            self.session.commit()
+            self.session.close()
+        except Exception,e:
+            print '[*]__init__, update_attackstat ERROR',self.container_name
+            print e
 
     def create_containers(self):
         self.ctn = client.containers.create(self.image_name,
@@ -74,7 +106,7 @@ class subjectclass(object):
 
 
     def check_L1(self):
-        self.update_checkstat()
+        #self.update_checkstat()
         return self.db_containers.check_stat
     def check_L2(self):
         return self.db_containers.check_stat

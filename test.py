@@ -1,8 +1,34 @@
 import requests
-from flagfresher import count_score
-from models import Teams
+#from flagfresher import count_score
+from models import db,Teams
 import time
 
+
+
+from sqlalchemy import inspect
+teams = Teams.query.get(1)
+insp = inspect(Teams)
+
+
+
+#print insp.persistent
+
+for i in Teams.__dict__:
+    print i
+
+t=[]
+for i in xrange(1000):
+    teams = Teams.query.get(1)
+    #print teams.name
+    t.append(teams)
+    teams.country='1'
+    db.session.commit()
+
+
+print 'done',len(t)
+
+
+exit()
 
 ip='192.168.174.131'
 

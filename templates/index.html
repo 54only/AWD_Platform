@@ -1,0 +1,502 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>AWD攻防练习赛首页</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+</head>
+
+<body style="height:100%;margin:auto;">
+    <div class="outer">
+        <!--头部区域 start-->
+        <div class="topdiv">
+            <div class="header tab-block information-tab">
+                <div class="fl ltag">
+                    <div class="header_logo fl "><span>AWD</span>攻防练习赛</div>
+                    <div class="header_nav fl  tab-buttons ">
+                        <ul>
+                            <li class="tab-button cur" data-tab="four">
+                                <a href="#" class="nav_current">
+                                    <span class="nav1"></span>
+                                    <span>指南</span>
+                                </a>
+                            </li>
+                            <li class="tab-button" data-tab="two">
+                                <a href="#">
+                                    <span class="nav2"> </span>
+                                    <span> 公告</span>
+                                </a>
+                            </li>
+                            <li class="tab-button" data-tab="three">
+                                <a href="#">
+                                    <span class="nav3"> </span>
+                                    <span> 赛题</span>
+                                </a>
+                            </li>
+                            <li class="tab-button" data-tab="one">
+                                <a href="#">
+                                    <span class="nav4"> </span>
+                                    <span> 排行榜</span>
+                                </a>
+                            </li>
+                            <li class="tab-button" data-tab="five">
+                                <a href="#">
+                                    <span class="nav5"> </span>
+                                    <span> 攻击榜</span>
+                                </a>
+                            </li>
+                            <li class="tab-button" data-tab="six">
+                                <a href="#">
+                                    <span class="nav6"></span>
+                                    <span> 趋势</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="header_team fr ">
+                    <img src="/static/images/zhand.png" alt=""><span id='teamname'></span>
+                </div>
+            </div>
+            <div class="score">
+                <span>RANK:<label id='cround_rank'></label></span>
+                <span>ROUND:<label id='cround'></label></span>
+                <span>SCORE:<label id='cscroe'></label></span>
+                <span class="data fr" id="timecount">倒计时 <b>00:00:00</b></span>
+            </div>
+        </div>
+        <!--头部区域 end-->
+        <!--主体区域 start-->
+        <div class="maindiv tabs">
+            <!--第一个div start-->
+            <div class="tab-item active clearfix" id="tab-one">
+                <div class="iconinfo">
+                    <ul>
+                        <li>
+                            <span>  <img src="/static/images/notopen.png" alt=""></span>
+                            <span>未开放</span>
+                        </li>
+                        <li>
+                            <span> <img src="/static/images/normal.png" alt=""></span>
+                            <span> 正常</span>
+                        </li>
+                        <li>
+                            <span> <img src="/static/images/attacked.png" alt=""></span>
+                            <span> 被攻击</span>
+                        </li>
+                        <li>
+                            <span> <img src="/static/images/nocheck.png" alt=""></span>
+                            <span> check失败</span>
+                        </li>
+                        <li>
+                            <span> <img src="/static/images/checked.png" alt=""></span>
+                            <span> check失败并被攻击</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content mborderimg" >
+                    <div class="table-head">
+                        <table>
+                            <colgroup>
+                                <col name="el-table_1_column_1" width="120">
+                                <col name="el-table_1_column_2" width="204">
+                                <col name="el-table_1_column_3" width="204">
+                                <col name="el-table_1_column_4" width="204">
+                                <col name="el-table_1_column_5" width="204">
+                                <col name="el-table_1_column_6" width="204">
+                                <col name="el-table_1_column_7" width="204">
+                                <col name="el-table_1_column_8" width="204">
+                                <col name="el-table_1_column_9" width="204">
+                                <col name="el-table_1_column_10" width="204">
+                            </colgroup>
+                            <thead>
+                                <tr id='teams_tr'>
+                                    <th>名次</th>
+                                    <th>战队</th>
+                                    <th>得分</th>
+                                    <th>unknown</th>
+                                    <th>ad-opensns</th>
+                                    <th>tiangou</th>
+                                    <th>douchat</th>
+                                    <th>httpd</th>
+                                    <th>ad-blog</th>
+                                    <th>变化</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="table-body" style="padding:0px 2px 0px 15px ">
+                        <table class="table" border="0" cellpadding="40" cellspacing="20" >
+                            <colgroup>
+                                <col name="el-table_1_column_1" width="110">
+                                <col name="el-table_1_column_2" width="194">
+                                <col name="el-table_1_column_3" width="194">
+                                <col name="el-table_1_column_4" width="204">
+                                <col name="el-table_1_column_5" width="204">
+                                <col name="el-table_1_column_6" width="204">
+                                <col name="el-table_1_column_7" width="204">
+                                <col name="el-table_1_column_8" width="204">
+                                <col name="el-table_1_column_9" width="204">
+                                <col name="el-table_1_column_10" width="184">
+                            </colgroup>
+                            
+                            <tbody id="team">
+                                <tr>
+                                    <td>
+                                        <span class="icon">1</span></td>
+                                    <td><img src="/static/images/team.png" alt="">AWD1</td>
+                                    <td>13333</td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_2"></span></td>
+                                    <td><span class="tag state_3"></span></td>
+                                    <td><span class="tag state_4"></span></td>
+                                    <td><span class="tag state_5"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td>90338<span class="arrow arrow_up"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="icon">2</span></td>
+                                    <td><img src="/static/images/team.png" alt="">AWD1</td>
+                                    <td>13333</td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td>90338<span class="arrow arrow_down"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="icon">3</span></td>
+                                    <td><img src="/static/images/team.png" alt="">AWD1</td>
+                                    <td>13333</td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td>90338<span class="arrow arrow_line"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="">4</span></td>
+                                    <td><img src="/static/images/team.png" alt="">AWD1</td>
+                                    <td>13333</td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td>90338<span class="arrow arrow_line"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="">5</span></td>
+                                    <td><img src="/static/images/team.png" alt="">AWD1</td>
+                                    <td>13333</td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td><span class="tag state_1"></span></td>
+                                    <td>90338<span class="arrow arrow_line"></span></td>
+                                </tr>                                
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--第一个指南div end-->
+            <!--第2个公告div start-->
+            <div class="tab-item" id="tab-two">
+                <div id='infos'>公告界面</div>
+            </div>
+            <!--第2个公告div end-->
+            <!--第3个赛题div start-->
+            <div class="tab-item" id="tab-three">
+                <div class="tab-three-top">
+                    <ul id="mycontainer">
+                        <li>
+                            <p class="li-title">unknow</p>
+                            <p class="li-img state_1"></p>
+                            <p class="li-state">题目状态正常</p>
+                            <p class="li-number">10365.5T</p>
+                            <p class="li-value">当前分值</p>
+                        </li>
+                        <li>
+                            <p class="li-title">state_2</p>
+                            <p class="li-img state_2"></p>
+                            <p class="li-state">题目状态正常</p>
+                            <p class="li-number">10365.5T</p>
+                            <p class="li-value">当前分值</p>
+
+                        </li>
+                         <li>
+                            <p class="li-title">state_3</p>
+                            <p class="li-img state_3"></p>
+                            <p class="li-state">题目状态正常</p>
+                            <p class="li-number">10365.5T</p>
+                            <p class="li-value">当前分值</p>
+                         </li>
+                        <li>
+                            <p class="li-title">state_4</p>
+                            <p class="li-img state_4"></p>
+                            <p class="li-state">题目状态正常</p>
+                            <p class="li-number">10365.5T</p>
+                            <p class="li-value">当前分值</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-three-bottom">
+                        <div class="linfo fl sborderimg" style=" position:relative;">
+                           <div class="ltitle">比赛信息</div>
+                           <div class="tktable">
+                              <div class="tktable_top">
+                                   <table  class="txt" border="0" cellpadding="40" cellspacing="20" style="border-collapse:separate;border-spacing:0px 0px;">
+                                <tr>
+                                    <td>名称</td>
+                                    <td><span id='teamname2'></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Token</td>
+                                    <td><span id='ctoken'></span></td>
+                                </tr>
+                                <tr>
+                                    <td>提交flag的URL</td>
+                                    <td>http://xxxx:9000/flag?token=token</td>
+                                </tr>
+                                <tr>
+                                    <td>提交方式</td>
+                                    <td>POST</td>
+                                </tr>
+                                <tr>
+                                    <td>提交格式</td>
+                                    <td><span id='mytoken'></span></td>
+                                </tr>
+                            </thead>
+                        </table>
+
+                              </div>
+                              <div class="search">
+                                <form method="POST" id="myform" action="/" onsubmit="return submitflag()">
+                                    <input type="text" class="search-input" placeholder="请输入正确的flag" id='flag'>
+                                    <input class="btn banbutt fr" type="submit" value='提交' onclick="return submitflag()">
+                                </form>
+                              </div>
+
+                              <!--放置回显部分的div start-->
+                              <div class="feedback" id="feedback">
+                              </div>
+                              <!--回显部分 end-->
+
+
+                           </div>
+                        </div>
+                        <div class="rinfo fr">
+                           <div class="sborderimg" style=" position:relative;">
+                            <div class="ltitle">被攻击列表</div>
+                            <div class="ulist">
+                            <ul class="ulist_ul" id='attacklist'>
+                                <li>用户<span class="user01">Mini</span>攻击了<span class="user02">httpd</span><span class="fr">2019-10-22&nbsp;12:23:25</span></li>
+                            </ul>
+                           </div>
+                           </div>
+                        </div>
+                </div>
+            </div>
+            <!--第3个赛题div end-->
+            <!--第4个排行榜div start-->
+            <div class="tab-item" id="tab-four">
+                <div><pre>
+                    主机信息
+                        队伍分配主机，通过指定的端口和密码进行连接
+                        主机上运行一个web或多个服务，需要选手保证其可用性审计代码，攻击其他队伍
+                        通过漏洞获取其他队伍主机权限，读取服务器上的flag并提交到flag服务器
+                    攻击检测
+                        每次成功攻击，攻击队伍可平分该flag的200分，被攻击者扣除200分，轮询时间1分钟
+                        选手需要保证己方服务的可用性，服务故障扣除200分，被服务无故障的队伍平分，轮询时间1分钟
+                        得分在下一轮开始时计算
+                    其他
+                        选手可以获取所有的攻击情况以及当前的分数，刷新间隔1分钟
+                        不允许使用任何形式的DOS攻击
+                </pre></div>
+
+                <div class="">
+                    <div class="table-head">
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>TEAM</th>
+                              <th>SSH-USER</th>
+                              <th>SSH-PASS</th>
+                              <th>SSH-PORT</th>
+                            </tr>
+                          </thead>
+                          <tbody id="ssh_info">
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--第4个排行榜div end-->
+            <!--第5个攻击榜div start-->
+            <div class="tab-item" id="tab-five">
+                <div class="table-head">
+                    
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>消息</th>
+                          <th>得分</th>
+                          <th>轮询次数</th>
+                          <th>攻击时间</th>
+                        </tr>
+                      </thead>
+                      <tbody id="rounds">
+
+                      </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!--第5个攻击榜div end-->
+            <!--第6个趋势div start-->
+            <div class="tab-item" id="tab-six">
+                <center>
+                    <div id="echarts_main" style="width: 1200px;height:600px;"></div>
+                </center>
+            </div>
+            <!--第6个趋势div end-->
+        </div>
+        <!--主体区域 end-->
+    </div>
+<script src="/static/js/jquery.min.js" type="text/javascript" ></script>
+<script type="text/javascript">
+    //tab切换     
+    $('.tab-button').click(function() {
+        var tab = $(this).data('tab')
+            $(this).addClass('cur').siblings('.tab-button').removeClass('cur');
+        $('#tab-' + tab + '').addClass('active').siblings('.tab-item').removeClass('active');
+    }
+    );
+    //新闻列表切换
+    $('.information-tab .article-list').hover(function() {
+        $(this).addClass('current').siblings('.article-list').removeClass('current');
+    }
+
+    ,function() {
+        $(this).parent('.information-right').find('.article-list:first-of-type').addClass('current').siblings('.article-list').removeClass('current');
+    }
+    );
+</script>
+
+ <script src="/static/js/echarts.min.js"></script>
+<script src="/static/js/app.js" type="text/javascript" ></script>
+<script type="text/javascript">    
+    function submitflag(){
+        $.ajax({
+                url:'flag?token='+mytoken,
+                data:{flag:$("#flag").val()},
+                type : 'post',
+                dataType : 'json',  
+                success:function(data,status){
+                    //$("#msg").text(data['msg']);
+                    //alert(data['msg']);
+                    //console.log(data['msg']);
+                    $("#feedback").html(data['msg']);
+                    $('#feedback').show();
+                    $('#feedback').delay(1000).hide(0);
+                }
+        });
+        return false;
+    }
+</script>
+<script type="text/javascript">
+    
+    var myChart = echarts.init(document.getElementById('echarts_main'));
+    //myChart.showLoading();
+    //myChart.hideLoading();
+    //myChart.setOption(option);  
+    function freshscore(){    
+        $.getJSON('/scores',
+        function (result) {
+            var data=[];
+            //console.log(result[0]);
+            
+            for(x in result){
+                var xdata=[];
+                for(i=0;i<result[x].length;i++)
+                    xdata.push('Round:'+i);
+
+                //console.log(x);
+                //console.log(result[x]);
+                data.push({
+                    name: x,
+                    type: 'line',
+                    data: result[x],
+                    smooth: true,
+                    symbol:'none',
+                    lineStyle: {
+                        width: 1
+                    },
+
+                });
+
+            }
+
+            option={
+                legend:{
+                    textStyle:{color:'#ffffff'}, tooltip: {trigger: 'axis',axisPointer:{type:'line'}}
+                },
+                //grid:{show:false},
+               
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        //animation: false,
+                        label: {
+                            backgroundColor: '#505765'
+                        }
+                    },
+                    textStyle:{align:'left'}
+                },
+                backgroundColor: "rgba(128, 128, 128, 0.3",
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    show:false,
+                    data:xdata
+                },
+                //axisSeperateSetting: false,
+                yAxis: {
+                    type: 'value',
+                    show:false,
+                    //splitLine:{show:false},
+                },
+                series:data
+            };
+            myChart.setOption(option);
+                       
+        }
+        );
+    }
+
+  setInterval('freshscore()', 10*1000); // 队伍情况每一秒刷新一次
+</script>
+
+</body>
+
+</html>

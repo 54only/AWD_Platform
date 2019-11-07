@@ -6,15 +6,15 @@ import requests
 import sys
 sys.path.append("..")
 from log import logset,console
-from models import db,containers
-logger=logset('yunnam_simple')
+#from models import db,containers
+logger=logset('subject.yunnam_simple')
 logger.addHandler(console)
 
 
 class o(subjectclass):
     #image_name = 'awd/yunnam_simple'
     image_name = '54only/yunnan_simple'
-    name = 'yunnan_simple'
+    name = 'yunnam_simple'
     #subjectclass.name = name
     sshaccount='www-data'
 
@@ -48,14 +48,17 @@ class o(subjectclass):
     ##########################################################
 
     def check_L1(self):
-
+        #print 'yunnam_simple,check_L1'
+        #print self.db_containers
+        #print self.db_containers.check_stat
         if self.db_containers.check_stat >0:
-            self.update_checkstat()
+            print self.container_name,'Already check False',self.db_containers.check_stat
+            #self.update_checkstat()
             return self.db_containers.check_stat
 
         try:
             url = 'http://127.0.0.1:%d/'%self.serviceport
-            print url
+            #print url
             r =  requests.get(url,timeout=3)            
             if b'Home' not in r.content:
                 self.db_containers.check_stat = 1 
@@ -74,7 +77,7 @@ class o(subjectclass):
                 return self.db_containers.check_stat
         except Exception,e :
             print e
-            print self.db_containers.check_stat
+            print 'ERROR',self.teamname,self.db_containers.check_stat
             self.db_containers.check_stat = 1 
             logger.info('[*]Check %s webservice False:%s ' % (self.teamname,url))
             self.update_checkstat()

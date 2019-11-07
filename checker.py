@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import time
+#import time
 import requests
 from log import logger
 #from flagfresher import service_down
@@ -11,9 +11,15 @@ def service_checker(mathobj):
     #round_cont = db.session.query(func.max(Flags.rounds)).scalar()
 
     for i in mathobj:
-        i.check_L1()
+        try:
+            i.check_L1()
+            #i.session.close()
+            #print 'session removed'
+        except Exception,e:
+            print 'checker'
+            print e
         #i.update_checkstat()
-    time.sleep(5)
+    #time.sleep(5)
     return
  
 

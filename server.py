@@ -70,6 +70,32 @@ def index():
     #print session
     return render_template('base.html')
 
+@app.route('/1')
+@login_required
+def index_1():
+    #print session
+    return render_template('index.html')
+
+@app.route('/scores')
+@login_required
+def show_scores():
+
+    scores2 = db.session.query(Teams.name,Scores.score,Scores.rounds).join(Teams,Teams.id==Scores.teamid).order_by(Scores.teamid,Scores.rounds).all()
+
+    msgdic={}
+
+
+    for i in scores2:
+        if msgdic.get(i[0]):
+            msgdic[i[0]].append(i[1])
+        else:
+            msgdic[i[0]]=[]
+            msgdic[i[0]].append(i[1])
+
+
+    return jsonify(msgdic)
+
+
 
 @app.route('/timedelta')
 @login_required
@@ -81,6 +107,7 @@ def timedelta():
     msg['endtime']=mathmsg.endtime.strftime( '%Y-%m-%d %H:%M')  
     msg['flagflash']=mathmsg.flagflash
     msg['timeleft']=str(mathmsg.endtime-datetime.datetime.now()).split('.')[0]
+    msg['timecount']=int((mathmsg.endtime-datetime.datetime.now()).total_seconds())
     msg['now']=datetime.datetime.now().strftime( '%Y-%m-%d %H:%M') 
     msg['startscore']=mathmsg.startscore
     msg['name']=mathmsg.name
@@ -337,6 +364,7 @@ def showteams():
     teamlist2 = []
     for team in teams:
         msg = team.status()
+        #roundscore = team.score_delta()
         teamlist2.append(msg)  
 
     #print teamlist2
@@ -460,10 +488,26 @@ class DateEncoder(json.JSONEncoder):
         else:
             return json.JSONEncoder.default(self, obj) 
 
+@app.route('/rounds2', methods=['GET'])
+def showrounds2():
+    Rounds2 = db.session.query(Round.time,Teams.name,containers.typename).join(Teams,Teams.id==Round.attackteamid).join(containers,containers.id==Round.containerid).filter(containers.teamid==session.get('teamid')).order_by(Round.time.desc()).limit(10).all()
+    #print Rounds2
+    #print session
+    msg2=[]
+    for i in Rounds2:
+        msg2.append({'teamname':i[1],'typename':i[2],'time':i[0]})
+        
+
+    return jsonify(msg2)
+
+
 @app.route('/rounds', methods=['GET'])
 def showrounds():
 
-    Rounds = Round.query.order_by(Round.id.desc()).limit(10).all()
+    Rounds = Round.query.join(Teams,Teams.id==Round.attackteamid).order_by(Round.id.desc()).limit(10).all()
+
+    #Rounds2 = db.session.query(Round.id,Teams.name,containers.typename,containers.teamid).join(Teams,Teams.id==Round.attackteamid).join(containers,containers.id==Round.containerid).all()
+    #print Rounds2
     msg = {}
     msg2 = []
 
@@ -479,7 +523,9 @@ def showrounds():
                      'rounds': i.rounds,
                      'msg': i.msg,
                      'time': i.time,
+                     #'teamname': i.teams_name,
                      })
+        #print i.query
         
     return jsonify(msg2)
 
@@ -531,10 +577,10 @@ def flagcheck():
 
     #print(attackteamid)
 
-    attacked_container = Flags.query.filter(
-        Flags.rounds == lastround, Flags.flag == flag).first()
-    print('rounds', lastround)
-    print('flag', flag)
+    attacked_container = Flags.query.filter( Flags.rounds == lastround, Flags.flag == flag).first()
+    #print('attackteamid', attackteamid)
+    #print('rounds', lastround)
+    #print('flag', flag)
     
     #for i in Flags.query.filter(Flags.rounds == lastround).all():
     #    print(i.flag)
@@ -542,7 +588,8 @@ def flagcheck():
     
     if attacked_container:
         attacked_container = containers.query.filter(containers.id == attacked_container.containerid).first()
-
+        #print(len(attacked_container))
+        
         if not attacked_container:
         #attackteamid = Teams.query.filter(Teams.id == attackteam.id).first()
             msg['status'] = -1
@@ -550,6 +597,10 @@ def flagcheck():
             return json.dumps(msg, ensure_ascii=False)
         else:
             dteam = Teams.query.filter(Teams.id == attacked_container.teamid).first()
+    else:
+        msg['status'] = -1
+        msg['msg'] = 'FLAG 错误'
+        return json.dumps(msg, ensure_ascii=False)
 
     if attacked_container.teamid == attackteam.id:
         msg['status'] = -1

@@ -1,12 +1,17 @@
 import hashlib
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import func
+from sqlalchemy import func,create_engine
 import json
 from flask import Flask
 from time import strftime,localtime
 from log import logset
 import datetime,decimal
 
+from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import sessionmaker
+
+#session_factory = sessionmaker(bind=some_engine)
+#Session = scoped_session(session_factory)
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -29,11 +34,18 @@ app.json_encoder = JSONEncoder
 
 app.secret_key = 'eIImw7u5Vi3zQu5vAwBDEiyn9ESI0Bje1xOAyEuTrTprBgI8zb3RPkFTUjGdIfGdLrx8uGKS20ITxCZX0'
 
+db_connection_str = 'mysql+pymysql://debian-sys-maint:Ihpz39779MWqW4zq@127.0.0.1:3306/awd?charset=utf8&autocommit=true'
 
-
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://debian-sys-maint:Ihpz39779MWqW4zq@127.0.0.1:3306/awd?charset=utf8&autocommit=true"
+app.config["SQLALCHEMY_DATABASE_URI"] = db_connection_str
 #app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:54only@127.0.0.1:3306/awdplatform?charset=utf8"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+#app.config['SQLALCHEMY_POOL_SIZE']=200
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+#app.config['SQLALCHEMY_ECHO'] = True
+
+#Session =  scoped_session(sessionmaker(bind=create_engine("mysql+pymysql://debian-sys-maint:Ihpz39779MWqW4zq@127.0.0.1:3306/awd?charset=utf8&autocommit=true")))
+Sessionf = sessionmaker(bind=create_engine(db_connection_str,pool_size=100, max_overflow=10, pool_timeout=10))
+Session = scoped_session(Sessionf)
 
 db = SQLAlchemy(app)
 
@@ -112,6 +124,14 @@ class Scores(db.Model):
         self.score = score
         self.rounds = rounds
 
+    #def add_teamname(self):
+
+
+    def to_json(self):        
+        dict = self.__dict__
+        if "_sa_instance_state" in dict:
+            del dict["_sa_instance_state"]
+        return dict
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -163,6 +183,8 @@ class Teams(db.Model):
             d.append(i.to_json_secrity())
         self.containers=d
         
+        self.score_delta()
+
         dic = self.__dict__
         if "_sa_instance_state" in dic:
             del dic["_sa_instance_state"]    
@@ -171,6 +193,18 @@ class Teams(db.Model):
 
         return dic
 
+    def score_delta(self):
+
+        self.roundscore = db.session.query(Scores.score,Scores.rounds).filter(Scores.teamid==self.id).order_by(-Scores.rounds).limit(2).all()
+
+        if len(self.roundscore) == 2:
+            self.delta = self.roundscore[0][0]-self.roundscore[1][0]
+        else:
+            self.delta = 0
+
+        #print roundscore
+
+        #return roundscore
 
 
     def score(self):

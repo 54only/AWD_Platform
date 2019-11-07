@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
-from models import db,Teams,Flags,math,Round,containers
+from models import db,Teams,Flags,Round,containers,Scores
 import time
 import hashlib
 from sqlalchemy import func
@@ -13,7 +13,6 @@ from log import logset,console
 logger = logset('flagflasher')
 logger.addHandler(console)
 
-timespan = 1 * 60
 
 
 def make_flag_str(teamname):
@@ -26,10 +25,10 @@ def errorfresh(x,flag):
     while True:
         try:
             x.freshflag(flag)
-            logger.info('%s Flag freshed : %s'%(x.teamname,flag))
+            logger.info('%s %sFlag freshed : %s'%(x.teamname,x.container_name,flag))
             return
         except:            
-            logger.warning('%s Flag fresh error'%(x.teamname))
+            logger.warning('%s %s Flag fresh error'%(x.teamname,x.container_name))
         time.sleep(30)
 
 
@@ -88,7 +87,7 @@ def countscore(r,mathobj,checkscore,attckscore):
     #统计丢分
 
     checked = Round.query.join(containers,containers.id==Round.containerid).filter(Round.rounds==r,Round.attackteamid!=0).with_entities(containers.typename,containers.id,Round.attackteamid).all()
-    print checked
+    #print checked
     checked_score_sum={}
 
     for i in checked:
@@ -134,45 +133,37 @@ def countscore(r,mathobj,checkscore,attckscore):
         for i in mathobj:
             if i.db_containers.typename == c:
                 for i1 in checked_score_sum[c]:
-                    print c,i.db_containers.id,i.db_containers.score
+                    #print c,i.db_containers.id,i.db_containers.score
                     if i.db_containers.id == i1:
                         i.db_containers.score -= decimal.Decimal(attckscore)
-                        print c,i.db_containers.id,i.db_containers.score
-                        i.update_score()
+                        #print c,i.db_containers.id,i.db_containers.score
+                        #i.update_score()
                         #break
                     
                     if i.teamid in checked_score_sum[c][i1]['attackteams']:
                         i.db_containers.score += decimal.Decimal(checked_score_sum[c][i1]['avgscore']).quantize(decimal.Decimal('0.00'))
-                        print c,i.db_containers.id,i.db_containers.score
-                        i.update_score()
+                        #print c,i.db_containers.id,i.db_containers.score
+                        #i.update_score()
                         #continue
                         #break
-                    
+            #i.session.commit()
+            i.update_score()
+             
+    # 记录每轮的分数
+
+    teams=Teams.query.all()
+
+    for i in teams:
+        #team_score = i.score() #r
+        db.session.add(Scores(i.id,i.score(), r))
+    db.session.commit()    
     return
 
 
 
 
-def init_team_flag(mathobj):
-    global timespan
-    themath = math.query.first()
-
-    #匹配比赛信息，控制刷新时间在比赛进行时
-    if themath:
-        timespan = themath.flagflash * 60
-        if (datetime.datetime.now()-themath.endtime).total_seconds() > 0 or (datetime.datetime.now()-themath.starttime).total_seconds() < 0 :
-            print('=== Time up ===')
-            print('[+]starttime',themath.starttime)
-            print('[+]the time',datetime.datetime.now())
-            print('[+]endtime',themath.endtime)
-            print((datetime.datetime.now()-themath.endtime).total_seconds())
-            print((datetime.datetime.now()-themath.starttime).total_seconds())
-            #return False
-
-    else:
-        print('=== No math infomation ===')
-        #return False
-
+def init_team_flag(mathobj,themath):
+    #themath = models.math.query.first()
     #global round_cont
     #round_cont+=1
     #获取当前最大的轮数
@@ -183,7 +174,7 @@ def init_team_flag(mathobj):
     else:
         round_cont=1
 
-    flag_list=[]
+    #flag_list=[]
     for i in mathobj:
         text = '%s %s check False'%(i.teamname,i.db_containers.typename)
 
@@ -194,27 +185,31 @@ def init_team_flag(mathobj):
         #   db.session.commit()
         #初始化新的一轮 check_rezult
         i.db_containers.check_stat = 0
+        i.db_containers.attack_stat = 0
         i.update_checkstat()
-        flag = Flags(i.id,make_flag_str(i.container_name),round_cont)
-        
-        flag_list.append(flag)
+        i.update_attackstat()
+        #i.session.commit()
+        flag = Flags(i.id,make_flag_str(i.container_name),round_cont)        
+        #flag_list.append(flag)
+        db.session.add(flag)
+        db.session.commit()
         try:  
             i.freshflag(flag.flag)
             #logger.info('%s Flag fresed : %s'%(i.teamname,flag.flag))
         except:
             i.db_containers.check_stat = 1
             i.update_checkstat()
+            #i.session.commit()
             logger.warning('Round %d flag fresh %s error'%(round_cont,i.teamname))
             t = threading.Thread(target=errorfresh,args=(i,flag.flag,))
             t.setDaemon(True)            
             t.start()
-    db.session.add_all(flag_list)
-    db.session.commit()
+    #db.session.add_all(flag_list)
+    #db.session.commit()
 
 
     countscore(round_cont-1,mathobj,themath.checkscore,themath.atacckscore)
 
-    time.sleep(timespan)
     return round_cont
 
 

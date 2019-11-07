@@ -7,14 +7,14 @@ from __init__ import subjectclass,client
 import sys
 sys.path.append("..")
 from log import logset,console
-from models import db,containers
-logger=logset('pwn_simple')
+#from models import db,containers
+logger=logset('subject.pwn_simple')
 logger.addHandler(console)
 
 
 class o(subjectclass):
     image_name = '54only/pwntest'
-    name = 'pwn_easy'
+    name = 'pwn_simple'
     sshaccount='ctf'
     def __init__(self, teamid,teamname, sshport,serviceport,teampass,score):
         self.container_name=self.name + '_' + str(teamid)
@@ -51,6 +51,16 @@ class o(subjectclass):
         self.ctn.start()
         self.ctn.exec_run('/bin/sh -c "echo ctf:%s | chpasswd"'%self.teampass)
         self.ctn.exec_run('service ssh start')
+        self.ctn.exec_run('chown ctf:ctf /home/ctf/pwn')
         logger.info('%s container %s start ok'%(self.name,self.container_name))
 
-
+    def check_L1(self):
+        #self.update_checkstat()
+        statuscode,output = self.ctn.exec_run('/bin/sh -c "ls -l | grep pwn"')
+        if '7200' in output:
+            return True
+        else:
+            self.db_containers.check_stat = 1 
+            self.update_checkstat()
+            return False
+        return self.db_containers.check_stat

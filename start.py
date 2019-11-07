@@ -9,12 +9,13 @@ from log import logset,console
 import importlib
 import threading
 from Queue import Queue
-
+import datetime
 
 thrds = 8       # docker 同时操作线程
 
-npcteams = 3    #额外的npc队伍
 
+npcteams = 2    #额外的npc队伍
+#lock = threading.Lock()
 
 
 q = Queue() 
@@ -26,7 +27,7 @@ logger.addHandler(console)
 models.main(npcteams) #初始化数据库
 
 
-
+timespan = 1 * 60 # 刷新 flag 时间
 
 '''
 主要流程
@@ -65,14 +66,42 @@ def containers_worker():
 
 
 def flagfresher_worker(mathobj):
+    global timespan
     while True:        
-        i = flagfresher.init_team_flag(mathobj)
+        #lock.acquire()
+
+        
+        themath = models.math.query.first()
+        print 'Fresh flag'
+        #匹配比赛信息，控制刷新时间在比赛进行时
+        if themath:
+            timespan = themath.flagflash * 60 # 单位是分钟
+            if (datetime.datetime.now()-themath.endtime).total_seconds() > 0 or (datetime.datetime.now()-themath.starttime).total_seconds() < 0 :
+                print('=== Time up ===')
+                print('[+]starttime',themath.starttime)
+                print('[+]the time',datetime.datetime.now())
+                print('[+]endtime',themath.endtime)
+                print((datetime.datetime.now()-themath.endtime).total_seconds())
+                print((datetime.datetime.now()-themath.starttime).total_seconds())
+                return False
+
+        else:
+            print('=== No math infomation ===')
+            return False
+
+
+        i = flagfresher.init_team_flag(mathobj,themath)
         logger.info('[+]Round %d flag freshed'%i)
+        #lock.release()
+        time.sleep(timespan)
 
 def checker_worker(mathobj):
     while True:
         logger.info('[+]Service checking')
+        #lock.acquire()
         checker.service_checker(mathobj)
+        #lock.release()
+        time.sleep(10)
 
 
 
