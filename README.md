@@ -6,9 +6,9 @@
 
 基于python+docker的AWD平台，用于内部对抗训练以及培训使用。
 
-![](img/1.png)
-![](img/2.png)
-![](img/3.png)
+![](img/n1.png)
+![](img/n2.png)
+![](img/n3.png)
 ## 特点
 
 - docker化，简易部署
@@ -74,6 +74,11 @@ dockercontr.py
 
 
 ## 更新
+
+
+### 2019-11-8 
+
+* 版本重大更新，更漂亮的界面
 
 ### 2019-10-28 
 
