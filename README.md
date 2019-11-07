@@ -32,7 +32,7 @@ teamname username userpassword   # 设定队伍账号密码
 ```
 * 编辑 start.py
 ```
-teams = 10          # 设定比赛环境数量，建议比赛环境数量多于队伍数量
+npcteams = 2 #额外的npc队伍
 ```
 
 * 启动比赛环境
@@ -47,12 +47,14 @@ python stop.py
 
 #由于docker的卷比较占磁盘空间，建议本环境只提供比赛docker，方便将多余的container和卷一起删除，stop.py执行完后在shell中执行下面命令
 
-docker container prune && docker volume rm $(docker volume ls -qf dangling=true)
+echo y | docker container prune && docker volume rm $(docker volume ls -qf dangling=true)
 ```
 
 ## 自定义比赛环境
 
-dockercontr.py
+```
+subject #比赛环境目录
+```
 
 ## 规则
 * 主机信息
@@ -79,6 +81,7 @@ dockercontr.py
 ### 2019-11-8 
 
 * 版本重大更新，更漂亮的界面
+* 添加一队多个环境
 
 ### 2019-10-28 
 
@@ -110,7 +113,9 @@ dockercontr.py
 ## 捐助墙
 
 | 日期 | 捐助者 | 金额 |
+
 | -- | -- | -- | -- |
+
 | 2019.10.10 | \*璇 | 0.4 |
 
 
