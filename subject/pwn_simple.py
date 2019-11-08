@@ -56,10 +56,17 @@ class o(subjectclass):
 
     def check_L1(self):
         #self.update_checkstat()
-        statuscode,output = self.ctn.exec_run('/bin/sh -c "ls -l | grep pwn"')
+
+        try:
+            statuscode,output = self.ctn.exec_run('/bin/sh -c "ls -l | grep pwn"')
+        except:
+            self.ctn = client.containers.get(self.container_name)
+            statuscode,output = (0,'restarting...')#self.ctn.exec_run('/bin/sh -c "ls -l | grep pwn"')
+        
         if '7200' in output:
             return True
         else:
+            logger.info('[*]Check %s False' % self.teamname)
             self.db_containers.check_stat = 1 
             self.update_checkstat()
             return False

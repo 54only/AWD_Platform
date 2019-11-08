@@ -116,8 +116,13 @@ class subjectclass(object):
 
 
     def freshflag(self,flag):
-        self.ctn.exec_run('/bin/bash -c "echo %s > /flag"' % flag)
-        logger.info('%s\' %s freshflag %s ok'%(self.teamname,self.name,flag))
+        try:
+            self.ctn.exec_run('/bin/bash -c "echo %s > /flag"' % flag)
+            logger.info('%s %s freshflag %s ok'%(self.teamname,self.name,flag))
+        except:
+            self.ctn = client.containers.get(self.container_name)
+            self.ctn.exec_run('/bin/bash -c "echo %s > /flag"' % flag)
+            logger.info('%s %s freshflag %s ok in except'%(self.teamname,self.name,flag))
 
     def run(self):
         self.ctn.start()
