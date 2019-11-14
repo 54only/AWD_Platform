@@ -262,7 +262,7 @@ def logout():
 @login_required
 def admin():
     if session.get('user_id') != 'admin':
-        return render_template("login.html", error="No privileges")
+        return render_template("login2.html", error="No privileges")
     else:
         return render_template('other.html')
 
@@ -271,7 +271,7 @@ def admin():
 @login_required
 def admin_math():
     if session.get('user_id') != 'admin':
-        return render_template("login.html", error="No privileges")
+        return render_template("login2.html", error="No privileges")
     else:
         themath = math.query.first()
         if request.method=='POST':
@@ -301,6 +301,10 @@ def admin_math():
 @app.route('/info', methods=['GET', 'POST'])
 @login_required
 def info():
+
+    if session.get('user_id') != 'admin':
+        return render_template("login2.html", error="No privileges")
+
     info1 = Info.query.order_by('id').all()
     infolist = list()
     msg = dict()
@@ -344,6 +348,9 @@ def info_pro(id):
             infolist.append(msg)
         return  json.dumps(infolist,ensure_ascii=False) 
     else:
+        if session.get('user_id') != 'admin':
+            return render_template("login2.html", error="No privileges")
+        
         Info.query.filter_by(id = id).delete()
         db.session.commit()
         return redirect('/info')
