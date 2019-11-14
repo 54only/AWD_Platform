@@ -66,13 +66,13 @@ def get_host_ip():
 #print('!@!!!!!',Flags.query.order_by(Flags.rounds.desc()).first().rounds)
 @app.route('/1')
 @login_required
-def index():
+def index_back():
     #print session
     return render_template('base.html')
 
 @app.route('/')
 @login_required
-def index_1():
+def index():
     #print session
     return render_template('index.html')
 
@@ -187,7 +187,7 @@ class Users(UserMixin):
     pass
 
 @app.route('/login_back', methods=['GET', 'POST'])
-def login():
+def login_back():
     user_id = session.get('user_id')
     #print(user_id)
     if request.method == 'GET':
@@ -219,7 +219,7 @@ def login():
 
        
 @app.route('/login', methods=['GET', 'POST'])
-def login2():
+def login():
     user_id = session.get('user_id')
     #print(user_id)
     if request.method == 'GET':
@@ -256,7 +256,7 @@ def login2():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 @app.route('/admin')
 @login_required
