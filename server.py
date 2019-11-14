@@ -64,13 +64,13 @@ def get_host_ip():
 #print(Teams.query.all())
 #print(Teams.query.first().country)
 #print('!@!!!!!',Flags.query.order_by(Flags.rounds.desc()).first().rounds)
-@app.route('/')
+@app.route('/1')
 @login_required
 def index():
     #print session
     return render_template('base.html')
 
-@app.route('/1')
+@app.route('/')
 @login_required
 def index_1():
     #print session
@@ -186,7 +186,7 @@ def register():
 class Users(UserMixin):
     pass
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login_back', methods=['GET', 'POST'])
 def login():
     user_id = session.get('user_id')
     #print(user_id)
@@ -217,7 +217,40 @@ def login():
         return redirect(url_for('index'))
     return render_template("login.html", error="username or password error")
 
+       
+@app.route('/login', methods=['GET', 'POST'])
+def login2():
+    user_id = session.get('user_id')
+    #print(user_id)
+    if request.method == 'GET':
+        #user = User.query.all()
+        #print user
+        return render_template("login2.html")
+    else:
+        username = request.form['username']
+        user = User.query.filter_by(username=username).first()
+        #if (current_user.is_authenticated and user ):
+        #    logout_user()
+        #    return redirect(url_for('index'))
+
+    if user == None:
+        return render_template("login2.html", error="username or password error")
+    pw_form = User.psw_to_md5(request.form['password'])
+    pw_db = user.password
+    #print(pw_form,pw_db)
+
+    if pw_form == pw_db:
+        session['teamid']=user.teamid
+        user = Users()
+        user.id = username
+        login_user(user, remember=True)
         
+        flash('Logged in successfully')
+        return redirect(url_for('index'))
+    return render_template("login2.html", error="username or password error")
+
+
+
 
 @app.route('/logout')
 @login_required

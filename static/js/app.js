@@ -285,11 +285,12 @@ function get_temps() {
     $.getJSON('/info/2',
         function (result) {
             $("#infos").html("");
+            var i = 1;
             for (x in result){
                 var infos = result[x]['id'];
-                $("#infos").append('<ul>'+
-                '<li>'+infos+'</li>' +
-                '</ul>');
+                $("#infos").append('<li><span>'+i+'</span>'+
+                infos+'</li>');
+                i++;
                 //alert(infos)
             }
             

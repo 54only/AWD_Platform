@@ -1359,3 +1359,379 @@ table.txt tr td {
     height:100%;
     overflow-y:auto;
 }
+/*第二次调整新增的样式，添加到style.css的最后面*/
+b {
+    color:#dff8ff;
+    font-size:32px;
+}
+#tab-two,#tab-five {
+    padding:40px 0px 0px
+}
+#tab-two .mborderimg {
+    width:100%;
+    height:100%;
+    position:relative;
+}
+#tab-two .mborderimg ul {
+    position:absolute;
+    top:80px;
+    right:0px;
+    bottom:30px;
+    width:100%;
+    padding-left:20px;
+    margin-right:10px;
+    overflow-y:auto;
+}
+#tab-two .mborderimg ul.ulist_ul {
+    height:auto;
+}
+#tab-two .mborderimg ul li span {
+    margin-right:20px;
+    margin-left:40px;
+}
+#tab-two .mborderimg ul li {
+    height:40px;
+    line-height:40px;
+    border-bottom:1px solid rgba(2,160,216,0.42);
+    font-size:18px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.topdiv .header .ltag {
+    width:86%;
+}
+.header_team {
+    width:12%;
+}
+.guide {
+    position:absolute;
+    top:370px;
+    bottom:0px;
+    width:100%;
+    overflow:hidden;
+    border-top:1px solid #02a0d8;
+}
+.guide table tbody,#tab-five table tbody {
+    display:block;
+    height:calc( 100% - 60px );
+    overflow-y:auto;
+}
+.guide table thead,.guide tbody tr,#tab-five table thead,#tab-five tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+.guide table thead,#tab-five table thead {
+    /*width:calc( 100% - 1em );
+    */
+}
+.guide thead tr th,#tab-five thead tr th,#tab-one .ness tr th {
+    font-size:17px;
+}
+.guide tr td,#tab-five tr td,#tab-one .ness tr td {
+    font-size:16px;
+}
+#ssh_info tr,#ssh_info td,.ness tr,.ness td,#tab-five table tr,#tab-five table td {
+    border-bottom:1px solid #02a0d8;
+    padding:15px 0;
+    text-align:center;
+}
+.ness  #team {
+    display:block;
+    height:calc( 100% - 60px);
+    overflow-y:auto;
+}
+.ness  thead,.ness tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+.ness  thead {
+    /*width:calc( 100% - 1em )*/
+}
+.three-info {
+    margin:30px 0px;
+    height:300px;
+}
+.hostdiv,.attackdiv {
+    float:left;
+    width:33.3%;
+    padding:25px 60px 25px;
+    text-align:center;
+    font-size:20px;
+    border-right:1px solid #02a0d8;
+    margin-top:30px;
+}
+.hostdiv p:first-child,.attackdiv p:first-child,.otherdiv p:first-child {
+    font-size:23px;
+    margin-bottom:20px;
+    font-weight:bold
+}
+.hostdiv p:last-child,.attackdiv p:last-child,.otherdiv p:last-child {
+    text-align:left;
+    text-indent:2em;
+    font-size:18px;
+    line-height:30px;
+    color:#fff;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:4;
+    height:126px;
+    overflow:hidden;
+    text-align:justify;
+    text-justify:inter-ideograph;
+}
+#tab-two h2 {
+    font-size:22px;
+}
+.otherdiv {
+    float:left;
+    width:33.3%;
+    padding:25px 60px 25px;
+    text-align:center;
+    font-size:20px;
+    margin-top:30px
+}
+.iconinfo ul li span {
+    font-size:17px;
+}
+@media screen and (min-width:1024px) and (max-width:1280px) {
+    b{font-size:22px;
+}
+#tab-two,#tab-five {
+    padding:30px 0px 0px;
+}
+.three-info {
+    margin:15px 0;
+    height:300px;
+}
+.guide {
+    top:350px;
+}
+.attackdiv,.hostdiv,.otherdiv {
+    padding:15px 55px 8px;
+}
+.attackdiv p:first-child,.hostdiv p:first-child,.otherdiv p:first-child {
+    font-size:16px;
+}
+.attackdiv p:last-child,.hostdiv p:last-child,.otherdiv p:last-child {
+    font-size:14px;
+    -webkit-line-clamp:5;
+    height:155px;
+}
+.guide thead tr th,#tab-five thead tr th,#tab-one .ness tr th {
+    font-size:14px;
+}
+.guide tr td,#tab-five tr td,#tab-one .ness tr td {
+    font-size:12px;
+}
+#tab-two #infos ul li {
+    font-size:15px;
+    height:35px;
+    line-height:35px;
+}
+#ssh_info tr,#ssh_info td,.ness tr,.ness td,#tab-five table tr,#tab-five table td {
+    padding:12px 0px;
+}
+.table-head {
+    height:45px;
+    line-height:45px;
+}
+#tab-one .table-head {
+    height:40px;
+    line-height:40px;
+}
+#tab-two #infos ul {
+    top:60px;
+}
+#tab-five table tbody,.ness #team {
+    height:calc( 100% - 40px );
+}
+.guide table tbody {
+    height:calc( 100% - 50px );
+}
+.iconinfo ul li span {
+    font-size:13px;
+}
+#tab-two h2 {
+    font-size:16px;
+}
+}@media screen and (min-width:1282px) and (max-width:1367px) {
+    b{font-size:22px;
+}
+#tab-two,#tab-five {
+    padding:30px 0px 0px;
+}
+.three-info {
+    margin:15px 0;
+    height:250px;
+}
+.guide {
+    top:290px;
+}
+.attackdiv,.hostdiv,.otherdiv {
+    padding:5px 35px 8px;
+}
+.attackdiv p:first-child,.hostdiv p:first-child,.otherdiv p:first-child {
+    font-size:16px;
+}
+.attackdiv p:last-child,.hostdiv p:last-child,.otherdiv p:last-child {
+    font-size:14px;
+    -webkit-line-clamp:4;
+    height:120px;
+}
+.guide thead tr th,#tab-five thead tr th,#tab-one .ness tr th {
+    font-size:14px;
+}
+.guide tr td,#tab-five tr td,#tab-one .ness tr td {
+    font-size:12px;
+}
+#tab-two h2 {
+    font-size:15px;
+}
+#tab-two #infos ul li {
+    font-size:14px;
+    height:35px;
+    line-height:35px;
+}
+#ssh_info tr,#ssh_info td,.ness tr,.ness td,#tab-five table tr,#tab-five table td {
+    padding:12px 0px;
+}
+.table-head {
+    height:40px;
+    line-height:40px;
+}
+#tab-one .table-head {
+    height:40px;
+    line-height:40px;
+}
+#tab-two #infos ul {
+    top:60px;
+}
+#tab-five table tbody,.ness #team {
+    height:calc( 100% - 40px );
+}
+.guide table tbody {
+    height:calc( 100% - 50px );
+}
+.iconinfo ul li span {
+    font-size:13px;
+}
+#tab-two h2 {
+    font-size:16px;
+}
+}@media screen and (min-width:1370px) and (max-width:1440px) {
+    b{font-size:24px;
+}
+#tab-two,#tab-five {
+    padding:30px 0px 0px;
+}
+.three-info {
+    margin:15px 0;
+    height:280px;
+}
+.guide {
+    top:330px;
+}
+.attackdiv,.hostdiv,.otherdiv {
+    padding:10px 60px 0px;
+}
+.attackdiv p:first-child,.hostdiv p:first-child,.otherdiv p:first-child {
+    font-size:18px;
+}
+.attackdiv p:last-child,.hostdiv p:last-child,.otherdiv p:last-child {
+    font-size:16px;
+    -webkit-line-clamp:5;
+    height:150px;
+}
+.guide thead tr th,#tab-five thead tr th,#tab-one .ness tr th {
+    font-size:15px;
+}
+.guide tr td,#tab-five tr td,#tab-one .ness tr td {
+    font-size:14px;
+}
+#tab-two #infos ul li {
+    font-size:16px;
+    height:35px;
+    line-height:35px;
+}
+.table-head {
+    height:43px;
+    line-height:43px;
+}
+#tab-one .table-head {
+    height:45px;
+    line-height:45px;
+}
+#tab-two #infos ul {
+    top:60px;
+}
+#tab-five table tbody,.ness #team {
+    height:calc( 100% - 40px );
+}
+.guide table tbody {
+    height:calc( 100% - 50px );
+}
+.iconinfo ul li span {
+    font-size:15px;
+}
+#tab-two h2 {
+    font-size:18px;
+}
+}@media screen and (min-width:1540px) and (max-width:1600px) {
+    b{font-size:26px;
+}
+.three-info {
+    margin:15px 0;
+    height:280px;
+}
+.guide {
+    top:330px;
+}
+.attackdiv,.hostdiv,.otherdiv {
+    padding:10px 50px 0px;
+}
+.attackdiv p:first-child,.hostdiv p:first-child,.otherdiv p:first-child {
+    font-size:18px;
+}
+.attackdiv p:last-child,.hostdiv p:last-child,.otherdiv p:last-child {
+    font-size:16px;
+    -webkit-line-clamp:5;
+    height:150px;
+}
+.guide thead tr th,#tab-five thead tr th,#tab-one .ness tr th {
+    font-size:15px;
+}
+.guide tr td,#tab-five tr td,#tab-one .ness tr td {
+    font-size:14px;
+}
+#tab-two #infos ul li {
+    font-size:16px;
+    height:35px;
+    line-height:35px;
+}
+.table-head {
+    height:43px;
+    line-height:43px;
+}
+#tab-one .table-head {
+    height:45px;
+    line-height:45px;
+}
+#tab-two #infos ul {
+    top:60px;
+}
+#tab-five table tbody,.ness #team {
+    height:calc( 100% - 40px );
+}
+.guide table tbody {
+    height:calc( 100% - 50px );
+}
+.iconinfo ul li span {
+    font-size:15px;
+}
+#tab-two h2 {
+    font-size:18px;
+}
+}

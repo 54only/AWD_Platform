@@ -145,72 +145,7 @@
                                 <col name="el-table_1_column_10" width="184">
                             </colgroup>
                             
-                            <tbody id="team">
-                                <tr>
-                                    <td>
-                                        <span class="icon">1</span></td>
-                                    <td><img src="/static/images/team.png" alt="">AWD1</td>
-                                    <td>13333</td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_2"></span></td>
-                                    <td><span class="tag state_3"></span></td>
-                                    <td><span class="tag state_4"></span></td>
-                                    <td><span class="tag state_5"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td>90338<span class="arrow arrow_up"></span></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="icon">2</span></td>
-                                    <td><img src="/static/images/team.png" alt="">AWD1</td>
-                                    <td>13333</td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td>90338<span class="arrow arrow_down"></span></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="icon">3</span></td>
-                                    <td><img src="/static/images/team.png" alt="">AWD1</td>
-                                    <td>13333</td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td>90338<span class="arrow arrow_line"></span></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="">4</span></td>
-                                    <td><img src="/static/images/team.png" alt="">AWD1</td>
-                                    <td>13333</td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td>90338<span class="arrow arrow_line"></span></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="">5</span></td>
-                                    <td><img src="/static/images/team.png" alt="">AWD1</td>
-                                    <td>13333</td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td><span class="tag state_1"></span></td>
-                                    <td>90338<span class="arrow arrow_line"></span></td>
-                                </tr>                                
+                            <tbody id="team">                                
 
                             </tbody>
                         </table>
@@ -220,7 +155,15 @@
             <!--第一个指南div end-->
             <!--第2个公告div start-->
             <div class="tab-item" id="tab-two">
-                <div id='infos'>公告界面</div>
+                <div class="mborderimg" style="padding:15px 9px 35px">
+                    <div class="table-head" style="padding-left:30px"><h2>公告</h2></div>
+                    <ul class="ulist_ul" id='infos'>
+                        <li>
+                        <span>1</span>某环境在哪里有啥洞某环境在哪里有啥洞某环境在哪里有啥洞某环境在哪里有啥</li>
+
+
+                    </ul>
+                </div>
             </div>
             <!--第2个公告div end-->
             <!--第3个赛题div start-->
@@ -318,36 +261,37 @@
             <!--第3个赛题div end-->
             <!--第4个排行榜div start-->
             <div class="tab-item" id="tab-four">
-                <div><pre>
-                    主机信息
-                        队伍分配主机，通过指定的端口和密码进行连接
-                        主机上运行一个web或多个服务，需要选手保证其可用性审计代码，攻击其他队伍
-                        通过漏洞获取其他队伍主机权限，读取服务器上的flag并提交到flag服务器
-                    攻击检测
-                        每次成功攻击，攻击队伍可平分该flag的200分，被攻击者扣除200分，轮询时间1分钟
-                        选手需要保证己方服务的可用性，服务故障扣除200分，被服务无故障的队伍平分，轮询时间1分钟
-                        得分在下一轮开始时计算
-                    其他
-                        选手可以获取所有的攻击情况以及当前的分数，刷新间隔1分钟
-                        不允许使用任何形式的DOS攻击
-                </pre></div>
-
-                <div class="">
-                    <div class="table-head">
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>TEAM</th>
-                              <th>SSH-USER</th>
-                              <th>SSH-PASS</th>
-                              <th>SSH-PORT</th>
-                            </tr>
-                          </thead>
-                          <tbody id="ssh_info">
-                          </tbody>
-                        </table>
-                    </div>
+            <div class="tborderimg clearfix three-info">
+                <div class="hostdiv">
+                  <p>主机信息</p>
+                  <p>队伍分配主机，通过指定的端口和密码进行连接;主机上运行一个web或多个服务，需要选手保证其可用性审计代码，攻击其他队伍;通过漏洞获取其他队伍主机权限，读取服务器上的flag并提交到flag服务器</p>
                 </div>
+                <div class="attackdiv">
+                  <p>攻击检测</p>
+                  <p>每轮成功攻击，攻击队伍可平分该flag的200分，被攻击者扣除200分;选手需要保证己方服务的可用性，服务故障扣除200分，被服务无故障的队伍平分;得分在下一轮开始时计算</p>
+                </div>
+                <div class="otherdiv">
+                  <p>其他</p>
+                  <p>选手可以获取所有的攻击情况以及当前的分数;不允许使用任何形式的DOS攻击</p>
+                </div>
+              </div>
+
+
+            <div class="guide">
+                <table>
+                  <thead class="table-head ">
+                    <tr>
+                      <th>TEAM</th>
+                      <th>SSH-USER</th>
+                      <th>SSH-PASS</th>
+                      <th>SSH-PORT</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ssh_info" class="table-need" >
+                  </tbody>
+                </table>
+            </div>
+
             </div>
             <!--第4个排行榜div end-->
             <!--第5个攻击榜div start-->
@@ -387,7 +331,7 @@
     //tab切换     
     $('.tab-button').click(function() {
         var tab = $(this).data('tab')
-            $(this).addClass('cur').siblings('.tab-button').removeClass('cur');
+        $(this).addClass('cur').siblings('.tab-button').removeClass('cur');
         $('#tab-' + tab + '').addClass('active').siblings('.tab-item').removeClass('active');
     }
     );

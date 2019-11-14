@@ -1,0 +1,542 @@
+@charset "utf-8";
+    /* 基本元素重置 */
+body,html {
+    width:100%;
+    height:100%;
+}
+body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select {
+    margin:0;
+    padding:0;
+}
+body,input,textarea,select,button,table {
+    font-size:12px;
+    line-height:1.25em;
+    outline:none;
+}
+img,fieldset {
+    border:0;
+}
+ul,ol {
+    list-style:none;
+}
+em,address {
+    font-style:normal;
+}
+a {
+    color:#00ffff;
+    text-decoration:none;
+}
+a:hover {
+    text-decoration:none!important;
+}
+table {
+    border-collapse:collapse;
+}
+h1,h2,h3,h4,h5,h6,em,i {
+    font-style:normal;
+    font-weight:400;
+    outline:none;
+}
+img {
+    border:none;
+    vertical-align:middle;
+}
+* {
+    box-sizing:border-box;
+}
+body {
+    font-family:"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+}
+.clearfix:after {
+    content:" ";
+    display:block;
+    height:0;
+    clear:both;
+}
+.clearfix {
+    zoom:1;
+}
+.Cgreen {
+    color:#58C94A;
+}
+.Cred {
+    color:#FA7252;
+}
+.Cyellow {
+    color:#F6B900;
+}
+.Cblue {
+    color:#48C8FF;
+}
+.hide {
+    display:none;
+}
+input::-webkit-input-placeholder {
+    color:#fffffd;
+    font-weight:100;
+}
+input::-moz-placeholder {
+    color:#B4B4B4;
+    font-weight:100;
+}
+input:-moz-placeholder {
+    color:#B4B4B4;
+    font-weight:100;
+}
+input:-ms-input-placeholder {
+    color:#B4B4B4;
+    font-weight:100;
+}
+body,html {
+    background:url(../images/bag.jpg) no-repeat;
+    background-size:100% 100%;
+}
+.vtlevel {
+    position:absolute;
+    top:50%;
+    left:50%;
+    -webkit-transform:translateX(-50%) translateY(-49%);
+    -moz-transform:translateX(-50%) translateY(-49%);
+    -ms-transform:translateX(-50%) translateY(-49%);
+    transform:translateX(-50%) translateY(-49%);
+}
+.content .wrapper .leftp .picbg {
+    margin:0 auto;
+    background:url(../images/bg11.png) no-repeat center center;
+    width:85%;
+    height:0;
+    padding-top:85.5%;
+    background-size:100% 100%;
+    overflow:hidden;
+}
+.content .wrapper .loginBox {
+    width:590px;
+    height:500px;
+    padding:0px 10px 0px 50px;
+}
+.maindiv {
+    width:100%;
+    height:100%
+}
+.logo {
+    width:981px;
+    height:69px;
+    background:url(../images/logo.png) no-repeat;
+    background-size:contain;
+    margin:80px auto;
+}
+.content .wrapper .loginBox .formDiv {
+    width:100%;
+    height:100%;
+}
+.content .wrapper .loginBox .formDiv input[type=text],.content .wrapper .loginBox .formDiv input[type=password] {
+    margin-bottom:20px;
+    height:58px;
+    line-height:58px;
+    width:100%;
+    border:none;
+    padding-left:55px;
+    font-size:16px;
+    background:transparent;
+    color:#00ffff;
+}
+.content .wrapper .loginBox .formDiv input[type=text]:focus,.content .wrapper .loginBox .formDiv input[type=password]:focus {
+    border-color:#42d9ff;
+}
+.content .wrapper .loginBox .formDiv label {
+    position:relative;
+}
+.content .wrapper .loginBox .formDiv label i.iconfont {
+    color:#D4DEE7;
+    font-size:18px;
+    position:absolute;
+    top:0px;
+    left:15px;
+    display:inline-block;
+    width:17px;
+    height:23px;
+}
+.content .wrapper .loginBox .formDiv label.user i.iconfont {
+    width:21px;
+    height:23px;
+}
+.content .wrapper .loginBox .formDiv label.pwd i.iconfont {
+    width:17px;
+    height:21px;
+}
+.content .wrapper .loginBox .formDiv input[type=text]:focus+i.iconfont,.content .wrapper .loginBox .formDiv input[type=password]:focus+i.iconfont {
+    color:#58C94A;
+}
+.content .wrapper .loginBox .formDiv .pwdOper {
+    font-weight:300;
+    margin-bottom:60px;
+}
+.content .wrapper .loginBox .formDiv .pwdOper .remember input[type=checkbox]:checked+.checkbox:before {
+    font-family:iconfont;
+    content:'\e732';
+    color:#0b63cf;
+    font-size:18px;
+    font-weight:bold;
+}
+.content .wrapper .loginBox .formDiv .pwdOper .remember .checkbox {
+    display:inline-block;
+    width:18px;
+    height:18px;
+    border:1px solid #F6B900;
+    border-radius:2px;
+    vertical-align:bottom;
+    margin-right:5px;
+}
+.content .wrapper .loginBox .formDiv .pwdOper .forget {
+    float:right;
+}
+.content .wrapper .loginBox .formDiv a.submit {
+    display:inline-block;
+    height:58px;
+    line-height:58px;
+    font-size:22px;
+    width:100%;
+    color:#140842;
+    font-weight:bold;
+    background:url(../images/btn.png) no-repeat;
+    background-size:100% 100%;
+    text-align:center;
+}
+.content .wrapper .loginBox .formDiv a.submit:hover {
+    background:#01c3fd;
+    border:1px solid #01c3fd;
+    color:#fff;
+}
+.content .wrapper .loginBox .formDiv a.submit:active {
+    background:#01c3fd;
+}
+/* footer */
+.footer {
+    height:102px;
+    line-height:102px;
+    text-align:center;
+    font-size:14px;
+    color:#646464;
+}
+.user .iconfont {
+    background:url(../images/user01.png) no-repeat;
+    background-size:100% 100%;
+}
+.pwd .iconfont {
+    background:url(../images/pwd.png) no-repeat;
+    background-size:100% 100%;
+}
+.content .wrapper .loginBox .formDiv .pwdOper .remember {
+    color:#fff;
+}
+.content .wrapper .loginBox .formDiv label {
+    position:relative;
+}
+.hide {
+    display:none;
+}
+.content .wrapper .loginBox .formDiv .pwdOper .remember .checkbox {
+    display:inline-block;
+    width:18px;
+    height:18px;
+    border:1px solid #fff;
+    background:#fff;
+    border-radius:2px;
+    vertical-align:bottom;
+    margin-right:5px;
+}
+.content .wrapper .loginBox .formDiv .pwdOper .forget {
+    float:right;
+    color:#fff;
+}
+.formDiv {
+    background:url(../images/border.png) no-repeat;
+    background-size:100% 100%;
+    padding:110px 90px;
+}
+label {
+    color:#00ffff;
+    margin-left:20px;
+    margin-right:10px
+}
+h2 {
+    color:#00ffff;
+    margin:40px 0 40px 20px
+}
+.email,.password {
+    position:relative;
+    width:100%;
+    background:url(../images/input.png) no-repeat;
+    background-size:100% 100%;
+    height:60px;
+    line-height:60px;
+    margin-bottom:40px
+}
+.password {
+    margin-bottom:70px
+}
+.icon-user {
+    position:absolute;
+    left:15px;
+    top:15px;
+    z-index:5;
+    background-image:url(../images/user.png);
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    background-position:0px 0px;
+    background-position:center;
+    width:32px;
+    height:32px;
+    border-right:2px solid rgba(0,123,139,0.5);
+}
+.icon-key {
+    position:absolute;
+    left:15px;
+    top:15px;
+    z-index:5;
+    background-image:url(../images/pwd.png);
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    background-position:0px 0px;
+    background-position:center;
+    width:32px;
+    height:32px;
+    border-right:2px solid rgba(0,123,139,0.5);
+}
+.content {
+    width:100%;
+    position:absolute;
+    top:0px;
+    left:0;
+    bottom:0;
+    overflow:hidden;
+}
+a {
+    outline:none;
+}
+.content .wrapper {
+    width:100%;
+    margin:0 auto;
+}
+.leftp {
+    width:55%;
+    height:100%;
+    float:left;
+    padding-top:60px;
+}
+.rightp {
+    height:100%;
+    padding-top:250px;
+    margin-left:55%;
+}
+@media screen and (min-width:1024px) and (max-width:1280px) {
+    .logo {
+    width:699px;
+    height:50px;
+    margin:120px auto;
+}
+.email,.password {
+    height:45px;
+    line-height:45px;
+    margin-bottom:30px
+}
+.password {
+    margin-bottom:55px
+}
+.content .wrapper .loginBox .formDiv input[type=text],.content .wrapper .loginBox .formDiv input[type=password] {
+    height:45px;
+}
+.rightp {
+    padding-top:240px;
+}
+.content .wrapper .loginBox {
+    width:427px;
+    height:354px;
+}
+.content .wrapper .loginBox .logo {
+    height:36px;
+}
+.content .wrapper .loginBox {
+    padding:0px 10px 0px 40px;
+}
+.content .wrapper .loginBox .formDiv input[type=text],.content .wrapper .loginBox .formDiv input[type=password] {
+    height:30px;
+    padding-left:45px
+}
+.icon-user,.icon-key {
+    position:absolute;
+    left:12px;
+    top:10px;
+    width:23px;
+    height:23px;
+}
+.content .wrapper .loginBox .formDiv a.submit {
+    height:34px;
+    line-height:34px;
+}
+.content .wrapper .loginBox .formDiv {
+    margin-top:15px;
+    padding:70px 45px;
+}
+.content .wrapper .leftp .picbg {
+    padding-top:90%;
+    width:88%;
+    margin-top:50px;
+}
+}@media screen and (min-width:1282px) and (max-width:1367px) {
+    .logo {
+    width:699px;
+    height:50px;
+    margin:60px auto;
+}
+.email,.password {
+    height:45px;
+    line-height:45px;
+    margin-bottom:30px
+}
+.password {
+    margin-bottom:55px
+}
+.content .wrapper .loginBox .formDiv input[type=text],.content .wrapper .loginBox .formDiv input[type=password] {
+    height:45px;
+}
+.rightp {
+    padding-top:150px;
+}
+.content .wrapper .loginBox {
+    width:427px;
+    height:354px;
+}
+.content .wrapper .loginBox .logo {
+    height:36px;
+}
+.content .wrapper .loginBox {
+    padding:0px 10px 0px 40px;
+}
+.content .wrapper .loginBox .formDiv input[type=text],.content .wrapper .loginBox .formDiv input[type=password] {
+    height:30px;
+    padding-left:45px
+}
+.icon-user,.icon-key {
+    position:absolute;
+    left:12px;
+    top:10px;
+    width:23px;
+    height:23px;
+}
+.content .wrapper .loginBox .formDiv a.submit {
+    height:34px;
+    line-height:34px;
+    font-size:15px;
+}
+.rightp {
+    margin-left:53%
+}
+.content .wrapper .loginBox .formDiv {
+    margin-top:15px;
+    padding:70px 45px;
+}
+.content .wrapper .leftp .picbg {
+    padding-top:76%;
+    width:82%;
+}
+}@media screen and (min-width:1400px) and (max-width:1440px) {
+    .logo {
+    width:818px;
+    height:58px;
+    margin:70px auto;
+}
+.rightp {
+    padding-top:165px;
+}
+.content .wrapper .loginBox {
+    width:450px;
+    height:403px;
+}
+.content .wrapper .loginBox {
+    padding:0px 30px 0px 30px;
+}
+.content .wrapper .loginBox .formDiv .pwdOper {
+    margin-bottom:40px;
+}
+.content .wrapper .loginBox .logo {
+    height:48px;
+}
+.content .wrapper .loginBox .formDiv a.submit {
+    height:50px;
+    line-height:50px;
+}
+.content .wrapper .loginBox .formDiv {
+    margin-top:20px;
+    padding:90px 60px;
+}
+.email,.password {
+    height:50px;
+    line-height:50px
+}
+.icon-user,.icon-key {
+    position:absolute;
+    left:12px;
+    top:12px;
+    width:25px;
+    height:25px;
+}
+.content .wrapper .loginBox .formDiv input[type=text],.content .wrapper .loginBox .formDiv input[type=password] {
+    width:188px;
+    height:32px;
+    padding-left:50px
+}
+.content .wrapper .leftp .picbg {
+    }.password {
+    margin-bottom:60px
+}
+}@media screen and (min-width:1460px) and (max-width:1600px) {
+    .logo {
+    width:818px;
+    height:58px;
+    margin:70px auto;
+}
+.rightp {
+    padding-top:190px;
+}
+.content .wrapper .loginBox {
+    width:500px;
+    height:433px;
+}
+.content .wrapper .loginBox {
+    padding:0px 30px 0px 30px;
+}
+.content .wrapper .loginBox .formDiv .pwdOper {
+    margin-bottom:40px;
+}
+.content .wrapper .loginBox .logo {
+    height:48px;
+}
+.content .wrapper .loginBox .formDiv a.submit {
+    height:46px;
+    line-height:46px;
+    font-size:20px;
+}
+.content .wrapper .loginBox .formDiv {
+    margin-top:20px;
+    padding:90px 70px;
+}
+.email,.password {
+    height:48px;
+    line-height:48px
+}
+.icon-user,.icon-key {
+    position:absolute;
+    left:12px;
+    top:12px;
+    width:25px;
+    height:25px;
+}
+.content .wrapper .loginBox .formDiv input[type=text],.content .wrapper .loginBox .formDiv input[type=password] {
+    width:188px;
+    height:32px;
+    padding-left:50px
+}
+.content .wrapper .leftp .picbg {
+    }
+}
