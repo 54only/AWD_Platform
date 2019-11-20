@@ -17,5 +17,5 @@ def main():
 if __name__ == "__main__":
     main()
 
-    print('''# echo y | docker container prune && docker volume rm $(docker volume ls -qf dangling=true)''')
+    print('''# docker container prune && docker volume rm $(docker volume ls -qf dangling=true)''')
 

@@ -14,7 +14,7 @@ import datetime
 thrds = 8       # docker 同时操作线程
 
 
-npcteams = 2    #额外的npc队伍
+npcteams = 0    #额外的npc队伍
 #lock = threading.Lock()
 
 
@@ -36,8 +36,9 @@ timespan = 1 * 60 # 刷新 flag 时间
 '''
 # port 规则为 3 00 队伍id 22 服务端口
 subject =   {
-            'yunnam_simple': {'sshport':30022,'serviceport':30080},
-            'pwn_simple':   {'sshport':30032,'serviceport':30090}
+            #'yunnam_simple': {'sshport':30022,'serviceport':30080},
+            #'pwn_simple':   {'sshport':30032,'serviceport':30090},
+            'tomcat8':  {'sshport':30042,'serviceport':30040},
             }
 
 #清除 docker 残留数据
@@ -77,16 +78,21 @@ def flagfresher_worker(mathobj):
         if themath:
             timespan = themath.flagflash * 60 # 单位是分钟
             if (datetime.datetime.now()-themath.endtime).total_seconds() > 0 or (datetime.datetime.now()-themath.starttime).total_seconds() < 0 :
-                print('=== Time up ===')
+                print('=== 不在考试时间 ===')
                 print('[+]starttime',themath.starttime)
                 print('[+]the time',datetime.datetime.now())
                 print('[+]endtime',themath.endtime)
-                print((datetime.datetime.now()-themath.endtime).total_seconds())
-                print((datetime.datetime.now()-themath.starttime).total_seconds())
+                print('距离比赛结束',(datetime.datetime.now()-themath.endtime).total_seconds())
+                print('距离比赛开始',(datetime.datetime.now()-themath.starttime).total_seconds())
+                time.sleep(timespan)
+                continue
                 return False
+
 
         else:
             print('=== No math infomation ===')
+            time.sleep(timespan)
+            continue
             return False
 
 
@@ -146,6 +152,9 @@ def main():
 
 
 
+
+
+
     # 开始准备 docker
 
     threads = [threading.Thread(target=containers_worker) for i in xrange(thrds)]
@@ -159,9 +168,37 @@ def main():
     logger.info('[+]Ready to start dockers')
 
 
+    while True: 
+
+        themath = models.math.query.first()
+        print '匹配比赛信息，控制刷新时间在比赛进行时'
+        #匹配比赛信息，控制刷新时间在比赛进行时
+        if themath:
+            timespan = themath.flagflash * 60 # 单位是分钟
+            if (datetime.datetime.now()-themath.endtime).total_seconds() > 0 or (datetime.datetime.now()-themath.starttime).total_seconds() < 0 :
+                print('=== 不在考试时间 ===')
+                print('[+]starttime',themath.starttime)
+                print('[+]the time',datetime.datetime.now())
+                print('[+]endtime',themath.endtime)
+                print('距离比赛结束',(datetime.datetime.now()-themath.endtime).total_seconds())
+                print('距离比赛开始',(datetime.datetime.now()-themath.starttime).total_seconds())
+                time.sleep(60)
+                continue
+            else:
+                break
+                
+
+
+
+
+
     for i in mathobj:
         #print i.teamid,i.name,i.container_name
         q.put(i)
+
+
+
+
 
     # 开始启动 docker
 

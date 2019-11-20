@@ -258,7 +258,7 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route('/admin')
+@app.route('/admin2ee24916bf1bafd60cd58b8555a53a9e')
 @login_required
 def admin():
     if session.get('user_id') != 'admin':
@@ -267,7 +267,7 @@ def admin():
         return render_template('other.html')
 
 
-@app.route('/admin/math', methods=['GET', 'POST'])
+@app.route('/admin2ee24916bf1bafd60cd58b8555a53a9e/math', methods=['GET', 'POST'])
 @login_required
 def admin_math():
     if session.get('user_id') != 'admin':
@@ -298,7 +298,7 @@ def admin_math():
             return render_template('math.html',name=themath.name)
 
 
-@app.route('/info', methods=['GET', 'POST'])
+@app.route('/admin2ee24916bf1bafd60cd58b8555a53a9e/info', methods=['GET', 'POST'])
 @login_required
 def info():
 
