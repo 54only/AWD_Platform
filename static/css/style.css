@@ -300,19 +300,19 @@ table .icon {
     overflow-y:auto;
 }
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
-.ulist_ul::-webkit-scrollbar,.tktable_top::-webkit-scrollbar,.table-body::-webkit-scrollbar {
+.ulist_ul::-webkit-scrollbar,.tktable_top::-webkit-scrollbar,.table-body::-webkit-scrollbar ,.table-need::-webkit-scrollbar{
     width:10px;
     height:10px;
     background-color:transparent;
 }
 /*定义滚动条轨道 内阴影+圆角*/
-.ulist_ul::-webkit-scrollbar-track,.tktable_top::-webkit-scrollbar-track,.table-body::-webkit-scrollbar-track {
+.ulist_ul::-webkit-scrollbar-track,.tktable_top::-webkit-scrollbar-track,.table-body::-webkit-scrollbar-track,.table-need::-webkit-scrollbar-track {
     -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
     border-radius:10px;
     background-color:#F5F5F5;
 }
 /*定义滑块 内阴影+圆角*/
-.ulist_ul::-webkit-scrollbar-thumb,.tktable_top::-webkit-scrollbar-thumb,.table-body::-webkit-scrollbar-thumb {
+.ulist_ul::-webkit-scrollbar-thumb,.tktable_top::-webkit-scrollbar-thumb,.table-body::-webkit-scrollbar-thumb,.table-need::-webkit-scrollbar-thumb {
     border-radius:10px;
     -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);
     background-color:rgba(4,126,176,1);
@@ -1734,4 +1734,24 @@ b {
 #tab-two h2 {
     font-size:18px;
 }
+}
+
+
+
+/*头部退出按钮，样式新增*/
+.header .header_team .sline{
+    display:inline-block; 
+    width:1px; 
+    height:36%; 
+    background:url(../images/sline.png) no-repeat;
+    background-size:100% 100%; 
+    vertical-align: middle;margin:0 2px;
+}
+.header .header_team #btnend{
+    display:inline-block; 
+    width:14%; 
+    height:32%; 
+    background:url(../images/end.png) no-repeat;
+    background-size:100% 100%; 
+    vertical-align: middle;
 }

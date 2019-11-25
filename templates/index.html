@@ -61,6 +61,8 @@
                 </div>
                 <div class="header_team fr ">
                     <img src="/static/images/zhand.png" alt=""><span id='teamname'></span>
+                    <span class="sline"></span>
+                    <span id='btnend' onclick="location.href='/logout'" ></span>
                 </div>
             </div>
             <div class="score">
@@ -272,7 +274,7 @@
                 </div>
                 <div class="otherdiv">
                   <p>其他</p>
-                  <p>选手可以获取所有的攻击情况以及当前的分数;不允许使用任何形式的DOS攻击</p>
+                  <p>选手可以获取所有的攻击情况以及当前的分数;不允许使用任何形式的DOS攻击;各队伍的端口为 3AABB ,其中AA是队伍编号，BB是service port。</p>
                 </div>
               </div>
 
@@ -285,6 +287,7 @@
                       <th>SSH-USER</th>
                       <th>SSH-PASS</th>
                       <th>SSH-PORT</th>
+                      <th>SERVICE-PORT</th>
                     </tr>
                   </thead>
                   <tbody id="ssh_info" class="table-need" >
@@ -296,22 +299,22 @@
             <!--第4个排行榜div end-->
             <!--第5个攻击榜div start-->
             <div class="tab-item" id="tab-five">
-                <div class="table-head">
-                    
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>消息</th>
-                          <th>得分</th>
-                          <th>轮询次数</th>
-                          <th>攻击时间</th>
-                        </tr>
-                      </thead>
-                      <tbody id="rounds">
+                <div class="mborderimg " style=" width:100%; height:100%;">
 
-                      </tbody>
-                    </table>
+                    
+                        <table width="100%" height="100%">
+                          <thead  class="table-head">
+                            <tr>
+                              <th>ID</th>
+                              <th>消息</th>
+                              <th>得分</th>
+                              <th>轮询次数</th>
+                              <th>攻击时间</th>
+                            </tr>
+                          </thead>
+                          <tbody id="showrounds">
+                          </tbody>
+                        </table>
 
                 </div>
             </div>

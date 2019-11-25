@@ -68,10 +68,11 @@ def containers_worker():
 
 def flagfresher_worker(mathobj):
     global timespan
+    
     while True:        
         #lock.acquire()
 
-        
+        themath =''
         themath = models.math.query.first()
         print 'Fresh flag'
         #匹配比赛信息，控制刷新时间在比赛进行时
@@ -82,8 +83,8 @@ def flagfresher_worker(mathobj):
                 print('[+]starttime',themath.starttime)
                 print('[+]the time',datetime.datetime.now())
                 print('[+]endtime',themath.endtime)
-                print('距离比赛结束',(datetime.datetime.now()-themath.endtime).total_seconds())
-                print('距离比赛开始',(datetime.datetime.now()-themath.starttime).total_seconds())
+                print(u'To Start',(datetime.datetime.now()-themath.endtime).total_seconds())
+                print(u'To End',(datetime.datetime.now()-themath.starttime).total_seconds())
                 time.sleep(timespan)
                 continue
                 return False
@@ -169,7 +170,7 @@ def main():
 
 
     while True: 
-
+        themath = ''
         themath = models.math.query.first()
         print '匹配比赛信息，控制刷新时间在比赛进行时'
         #匹配比赛信息，控制刷新时间在比赛进行时
@@ -180,11 +181,12 @@ def main():
                 print('[+]starttime',themath.starttime)
                 print('[+]the time',datetime.datetime.now())
                 print('[+]endtime',themath.endtime)
-                print('距离比赛结束',(datetime.datetime.now()-themath.endtime).total_seconds())
-                print('距离比赛开始',(datetime.datetime.now()-themath.starttime).total_seconds())
-                time.sleep(60)
+                print('To start :',(datetime.datetime.now()-themath.endtime).total_seconds())
+                print('To end :',(datetime.datetime.now()-themath.starttime).total_seconds())
+                time.sleep(10)
                 continue
             else:
+                print('=== 比赛开始，启动 docker ===')
                 break
                 
 

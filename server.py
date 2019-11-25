@@ -106,8 +106,16 @@ def timedelta():
     msg['starttime']=mathmsg.starttime.strftime( '%Y-%m-%d %H:%M')  
     msg['endtime']=mathmsg.endtime.strftime( '%Y-%m-%d %H:%M')  
     msg['flagflash']=mathmsg.flagflash
-    msg['timeleft']=str(mathmsg.endtime-datetime.datetime.now()).split('.')[0]
-    msg['timecount']=int((mathmsg.endtime-datetime.datetime.now()).total_seconds())
+    
+    if (mathmsg.starttime - datetime.datetime.now()).total_seconds()>0:
+        msg['timeleft']=str(mathmsg.starttime-datetime.datetime.now()).split('.')[0]
+        msg['timecount']=int((mathmsg.starttime-datetime.datetime.now()).total_seconds())
+    else:
+        msg['timeleft']=str(mathmsg.endtime-datetime.datetime.now()).split('.')[0]
+        msg['timecount']=int((mathmsg.endtime-datetime.datetime.now()).total_seconds())
+
+
+    #msg['timecount']=int((mathmsg.endtime-datetime.datetime.now()).total_seconds())
     msg['now']=datetime.datetime.now().strftime( '%Y-%m-%d %H:%M') 
     msg['startscore']=mathmsg.startscore
     msg['name']=mathmsg.name
@@ -582,6 +590,22 @@ def showcurrent_rounds():
 @app.route('/flag', methods=['GET', 'POST'])
 def flagcheck():
     msg = {'status': 0, 'msg': '提交成功'}
+    themath = math.query.first()
+    if themath:
+        if (datetime.datetime.now()-themath.endtime).total_seconds() > 0 :
+            msg['status']=-1
+            msg['msg']='比赛已经结束'
+            return json.dumps(msg, ensure_ascii=False)
+        if (datetime.datetime.now()-themath.starttime).total_seconds() < 0 :
+            msg['status'] = -1
+            msg['msg'] = '比赛尚未开始'
+            return json.dumps(msg, ensure_ascii=False)
+    else:
+        msg['status'] = -1
+        msg['msg'] = '比赛信息有误，请联系管理员'
+        return json.dumps(msg, ensure_ascii=False)
+
+    
 
     lastround = Flags.query.order_by(Flags.rounds.desc()).first()  # .rounds
     #print(lastround)

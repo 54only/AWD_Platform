@@ -19,7 +19,7 @@ def make_token_str(teamname):
 def init_main(npcteams=3):
     userlist = []
     teamlist = []
-    npcpassword = 'abc@123'
+    npcpassword = make_token_str('abc@123xxx')
     for i in open('users.txt').read().splitlines():
         if len(i)>10:
             team,username , userpass = i.split(' ')

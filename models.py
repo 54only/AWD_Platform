@@ -265,9 +265,12 @@ class Flags(db.Model):
 def main(npcteams=3):
     db.drop_all()
     db.create_all()
-    adminuser=User('admin','Admin@123!',0)
+    adminuser=User('admin','Admin@123!by54only',0)
     db.session.add(adminuser)   
-    db.session.add(math('WelCome to 54only\'s AWD Platform',localtime(), datetime.datetime.now()+datetime.timedelta(minutes=120), 1))  #datetime.timedelta(hours=3,minutes=30,seconds=30,days=3)
+
+    starttime = datetime.datetime.now() + datetime.timedelta(minutes=120)
+
+    db.session.add(math('AWD Platform',starttime, starttime, 1))  #datetime.timedelta(hours=3,minutes=30,seconds=30,days=3)
     db.session.commit()
 
     from init import init_main

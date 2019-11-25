@@ -78,6 +78,7 @@ function get_math() {
                 '<td>'+ssh_user+'</td>'+
                 '<td>'+ssh_password+'</td>'+
                 '<td>'+ssh_port+'</td>'+
+                '<td>'+serviceport+'</td>'+
                 '</tr>');
     
             
@@ -190,14 +191,14 @@ function get_temps() {
                     for(x3 in a){
                         if(a[x3]== result['teams'][x]['containers'][x2]['typename']){
                             //tmp[x3]=result['teams'][x]['containers'][x2]['score'] +'|' +result['teams'][x]['containers'][x2]['attack_stat']+'|'+result['teams'][x]['containers'][x2]['check_stat'] ;
-                            console.log(result['teams'][x]['containers']);
+                            //console.log(result['teams'][x]['containers']);
                             var stat=2;
                             if(result['teams'][x]['containers'][x2]['attack_stat']==0 && result['teams'][x]['containers'][x2]['check_stat']==1)stat=4;
                             if(result['teams'][x]['containers'][x2]['attack_stat']==1 && result['teams'][x]['containers'][x2]['check_stat']==1)stat=5;
                             if(result['teams'][x]['containers'][x2]['attack_stat']==1 && result['teams'][x]['containers'][x2]['check_stat']==0)stat=3;
 
                             stattype = 'state_'+stat;
-                            console.log(stattype);
+                            //console.log(stattype);
 
                             tmp[x3]='<span class="tag '+stattype+'"></span>';
 
@@ -257,20 +258,24 @@ function get_temps() {
 
     $.getJSON('/rounds',
         function (result) {
-            $("#rounds").html("");
+            $("#showrounds").html("");
             for (x in result){
                 var _id = result[x]['id'];
                 var msg = result[x]['msg'];
                 var score = result[x]['score'];
                 var rounds = result[x]['rounds'];
                 var time = result[x]['time'];
-                $("#rounds").append('<tr>'+
+
+
+
+                $("#showrounds").append('<tr>'+
                 '<td>'+_id+'</td>' +
                 '<td>'+msg+'</td>'+
                 '<td>'+score+'</td>'+
                 '<td>'+rounds+'</td>'+
                 '<td>'+time+'</td>'+
                 '</tr>');
+                //console.log(_id + msg + score + rounds + time);
             }
         }
     );
