@@ -56,7 +56,8 @@ class o(subjectclass):
         
         try:
             statuscode,output = self.ctn.exec_run('/bin/sh -c "ps -ef"')
-        except:
+        except Exception,e:
+            print e
             self.ctn = client.containers.get(self.container_name)
             statuscode,output = (0,'restarting...')#self.ctn.exec_run('/bin/sh -c "ls -l | grep pwn"')
         
@@ -64,6 +65,7 @@ class o(subjectclass):
             logger.info('[*]Check %s ok' % self.teamname)
             return True
         else:
+            #print output
             logger.info('[*]Check %s False' % self.teamname)
             self.db_containers.check_stat = 1 
             self.update_checkstat()

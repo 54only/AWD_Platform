@@ -71,8 +71,8 @@ def flagfresher_worker(mathobj):
     
     while True:        
         #lock.acquire()
-
-        themath =''
+        models.db.session.commit()
+        #themath =''
         themath = models.math.query.first()
         print 'Fresh flag'
         #匹配比赛信息，控制刷新时间在比赛进行时
@@ -170,7 +170,8 @@ def main():
 
 
     while True: 
-        themath = ''
+        #themath = ''
+        models.db.session.commit()
         themath = models.math.query.first()
         print '匹配比赛信息，控制刷新时间在比赛进行时'
         #匹配比赛信息，控制刷新时间在比赛进行时
