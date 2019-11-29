@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, render_template, make_response, redir
 from flask_login import UserMixin, LoginManager, login_required, current_user, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
+from sqlalchemy.orm import aliased
 from models import *
 from log import logger
 from batch import *
@@ -552,13 +553,25 @@ def showrounds2():
 @app.route('/rounds', methods=['GET'])
 def showrounds():
 
-    Rounds = Round.query.join(Teams,Teams.id==Round.attackteamid).order_by(Round.id.desc()).limit(10).all()
+    #Rounds = Round.query.join(Teams,Teams.id==Round.attackteamid).order_by(Round.id.desc()).limit(10).all()
+    a_alias = aliased(Teams)
 
+    Rounds = db.session.query(Round.id.label('id'), 
+        Round.score.label('score'),
+        Round.rounds.label('rounds'),
+        Round.msg.label('msg'),
+        Round.time.label('time'),
+        containers.typename.label('typename'),
+        Round.attackteamid.label('attackteamid'),
+        containers.teamid.label('defanseteamid'),
+        Teams.name.label('attackteamname'),
+        a_alias.name.label('defanseteamname')
+        ).join(Teams,Teams.id==Round.attackteamid).join(containers,containers.id==Round.containerid).join(a_alias,a_alias.id==containers.teamid).order_by(Round.id.desc()).limit(20).all()
     #Rounds2 = db.session.query(Round.id,Teams.name,containers.typename,containers.teamid).join(Teams,Teams.id==Round.attackteamid).join(containers,containers.id==Round.containerid).all()
     #print Rounds2
     msg = {}
     msg2 = []
-
+    #print Rounds[0].__dict__
     for i in Rounds:
         msg[i.id] = {'id': i.id,
                      'score': i.score,
@@ -571,11 +584,70 @@ def showrounds():
                      'rounds': i.rounds,
                      'msg': i.msg,
                      'time': i.time,
-                     #'teamname': i.teams_name,
+                     'typename': i.typename,
+                     'attackteamid': i.attackteamid,
+                     'defanseteamid': i.defanseteamid,
+                     'attackteamname': i.attackteamname,
+                     'defanseteamname': i.defanseteamname,
+
                      })
         #print i.query
         
     return jsonify(msg2)
+
+
+
+@app.route('/attackshow', methods=['GET'])
+def attackshow():
+
+    #Rounds = Round.query.join(Teams,Teams.id==Round.attackteamid).order_by(Round.id.desc()).limit(10).all()
+    a_alias = aliased(Teams)
+    querytime = datetime.datetime.now() - datetime.timedelta(seconds=20)
+    Rounds = db.session.query(Round.id.label('id'), 
+        Round.score.label('score'),
+        Round.rounds.label('rounds'),
+        Round.msg.label('msg'),
+        Round.time.label('time'),
+        containers.typename.label('typename'),
+        Round.attackteamid.label('attackteamid'),
+        containers.teamid.label('defanseteamid'),
+        Teams.name.label('attackteamname'),
+        a_alias.name.label('defanseteamname')
+        ).join(Teams,Teams.id==Round.attackteamid).join(containers,containers.id==Round.containerid).join(a_alias,a_alias.id==containers.teamid).filter(Round.time>=querytime).order_by(Round.id.desc()).all()
+    #Rounds2 = db.session.query(Round.id,Teams.name,containers.typename,containers.teamid).join(Teams,Teams.id==Round.attackteamid).join(containers,containers.id==Round.containerid).all()
+    #print Rounds2
+    msg = {}
+    msg2 = []
+    #print Rounds[0].__dict__
+    for i in Rounds:
+        msg[i.id] = {'id': i.id,
+                     'score': i.score,
+                     'rounds': i.rounds,
+                     'msg': i.msg,
+                     'time': i.time,
+                     }
+        msg2.append({'id': i.id,
+                     'score': i.score,
+                     'rounds': i.rounds,
+                     'msg': i.msg,
+                     'time': i.time,
+                     'typename': i.typename,
+                     'attackteamid': i.attackteamid,
+                     'defanseteamid': i.defanseteamid,
+                     'attackteamname': i.attackteamname,
+                     'defanseteamname': i.defanseteamname,
+
+                     })
+        #print i.query
+        
+    return jsonify(msg2)
+
+
+
+
+
+
+
 
 @app.route('/current_rounds', methods=['GET'])    
 def showcurrent_rounds():   

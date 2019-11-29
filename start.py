@@ -14,7 +14,7 @@ import datetime
 thrds = 8       # docker 同时操作线程
 
 
-npcteams = 0    #额外的npc队伍
+npcteams = 2    #额外的npc队伍
 #lock = threading.Lock()
 
 

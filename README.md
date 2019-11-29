@@ -5,7 +5,7 @@
 ## 项目简介
 
 基于python+docker的AWD平台，用于内部对抗训练以及培训使用。
-
+![](img/flys.gif)
 ![](img/n1.png)
 ![](img/n2.png)
 ![](img/n3.png)
