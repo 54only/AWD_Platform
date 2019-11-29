@@ -322,7 +322,7 @@
             <!--第6个趋势div start-->
             <div class="tab-item" id="tab-six">
                 <center>
-                    <div id="echarts_main" style="width: 1200px;height:600px;"></div>
+                    <div id="echarts_main" style="width: 1600px;height:700px;"></div>
                 </center>
             </div>
             <!--第6个趋势div end-->
@@ -349,7 +349,8 @@
     );
 </script>
 
- <script src="/static/js/echarts.min.js"></script>
+<script src="/static/js/echarts.min.js"></script>
+<script src="/static/js/xinjiang.js"></script>
 <script src="/static/js/app.js" type="text/javascript" ></script>
 <script type="text/javascript">    
     function submitflag(){
@@ -370,8 +371,10 @@
         return false;
     }
 </script>
+
+
 <script type="text/javascript">
-    
+
     var myChart = echarts.init(document.getElementById('echarts_main'));
     //myChart.showLoading();
     //myChart.hideLoading();
@@ -442,6 +445,7 @@
     }
 
   setInterval('freshscore()', 10*1000); // 队伍情况每一秒刷新一次
+
 </script>
 
 </body>
