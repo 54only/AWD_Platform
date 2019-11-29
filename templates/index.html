@@ -322,7 +322,7 @@
             <!--第6个趋势div start-->
             <div class="tab-item" id="tab-six">
                 <center>
-                    <div id="echarts_main" style="width: 1600px;height:700px;"></div>
+                    <div id="echarts_main" style="width: 1200px;height:600px;"></div>
                 </center>
             </div>
             <!--第6个趋势div end-->
@@ -349,8 +349,7 @@
     );
 </script>
 
-<script src="/static/js/echarts.min.js"></script>
-<script src="/static/js/xinjiang.js"></script>
+ <script src="/static/js/echarts.min.js"></script>
 <script src="/static/js/app.js" type="text/javascript" ></script>
 <script type="text/javascript">    
     function submitflag(){
@@ -371,197 +370,8 @@
         return false;
     }
 </script>
-
-
 <script type="text/javascript">
-
-var myChart = echarts.init(document.getElementById('echarts_main'));
-
-
-
-
-
-
-var geoCoordMap = {
-    "1":[112.93,28.23],
-    "2":[110.00,27.57],
-    "3":[111.62,26.43],
-    "4":[111.68,29.05],
-    "5":[113.12,29.37],
-    "6":[113.13,27.83],
-};
-
-//console.log(geoCoordMap); 86.15 41.77
-
-var maps = [[79.92,37.12], 
-    [88.13,47.85],
-    [89.17,42.95],
-    [88.15,39.77],
-    [80.27,41.17],
-    [86.03,44.30]];
-
-var geoCoordMap = {};
-$.ajaxSettings.async = false;
-$.getJSON('/teams',function (data){
-    //console.log(data);
-    for (var i = 0; i < data['teams'].length; i++){
-        //console.log( data['teams'][i]['name']);
-        //console.log(maps[i]);
-        //console.log( Array(data['teams'][i]['name'] => maps[i] ));
-        /*
-        geoCoordMap.push({
-            name:data['teams'][i]['name'],
-            value:maps[i]
-        });
-        */
-        geoCoordMap[data['teams'][i]['name']] = maps[i];
-    }
-});
-$.ajaxSettings.async = true;
-/*
-var convertData = function (data) {
-    var res = [];
-    for (var i = 0; i < data.length; i++) {
-        var geoCoord = geoCoordMap[data[i].name];
-        if (geoCoord) {
-            res.push({
-                name: data[i].name,
-                value: geoCoord.concat(data[i].value)
-            });
-        }
-    }
-    return res;
-};
-*/
-console.log(geoCoordMap);
-var convertData = function () {
-    var res = [];
-    var data = geoCoordMap;
-    console.log(data);
-    for (var i in data) {
-        var geoCoord = data[i];
-        //if (geoCoord) {
-            res.push({
-                name: i,
-                value:  geoCoord.concat(12)
-            });
-        //}
-    }
-    console.log(res);
-    return res;
-};
-var converData =function (data) {
-                  var res = [];
-                  for (let i = 0; i <  data.length; i ++) {
-                      var dataItem = data[i];
-                      //  获取 来去 地址的 经纬度
-                      var fromCoord = geoCoordMap[dataItem[0].name];
-                      var toCoord = geoCoordMap[dataItem[1].name];
-                       // debugger;
-                       if (fromCoord && toCoord) {
-                          res.push({
-                              fromName: dataItem[0].name,
-                              toName: dataItem[1].name,
-                              coords: [fromCoord, toCoord]
-                          })
-                      }
-                  }
-                  return res;
-              };
-
-function freshlines(){
-    $.getJSON('/attackshow',function (result){
-        
-        var SHData =[];
-        for (var i = 0; i < result.length; i++) {
-            //console.log([{name:result[i].attackteamname},{name:result[i].defanseteamname}]);
-            SHData.push([{name:result[i].attackteamname},{name:result[i].defanseteamname}]);
-        }
-        var option = {
-            backgroundColor: "rgba(128, 128, 128, 0.3",//'#404a59',
-            title: {
-                //text: 'AWD攻防练习赛',
-                x:'center',
-                textStyle: {
-                    color: '#fff'
-                }
-            },
-            geo: {
-                map: '新疆',
-                zoom: 1.2,
-                label: {
-                    emphasis: {
-                        show: false
-                    }
-                },
-                itemStyle: {
-                    normal: {
-                        areaColor: '#323c48', 
-                        borderColor: '#111'
-                    },
-                    emphasis: {
-                        areaColor: '#2a333d'
-                    }
-                }
-            },
-            series: [
-                {
-                    name: 'Teams',
-                    type: 'scatter',
-                    coordinateSystem: 'geo',
-                    data: convertData(),
-
-                    symbolSize: 12,
-                    label: {
-                        normal: {
-                            show: true,
-                            formatter: '{b}'
-                        },
-                        emphasis: {
-                            show: false
-                        }
-                    },
-                    itemStyle: {
-                        emphasis: {
-                            borderColor: '#fff',
-                            borderWidth: 1
-                        }
-                    }
-                },
-                {
-                    name: '攻击流量',
-                    type: 'lines',           //  飞行的路径线
-                    zlevel: 1,
-                    effect: {                //  尾迹特效 需要单独 放在一个层
-                          show: true,
-                          period: 2,           // 动画时间
-                          trailLength: 0.1,    // 特效尾迹的长度
-                          color: '#fff',
-                          symbolSize: 3
-                    },
-                    lineStyle: {
-                          normal: {
-                              color: '#3f73a8',
-                              width: 0,
-                              curveness: 0.2      // 边的 曲度
-                      }
-                    },
-                    data: converData(SHData)
-                 }
-            ]
-        }
-
-        myChart.setOption(option);
-
-    });
-}
-freshlines();
-setInterval('freshlines()', 4*1000);
-
-
-
-
-/*    
+    
     var myChart = echarts.init(document.getElementById('echarts_main'));
     //myChart.showLoading();
     //myChart.hideLoading();
@@ -632,7 +442,6 @@ setInterval('freshlines()', 4*1000);
     }
 
   setInterval('freshscore()', 10*1000); // 队伍情况每一秒刷新一次
-*/
 </script>
 
 </body>
