@@ -18,7 +18,7 @@
 
 ## 基本使用方式
 * 准备 docker 服务
-* 准备 mysql ，并建立 awd 数据库
+* 准备 mysql ，并建立 awd 数据库 ，请一定要设定字符集为 utf-8 ，不然会报错
 
 ```
 mysql> drop database awd;
@@ -62,7 +62,7 @@ python stop.py
 
 #由于docker的卷比较占磁盘空间，建议本环境只提供比赛docker，方便将多余的container和卷一起删除，stop.py执行完后在shell中执行下面命令
 
-echo y | docker container prune && docker volume rm $(docker volume ls -qf dangling=true)
+docker container prune && docker volume rm $(docker volume ls -qf dangling=true)
 ```
 
 ## 自定义比赛环境
@@ -147,8 +147,3 @@ subject #比赛环境目录
 2019.11.25 | 跪\* | 1.00 
 2019.11.25 | 跪\* | 50 
 
-
-表头  | 表头  | 表头
----- | ----- | ------  
-单元格内容  | 单元格内容 | 单元格内容 
-单元格内容  | 单元格内容 | 单元格内容  
