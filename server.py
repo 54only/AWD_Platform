@@ -77,6 +77,13 @@ def index():
     #print session
     return render_template('index.html')
 
+
+@app.route('/index')
+@login_required
+def index_show():
+    #print session
+    return render_template('index_show.html')
+
 @app.route('/scores')
 @login_required
 def show_scores():

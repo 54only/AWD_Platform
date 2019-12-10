@@ -5,7 +5,7 @@
 ## 项目简介
 
 基于python+docker的AWD平台，用于内部对抗训练以及培训使用。
-![](img/flys.gif)
+![](img/bigscreen.png)
 ![](img/n1.png)
 ![](img/n2.png)
 ![](img/n3.png)
@@ -19,6 +19,21 @@
 ## 基本使用方式
 * 准备 docker 服务
 * 准备 mysql ，并建立 awd 数据库
+
+```
+mysql> drop database awd;
+mysql> CREATE DATABASE IF NOT EXISTS awd DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+mysql> use mysql;
+mysql> update user set authentication_string=PASSWORD("你的密码") where user='root';
+mysql> update user set plugin="mysql_native_password"; # 不用修改, 直接执行
+mysql> flush privileges;
+mysql> quit;
+$ sudo service mysql restart
+# 这个时候就可以用刚刚设置的root密码登录mysql了
+```
+
+
+
 ```
 pip install -r requirements.txt
 ```
@@ -77,6 +92,10 @@ subject #比赛环境目录
 
 ## 更新
 
+### 2019-12-10
+
+* 应网友要求，做了一个大屏展示效果，访问路径 /index 
+
 ### 2019-11-29
 
 * 应网友要求，做了一个五毛动画效果，太丑不敢放上来 
@@ -132,6 +151,10 @@ subject #比赛环境目录
 
 | 2019.11.25 | 跪\* | 1.00 |
 
+| 2019.11.25 | 跪\* | 50 |
 
 
-
+表头  | 表头  | 表头
+---- | ----- | ------  
+单元格内容  | 单元格内容 | 单元格内容 
+单元格内容  | 单元格内容 | 单元格内容  

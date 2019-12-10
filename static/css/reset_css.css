@@ -1,0 +1,466 @@
+﻿html,body,span,object,iframe,h1,h2,h3,h4,h5,p,blockquote,pre,a,address,code,del,em,img,dl,dt,dd,ol,ul,li,fieldset,form,label {
+	margin:0;
+	padding:0;
+	border:0;
+	font-style:inherit;
+	font-family:inherit;
+	vertical-align:baseline;
+}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video {
+	margin:0;
+	padding:0;
+	display:block;
+}
+img {
+	border:none;
+	vertical-align:middle;
+}
+button {
+	cursor:pointer;
+}
+html {
+	overflow:hidden;
+	position:relative;
+	height:100%;
+	-webkit-text-size-adjust:none;
+}
+body {
+	overflow:hidden;
+	position:relative;
+	height:100%;
+	min-width:1000px;
+	margin:0 auto;
+	font-size:62.5%;
+	font-family:Arial,'Microsoft YaHei',Helvetica,sans-serif;
+	background-color:#fff;
+}
+ul,ol {
+	list-style-type:none;
+}
+h1 {
+	font-size:3.6em;
+}
+h2 {
+	font-size:2.8em;
+}
+h3,h4 {
+	font-size:2.4em;
+}
+h5 {
+	font-size:2.0em;
+}
+em,address {
+	font-style:normal;
+}
+a {
+	text-decoration:none;
+	color:#4f4f4f;
+}
+/*链接样式*/
+a:link {
+	}a:hover {
+	text-decoration:underline;
+}
+/*鼠标悬停时*/
+a:active {
+	transition:color 200ms linear 0s,background-color 200ms linear 0s,border-color 200ms linear 0s;
+	color:#f00000;
+	outline:none;
+}
+a:visited {
+	}/* 访问过 */
+.clear {
+	display:block;
+	height:0;
+	line-height:0;
+	overflow:hidden;
+	clear:both;
+	font-size:0;
+}
+/*清除浮动*/
+input,select,textarea,button {
+	vertical-align:middle;
+	margin:0;
+	padding:0;
+	outline:none;
+	font-family:Arial,'Microsoft YaHei',Helvetica,sans-serif;
+	box-sizing:border-box;
+}
+input::-webkit-input-placeholder,textarea::-webkit-input-placeholder,input:-moz-placeholder,textarea:-moz-placeholder,input::-moz-placeholder,textarea::-moz-placeholder,input:-ms-input-placeholder,textarea:-ms-input-placeholder {
+	color:#b0b0b0;
+}
+
+/*让内容区块居中*/
+@media screen and (max-width:1920px) and (min-width:1910px) and (orientation:landscape) {
+	body {
+	font-size:62.500000%;
+}
+}@media screen and (max-width:1910px) and (min-width:1900px) and (orientation:landscape) {
+	body {
+	font-size:62.174479%;
+}
+}@media screen and (max-width:1900px) and (min-width:1890px) and (orientation:landscape) {
+	body {
+	font-size:61.848958%;
+}
+}@media screen and (max-width:1890px) and (min-width:1880px) and (orientation:landscape) {
+	body {
+	font-size:61.523438%;
+}
+}@media screen and (max-width:1880px) and (min-width:1870px) and (orientation:landscape) {
+	body {
+	font-size:61.197917%;
+}
+}@media screen and (max-width:1870px) and (min-width:1860px) and (orientation:landscape) {
+	body {
+	font-size:60.872396%;
+}
+}@media screen and (max-width:1860px) and (min-width:1850px) and (orientation:landscape) {
+	body {
+	font-size:60.546875%;
+}
+}@media screen and (max-width:1850px) and (min-width:1840px) and (orientation:landscape) {
+	body {
+	font-size:60.221354%;
+}
+}@media screen and (max-width:1840px) and (min-width:1830px) and (orientation:landscape) {
+	body {
+	font-size:59.895833%;
+}
+}@media screen and (max-width:1830px) and (min-width:1820px) and (orientation:landscape) {
+	body {
+	font-size:59.570313%;
+}
+}@media screen and (max-width:1820px) and (min-width:1810px) and (orientation:landscape) {
+	body {
+	font-size:59.244792%;
+}
+}@media screen and (max-width:1810px) and (min-width:1800px) and (orientation:landscape) {
+	body {
+	font-size:58.919271%;
+}
+}@media screen and (max-width:1800px) and (min-width:1790px) and (orientation:landscape) {
+	body {
+	font-size:58.593750%;
+}
+}@media screen and (max-width:1790px) and (min-width:1780px) and (orientation:landscape) {
+	body {
+	font-size:58.268229%;
+}
+}@media screen and (max-width:1780px) and (min-width:1770px) and (orientation:landscape) {
+	body {
+	font-size:57.942708%;
+}
+}@media screen and (max-width:1770px) and (min-width:1760px) and (orientation:landscape) {
+	body {
+	font-size:57.617188%;
+}
+}@media screen and (max-width:1760px) and (min-width:1750px) and (orientation:landscape) {
+	body {
+	font-size:57.291667%;
+}
+}@media screen and (max-width:1750px) and (min-width:1740px) and (orientation:landscape) {
+	body {
+	font-size:56.966146%;
+}
+}@media screen and (max-width:1740px) and (min-width:1730px) and (orientation:landscape) {
+	body {
+	font-size:56.640625%;
+}
+}@media screen and (max-width:1730px) and (min-width:1720px) and (orientation:landscape) {
+	body {
+	font-size:56.315104%;
+}
+}@media screen and (max-width:1720px) and (min-width:1710px) and (orientation:landscape) {
+	body {
+	font-size:55.989583%;
+}
+}@media screen and (max-width:1710px) and (min-width:1700px) and (orientation:landscape) {
+	body {
+	font-size:55.664063%;
+}
+}@media screen and (max-width:1700px) and (min-width:1690px) and (orientation:landscape) {
+	body {
+	font-size:55.338542%;
+}
+}@media screen and (max-width:1690px) and (min-width:1680px) and (orientation:landscape) {
+	body {
+	font-size:55.013021%;
+}
+}@media screen and (max-width:1680px) and (min-width:1670px) and (orientation:landscape) {
+	body {
+	font-size:54.687500%;
+}
+}@media screen and (max-width:1670px) and (min-width:1660px) and (orientation:landscape) {
+	body {
+	font-size:54.361979%;
+}
+}@media screen and (max-width:1660px) and (min-width:1650px) and (orientation:landscape) {
+	body {
+	font-size:54.036458%;
+}
+}@media screen and (max-width:1650px) and (min-width:1640px) and (orientation:landscape) {
+	body {
+	font-size:53.710938%;
+}
+}@media screen and (max-width:1640px) and (min-width:1630px) and (orientation:landscape) {
+	body {
+	font-size:53.385417%;
+}
+}@media screen and (max-width:1630px) and (min-width:1620px) and (orientation:landscape) {
+	body {
+	font-size:53.059896%;
+}
+}@media screen and (max-width:1620px) and (min-width:1610px) and (orientation:landscape) {
+	body {
+	font-size:52.734375%;
+}
+}@media screen and (max-width:1610px) and (min-width:1600px) and (orientation:landscape) {
+	body {
+	font-size:52.408854%;
+}
+}@media screen and (max-width:1600px) and (min-width:1590px) and (orientation:landscape) {
+	body {
+	font-size:52.083333%;
+}
+}@media screen and (max-width:1590px) and (min-width:1580px) and (orientation:landscape) {
+	body {
+	font-size:51.757813%;
+}
+}@media screen and (max-width:1580px) and (min-width:1570px) and (orientation:landscape) {
+	body {
+	font-size:51.432292%;
+}
+}@media screen and (max-width:1570px) and (min-width:1560px) and (orientation:landscape) {
+	body {
+	font-size:51.106771%;
+}
+}@media screen and (max-width:1560px) and (min-width:1550px) and (orientation:landscape) {
+	body {
+	font-size:50.781250%;
+}
+}@media screen and (max-width:1550px) and (min-width:1540px) and (orientation:landscape) {
+	body {
+	font-size:50.455729%;
+}
+}@media screen and (max-width:1540px) and (min-width:1530px) and (orientation:landscape) {
+	body {
+	font-size:50.130208%;
+}
+}@media screen and (max-width:1530px) and (min-width:1520px) and (orientation:landscape) {
+	body {
+	font-size:49.804688%;
+}
+}@media screen and (max-width:1520px) and (min-width:1510px) and (orientation:landscape) {
+	body {
+	font-size:49.479167%;
+}
+}@media screen and (max-width:1510px) and (min-width:1500px) and (orientation:landscape) {
+	body {
+	font-size:49.153646%;
+}
+}@media screen and (max-width:1500px) and (min-width:1490px) and (orientation:landscape) {
+	body {
+	font-size:48.828125%;
+}
+}@media screen and (max-width:1490px) and (min-width:1480px) and (orientation:landscape) {
+	body {
+	font-size:48.502604%;
+}
+}@media screen and (max-width:1480px) and (min-width:1470px) and (orientation:landscape) {
+	body {
+	font-size:48.177083%;
+}
+}@media screen and (max-width:1470px) and (min-width:1460px) and (orientation:landscape) {
+	body {
+	font-size:47.851563%;
+}
+}@media screen and (max-width:1460px) and (min-width:1450px) and (orientation:landscape) {
+	body {
+	font-size:47.526042%;
+}
+}@media screen and (max-width:1450px) and (min-width:1440px) and (orientation:landscape) {
+	body {
+	font-size:47.200521%;
+}
+}@media screen and (max-width:1440px) and (min-width:1430px) and (orientation:landscape) {
+	body {
+	font-size:46.875000%;
+}
+}@media screen and (max-width:1430px) and (min-width:1420px) and (orientation:landscape) {
+	body {
+	font-size:46.549479%;
+}
+}@media screen and (max-width:1420px) and (min-width:1410px) and (orientation:landscape) {
+	body {
+	font-size:46.223958%;
+}
+}@media screen and (max-width:1410px) and (min-width:1400px) and (orientation:landscape) {
+	body {
+	font-size:45.898438%;
+}
+}@media screen and (max-width:1400px) and (min-width:1390px) and (orientation:landscape) {
+	body {
+	font-size:45.572917%;
+}
+}@media screen and (max-width:1390px) and (min-width:1380px) and (orientation:landscape) {
+	body {
+	font-size:45.247396%;
+}
+}@media screen and (max-width:1380px) and (min-width:1370px) and (orientation:landscape) {
+	body {
+	font-size:44.921875%;
+}
+}@media screen and (max-width:1370px) and (min-width:1360px) and (orientation:landscape) {
+	body {
+	font-size:44.596354%;
+}
+}@media screen and (max-width:1360px) and (min-width:1350px) and (orientation:landscape) {
+	body {
+	font-size:44.270833%;
+}
+}@media screen and (max-width:1350px) and (min-width:1340px) and (orientation:landscape) {
+	body {
+	font-size:43.945313%;
+}
+}@media screen and (max-width:1340px) and (min-width:1330px) and (orientation:landscape) {
+	body {
+	font-size:43.619792%;
+}
+}@media screen and (max-width:1330px) and (min-width:1320px) and (orientation:landscape) {
+	body {
+	font-size:43.294271%;
+}
+}@media screen and (max-width:1320px) and (min-width:1310px) and (orientation:landscape) {
+	body {
+	font-size:42.968750%;
+}
+}@media screen and (max-width:1310px) and (min-width:1300px) and (orientation:landscape) {
+	body {
+	font-size:42.643229%;
+}
+}@media screen and (max-width:1300px) and (min-width:1290px) and (orientation:landscape) {
+	body {
+	font-size:42.317708%;
+}
+}@media screen and (max-width:1290px) and (min-width:1280px) and (orientation:landscape) {
+	body {
+	font-size:41.992188%;
+}
+}@media screen and (max-width:1280px) and (min-width:1270px) and (orientation:landscape) {
+	body {
+	font-size:41.666667%;
+}
+}@media screen and (max-width:1270px) and (min-width:1260px) and (orientation:landscape) {
+	body {
+	font-size:41.341146%;
+}
+}@media screen and (max-width:1260px) and (min-width:1250px) and (orientation:landscape) {
+	body {
+	font-size:41.015625%;
+}
+}@media screen and (max-width:1250px) and (min-width:1240px) and (orientation:landscape) {
+	body {
+	font-size:40.690104%;
+}
+}@media screen and (max-width:1240px) and (min-width:1230px) and (orientation:landscape) {
+	body {
+	font-size:40.364583%;
+}
+}@media screen and (max-width:1230px) and (min-width:1220px) and (orientation:landscape) {
+	body {
+	font-size:40.039063%;
+}
+}@media screen and (max-width:1220px) and (min-width:1210px) and (orientation:landscape) {
+	body {
+	font-size:39.713542%;
+}
+}@media screen and (max-width:1210px) and (min-width:1200px) and (orientation:landscape) {
+	body {
+	font-size:39.388021%;
+}
+}@media screen and (max-width:1200px) and (min-width:1190px) and (orientation:landscape) {
+	body {
+	font-size:39.062500%;
+}
+}@media screen and (max-width:1190px) and (min-width:1180px) and (orientation:landscape) {
+	body {
+	font-size:38.736979%;
+}
+}@media screen and (max-width:1180px) and (min-width:1170px) and (orientation:landscape) {
+	body {
+	font-size:38.411458%;
+}
+}@media screen and (max-width:1170px) and (min-width:1160px) and (orientation:landscape) {
+	body {
+	font-size:38.085938%;
+}
+}@media screen and (max-width:1160px) and (min-width:1150px) and (orientation:landscape) {
+	body {
+	font-size:37.760417%;
+}
+}@media screen and (max-width:1150px) and (min-width:1140px) and (orientation:landscape) {
+	body {
+	font-size:37.434896%;
+}
+}@media screen and (max-width:1140px) and (min-width:1130px) and (orientation:landscape) {
+	body {
+	font-size:37.109375%;
+}
+}@media screen and (max-width:1130px) and (min-width:1120px) and (orientation:landscape) {
+	body {
+	font-size:36.783854%;
+}
+}@media screen and (max-width:1120px) and (min-width:1110px) and (orientation:landscape) {
+	body {
+	font-size:36.458333%;
+}
+}@media screen and (max-width:1110px) and (min-width:1100px) and (orientation:landscape) {
+	body {
+	font-size:36.132813%;
+}
+}@media screen and (max-width:1100px) and (min-width:1090px) and (orientation:landscape) {
+	body {
+	font-size:35.807292%;
+}
+}@media screen and (max-width:1090px) and (min-width:1080px) and (orientation:landscape) {
+	body {
+	font-size:35.481771%;
+}
+}@media screen and (max-width:1080px) and (min-width:1070px) and (orientation:landscape) {
+	body {
+	font-size:35.156250%;
+}
+}@media screen and (max-width:1070px) and (min-width:1060px) and (orientation:landscape) {
+	body {
+	font-size:34.830729%;
+}
+}@media screen and (max-width:1060px) and (min-width:1050px) and (orientation:landscape) {
+	body {
+	font-size:34.505208%;
+}
+}@media screen and (max-width:1050px) and (min-width:1040px) and (orientation:landscape) {
+	body {
+	font-size:34.179688%;
+}
+}@media screen and (max-width:1040px) and (min-width:1030px) and (orientation:landscape) {
+	body {
+	font-size:33.854167%;
+}
+}@media screen and (max-width:1030px) and (min-width:1020px) and (orientation:landscape) {
+	body {
+	font-size:33.528646%;
+}
+}@media screen and (max-width:1020px) and (min-width:1010px) and (orientation:landscape) {
+	body {
+	font-size:33.203125%;
+}
+}@media screen and (max-width:1010px) and (min-width:1000px) and (orientation:landscape) {
+	body {
+	font-size:32.877604%;
+}
+}@media screen and (max-width:1000px)  and (orientation:landscape) {
+	body {
+	font-size:32.552083%;
+}
+}
