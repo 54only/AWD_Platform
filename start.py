@@ -36,9 +36,9 @@ timespan = 1 * 60 # 刷新 flag 时间
 '''
 # port 规则为 3 00 队伍id 22 服务端口
 subject =   {
-            #'yunnam_simple': {'sshport':30022,'serviceport':30080},
-            #'pwn_simple':   {'sshport':30032,'serviceport':30090},
-            'tomcat8':  {'sshport':30042,'serviceport':30040},
+            'yunnam_simple': {'sshport':30022,'serviceport':30080},
+            'pwn_simple':   {'sshport':30032,'serviceport':30090},
+            #'tomcat8':  {'sshport':30042,'serviceport':30040},
             }
 
 #清除 docker 残留数据
