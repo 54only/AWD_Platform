@@ -16,6 +16,16 @@
 - 训练环境可自定义扩展
 - 10支队伍建议内存保障在6G以上
 
+## 已知BUG
+
+由于python2/3以及flask版本区别，在server.py中，判断session是否是admin的地方有可能会因为字段不同而到达不了后台，各位需要自行调试，server.py行号280、289、321、367
+
+```
+session.get('user_id')
+或
+session.get('_user_id')
+```
+
 ## 基本使用方式
 * 准备 docker 服务
 * 准备 mysql ，并建立 awd 数据库 ，请一定要设定字符集为 utf-8 ，不然会报错
@@ -30,6 +40,9 @@ mysql> flush privileges;
 mysql> quit;
 $ sudo service mysql restart
 # 这个时候就可以用刚刚设置的root密码登录mysql了
+
+# 解决mysql容器只能建立23个的问题，需要执行 
+# sudo sysctl -w fs.aio-max-nr=2097152
 ```
 
 
