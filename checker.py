@@ -15,9 +15,9 @@ def service_checker(mathobj):
             i.check_L1()
             #i.session.close()
             #print 'session removed'
-        except Exception,e:
-            print 'checker'
-            print e
+        except Exception as e:
+            #print 'checker'
+            print (e)
         #i.update_checkstat()
     #time.sleep(5)
     return

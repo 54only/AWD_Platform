@@ -12,8 +12,8 @@ logger = logset('init')
 def make_token_str(teamname):
     rnd = random.random()
     s = (teamname + str(rnd) + str(time.time()))
-    token = base64.b64encode(hashlib.md5(s).hexdigest()[8:20].encode())
-    return token
+    token = base64.b64encode(hashlib.md5(s.encode()).hexdigest()[8:20].encode())
+    return token.decode()
 
 
 def init_main(npcteams=3):
@@ -26,7 +26,7 @@ def init_main(npcteams=3):
             userlist.append([team,username,userpass])
             teamlist.append(team)
 
-    for i in xrange(npcteams):
+    for i in range(npcteams):
         team,username , userpass = 'NPC' + str(i),'NPC' + str(i),npcpassword
         userlist.append([team,username,userpass])
         teamlist.append(team)
@@ -45,12 +45,12 @@ def init_main(npcteams=3):
     for i in teams:
         teamdic[i.name]=i.id
     #print teamdic
-    print 'TeamId\tTeamName\tUserName\tUserPassword'
+    print ('TeamId\tTeamName\tUserName\tUserPassword')
     for i in userlist:
         team,username,userpass = i
-        teamid = teamdic[team.decode('utf-8')]
+        teamid = teamdic[team]
 
-        print '%d\t%s\t%s\t%s'%(teamid,team,username,userpass )
+        print ('%d\t%s\t%s\t%s'%(teamid,team,username,userpass ))
         db.session.add(User(username,userpass,teamid))
     db.session.commit()
 

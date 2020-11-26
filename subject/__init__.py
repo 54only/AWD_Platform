@@ -22,16 +22,16 @@ class subjectclass(object):
         self.teamname=teamname
         self.score = score
         self.teampass=teampass
-        self.check_stat=0
-        
+        self.check_stat=0        
         self.session = Session()
         self.containers=containers
-        self.db_containers = containers(self.name,self.container_name,self.teampass, self.sshaccount, self.serviceport,self.sshport,self.teamid,self.score)
+        self.db_containers = containers(self.name,self.container_name,self.teampass, self.sshaccount, self.serviceport,self.sshport,self.teamid,self.score,self.ip)
         try:
             self.session.add(self.db_containers)
             self.session.commit()        
             self.id =  self.db_containers.id
-        except:
+        except Exception as e:
+            logger.error (e)
             pass
         self.session.close()
 
@@ -42,7 +42,8 @@ class subjectclass(object):
         self.session.commit()
         self.session.close()
         #self.db_containers.score = Q.score
-        print self.container_name,'update_score sucessed'
+        #print(self.container_name,'update_score sucessed')
+        logger.info (self.container_name + ' update_score sucessed')
         return
 
     def update_checkstat(self):
@@ -60,9 +61,9 @@ class subjectclass(object):
             #self.db_containers = containers.query.filter(containers.id == self.db_containers.id).first()
 
 
-        except Exception,e:
-            print '[*]__init__, update_checkstat ERROR',self.container_name
-            print e
+        except Exception as e:
+            logger.error( '[*]__init__, update_checkstat ERROR',self.container_name)
+            logger.error (e)
 
     def update_attackstat(self):
         try:
@@ -72,9 +73,9 @@ class subjectclass(object):
             Q.attack_stat = self.db_containers.attack_stat
             self.session.commit()
             self.session.close()
-        except Exception,e:
-            print '[*]__init__, update_attackstat ERROR',self.container_name
-            print e
+        except Exception as e:
+            logger.error( '[*]__init__, update_attackstat ERROR',self.container_name)
+            logger.error( e)
 
     def create_containers(self):
         self.ctn = client.containers.create(self.image_name,

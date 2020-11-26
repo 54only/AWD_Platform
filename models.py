@@ -76,14 +76,15 @@ class containers(db.Model):
     name = db.Column(db.String(120), unique=True)
     sshpassword = db.Column(db.String(120), unique=False)
     sshaccount = db.Column(db.String(120), unique=False)
-    serviceport = db.Column(db.Integer, unique=True)
-    sshport = db.Column(db.Integer, unique=True)
+    serviceport = db.Column(db.Integer, unique=False)
+    sshport = db.Column(db.Integer, unique=False)
     teamid = db.Column(db.Integer)
     score = db.Column(db.DECIMAL(10,2))
     typename = db.Column(db.String(120), unique=False) 
     check_stat = db.Column(db.Integer)
     attack_stat = db.Column(db.Integer)
-    def __init__(self,typename, name,sshpassword, sshaccount, serviceport,sshport,teamid,score):
+    ip = db.Column(db.String(120), unique=True)
+    def __init__(self,typename, name,sshpassword, sshaccount, serviceport,sshport,teamid,score,ip=''):
         self.name = name
         self.typename = typename
         self.sshpassword = sshpassword
@@ -94,6 +95,7 @@ class containers(db.Model):
         self.score = score
         self.check_stat = 0 #0 normal , 1 checked
         self.attack_stat = 0#0 normal , 1 attacked
+        self.ip = ip
     def to_json(self):
         dict = self.__dict__
         if "_sa_instance_state" in dict:
@@ -143,7 +145,7 @@ class User(db.Model):
     def __init__(self, username, password, teamid):
         #self.teamid = teamid
         self.username = username
-        self.password = hashlib.md5(password).hexdigest()
+        self.password = hashlib.md5(password.encode()).hexdigest()
         #self.teamname = teamname
         self.teamid = teamid
 

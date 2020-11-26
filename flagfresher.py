@@ -63,24 +63,24 @@ def countscore(r,mathobj,checkscore,attckscore):
             checked_score_sum[i]['avgscore'] = 0
 
 
-    print '============================='
-    print 'check情况'
-    print '============================='
+    print ('=============================')
+    print ('check情况')
+    print ('=============================')
 
-    print checked_score_sum
+    print (checked_score_sum)
 
 
     for i in mathobj:
         for c in checked_score_sum:
             if i.db_containers.typename == c:
-                print c,i.db_containers.id
+                print (c,i.db_containers.id)
                 #print i.teamid
-                print i.db_containers.score
+                print (i.db_containers.score)
                 if i.db_containers.id in checked_score_sum[c]['containers']:
                     i.db_containers.score -= decimal.Decimal(checkscore)
                 else:
                     i.db_containers.score += decimal.Decimal(checked_score_sum[c]['avgscore']).quantize(decimal.Decimal('0.00'))
-                print i.db_containers.score
+                print (i.db_containers.score)
                 i.update_score()
 
 
@@ -107,9 +107,9 @@ def countscore(r,mathobj,checkscore,attckscore):
             checked_score_sum[i[0]][i[1]]['attackteams']=[]
             checked_score_sum[i[0]][i[1]]['attackteams'].append(i[2])
 
-    print '============================='
-    print '丢分情况'
-    print '============================='
+    print ('=============================')
+    print ('丢分情况')
+    print ('=============================')
 
     for i in checked_score_sum:
         for j in checked_score_sum[i]:
@@ -118,9 +118,9 @@ def countscore(r,mathobj,checkscore,attckscore):
 
 
 
-    print '============================='
-    print checked_score_sum
-    print '============================='
+    print ('=============================')
+    print (checked_score_sum)
+    print ('=============================')
 
     for i in checked_score_sum:
         for cid in checked_score_sum[i]:

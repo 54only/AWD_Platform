@@ -70,6 +70,7 @@ function get_math() {
                 //var ip = result[x]['ip'];
                 var ssh_user = result['containers'][x]['sshaccount'];
                 var ssh_password = result['containers'][x]['sshpassword'];
+                var ip = result['containers'][x]['ip'];
                 var ssh_port = result['containers'][x]['sshport'];
                 var serviceport = result['containers'][x]['serviceport'];
                 $("#ssh_info").append('<tr>'+
@@ -77,6 +78,7 @@ function get_math() {
                 //'<td>'+token+'</td>' +
                 '<td>'+ssh_user+'</td>'+
                 '<td>'+ssh_password+'</td>'+
+                '<td>'+ip+'</td>'+
                 '<td>'+ssh_port+'</td>'+
                 '<td>'+serviceport+'</td>'+
                 '</tr>');

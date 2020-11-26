@@ -1,0 +1,47 @@
+{% extends 'base_admin.html' %}
+
+{% block admin_content %}
+<div class="entry-box" style="font-size: 16px">
+
+<table class="table" style="margin-top: 5%">
+    <thead>
+        <th>队伍</th>
+        <th>容器</th>
+        <th>得分</th>
+        <th>Check</th>
+        <th>Attack</th>
+        <th>重启</th>
+    </thead>
+    <tbody>
+
+     {% for container in contanerlist %}
+     <tr onmouseover="this.style.background='#efefef'" onmouseout="this.style.background='#ffffff'">
+         <td>{{container.TeamName}}</td>
+         <td>{{container.name}}</td>
+         <td>{{container.score}}</td>
+         <td>{{container.check_stat}}</td>
+         <td>{{container.attack_stat}}</td>
+         <td><a onclick="javascript:restart('{{container.name}}')">重启</a></td>
+     </tr>
+     {% endfor %}
+
+    </tbody>
+</table>
+</div>
+
+<script type="text/javascript">
+    function restart(cname){
+
+        $('#alert').html(cname+' restarting');
+
+        $.post('/admin2ee24916bf1bafd60cd58b8555a53a9e/contanerrestart',
+            {'containername':cname},
+            function(data){
+                $('#alert').html(data);
+            }
+            );
+        }
+    
+</script>
+
+{% endblock %}

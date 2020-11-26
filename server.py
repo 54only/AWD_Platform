@@ -15,6 +15,8 @@ import time
 import datetime
 import sys
 import json
+import team_restart
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -312,6 +314,40 @@ def admin_math():
             return render_template('math.html')
         else:
             return render_template('math.html',name=themath.name)
+
+
+@app.route('/admin2ee24916bf1bafd60cd58b8555a53a9e/contanerlist', methods=['GET', 'POST'])
+def contanerlist():
+    contanerlist = db.session.query(
+        containers.name,containers.score,containers.check_stat,containers.attack_stat,Teams.name.label('TeamName')
+        ).join(Teams,Teams.id == containers.teamid).order_by(Teams.name).all()
+    # r = []
+    # for i in contanerlist   :
+    #     print i.name,float(round(i.score*100)/100),i.check_stat,i.attack_stat,i.TeamName
+    #     r.append({
+    #     'name':'1',#i.name.encode('utf8'),
+    #     'score':100,#float(round(i.score*100)/100),
+    #     'check_stat':i.check_stat,
+    #     'attack_stat':i.attack_stat,
+    #     'TeamName':'x'#i.TeamName.encode('utf8')
+    #     })
+    # r=[]
+    # print r
+    # r0=[]
+    return render_template('dockers.html',contanerlist=contanerlist)
+    #return render_template("dockers.html")
+
+@app.route('/admin2ee24916bf1bafd60cd58b8555a53a9e/contanerrestart', methods=['GET','POST'])
+def restart_container():
+    if session.get('user_id') != 'admin':
+        return render_template("login2.html", error="No privileges")
+    containername=request.form['containername']
+    logger.info('Container restarting ... %s ' % containername)
+    print 'Container restarting ... %s ' % containername
+    #return containername
+    #containername = 'pwn_simple_4'
+    r = team_restart.main(containername)
+    return r
 
 
 @app.route('/admin2ee24916bf1bafd60cd58b8555a53a9e/info', methods=['GET', 'POST'])

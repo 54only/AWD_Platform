@@ -18,7 +18,6 @@ npcteams = 2    #额外的npc队伍
 #lock = threading.Lock()
 
 
-
 q = Queue() 
 
 logger = logset('start')
@@ -40,14 +39,12 @@ subject =   {
             #'yunnam_simple': {'sshport':30022,'serviceport':30080},
             #'pwn_simple':   {'sshport':30032,'serviceport':30090},
             #'tomcat8':  {'sshport':30042,'serviceport':30040},
-            'pwn':[{'network':'172.10.%d.1','servicename':'awd_note','serviceport':44500}]
+            'awd_note':{'serviceip':1}
             }
 
 #清除 docker 残留数据
 #docker volume rm $(docker volume ls -qf dangling=true)
-# docker network create --subnet=172.10.0.0/16 mynetwork
-# ufw default allow FORWARD
-# service ufw restart
+
 
 
 
@@ -78,7 +75,7 @@ def flagfresher_worker(mathobj):
         models.db.session.commit()
         #themath =''
         themath = models.math.query.first()
-        print ('Fresh flag')
+        print 'Fresh flag'
         #匹配比赛信息，控制刷新时间在比赛进行时
         if themath:
             timespan = themath.flagflash * 60 # 单位是分钟
@@ -127,61 +124,20 @@ def main():
     score = models.math.query.first().startscore
     mathobj = []
 
-    # run/teamid/
-
-    for team in teams:
-        #print team.id,'check dir'
-        if not os.path.exists('./run/team_'+str(team.id)):
-            #print team.id,'makedirs'
-            os.mkdir('./run/team_'+str(team.id))
-
-    #exit()
-
     for s in subject:
-        
-        for m in subject[s]:
-            md = importlib.import_module('subject.'+m['servicename'])
-            img = md.build()
-            print img.tags#[0]
-            for team in teams:
-                
-                if os.path.exists('./run/team_'+str(team.id)+'/'+m['servicename']):
-                    logger.info('Clearing old floder')
-                    cmd = 'rm -rf ./run/team_'+str(team.id)+'/'+m['servicename']
-                    os.popen(cmd)
-                    logger.info(cmd)
-
-                cmd = 'cp -r ./subject/source/'+s+'/'+m['servicename'] + ' ./run/team_'+str(team.id)
-                logger.info(cmd)
-                os.popen(cmd)
+        m = importlib.import_module('subject.'+s)
 
 
-
-                teamid = team.id
-                teamname = team.name
-                sshport = 22
-                serviceport = m['serviceport']
-                teampass = team.sshpassword
-                ip = m['network'] % teamid
-                image = img.tags[0]
-                #print ip
-                mathobj.append(md.o(teamid,teamname, sshport,serviceport,teampass,score,ip,image))
-
-
-        # m = importlib.import_module('subject.'+s)
-
-
-        # for i in teams:
-        #     teamid = i.id
-        #     teamname = i.name
-        #     sshport = subject[s]['sshport'] + 100*teamid
-        #     serviceport = subject[s]['serviceport'] + 100*teamid
-        #     teampass = i.sshpassword
+        for i in teams:
+            teamid = i.id
+            teamname = i.name
+            sshport = subject[s]['sshport'] + 100*teamid
+            serviceport = subject[s]['serviceport'] + 100*teamid
+            teampass = i.sshpassword
             
 
-        #     mathobj.append(m.o(teamid,teamname, sshport,serviceport,teampass,score))
-        #     #sshpassword = i.ssh
-    #print mathobj
+            mathobj.append(m.o(teamid,teamname, sshport,serviceport,teampass,score))
+            #sshpassword = i.ssh
 
     for i in mathobj:
         #print i.teamid,i.name,i.container_name
@@ -192,7 +148,7 @@ def main():
         i.create_containers()
         logger.info('[+]%s container %s created' % (i.teamname,i.container_name))
 
-    #exit()
+
 
     logger.info('[+]Ready to start containers')
 
@@ -203,7 +159,7 @@ def main():
 
     # 开始准备 docker
 
-    threads = [threading.Thread(target=containers_worker) for i in range(thrds)]
+    threads = [threading.Thread(target=containers_worker) for i in xrange(thrds)]
     map(lambda x:x.setDaemon(True),threads)
     map(lambda x:x.start(),threads)
     map(lambda x:x.join(),threads)
@@ -218,7 +174,7 @@ def main():
         #themath = ''
         models.db.session.commit()
         themath = models.math.query.first()
-        print ('匹配比赛信息，控制刷新时间在比赛进行时')
+        print '匹配比赛信息，控制刷新时间在比赛进行时'
         #匹配比赛信息，控制刷新时间在比赛进行时
         if themath:
             timespan = themath.flagflash * 60 # 单位是分钟
