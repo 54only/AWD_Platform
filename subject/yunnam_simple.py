@@ -6,10 +6,27 @@ import requests
 import sys
 sys.path.append("..")
 from log import logset,console
+
+image_name = '54only/yunnan_simple'
 #from models import db,containers
 logger=logset('subject.yunnam_simple')
 logger.addHandler(console)
 
+
+def build():
+    try:
+        img = client.images.get(imagename)
+        logger.info('Image alread exists :'+imagename)
+        return img
+    except Exception as e:
+        print(e)
+        m100 = 1024*1024*1024
+        logger.info('Image building :'+imagename)
+        #print os.path.abspath('.')
+        #return
+        #,dockerfile='./pwn/awd_note/Dockerfile'
+        client.images.build(path='./subject/source/web/yunnam_simple',tag=imagename,container_limits={'memory':m100,'memswap':-1})
+        return client.images.get(imagename)
 
 class o(subjectclass):
     #image_name = 'awd/yunnam_simple'
