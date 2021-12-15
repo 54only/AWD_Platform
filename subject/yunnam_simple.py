@@ -69,7 +69,7 @@ class o(subjectclass):
         #print self.db_containers
         #print self.db_containers.check_stat
         if self.db_containers.check_stat >0:
-            print self.container_name,'Already check False',self.db_containers.check_stat
+            print(self.container_name,'Already check False',self.db_containers.check_stat)
             #self.update_checkstat()
             return self.db_containers.check_stat
 
@@ -93,8 +93,8 @@ class o(subjectclass):
                 self.update_checkstat()
                 return self.db_containers.check_stat
         except Exception,e :
-            print e
-            print 'ERROR',self.teamname,self.db_containers.check_stat
+            print(e)
+            print('ERROR',self.teamname,self.db_containers.check_stat)
             self.db_containers.check_stat = 1 
             logger.info('[*]Check %s webservice False:%s ' % (self.teamname,url))
             self.update_checkstat()
