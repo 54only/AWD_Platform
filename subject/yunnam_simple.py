@@ -1,5 +1,5 @@
 #-*- coding:utf-8 -*-
-from __init__ import subjectclass,client
+from .__init__ import subjectclass,client
 import time
 import requests
 # for import log
