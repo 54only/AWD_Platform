@@ -37,8 +37,10 @@ class o(subjectclass):
 
 
 
-    def __init__(self, teamid,teamname, sshport,serviceport,teampass,score):
+    def __init__(self, teamid,teamname, sshport,serviceport,teampass,score,ip,image):
         self.container_name=self.name + '_' + str(teamid)
+        self.ip=ip
+        self.image_name = image
         super(o,self).__init__(teamid,teamname, sshport,serviceport,teampass,score)
         #subjectclass.container_name = self.container_name
 
