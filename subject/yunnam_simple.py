@@ -92,7 +92,7 @@ class o(subjectclass):
                 logger.info('[*]Check %s login.php False' % self.teamname)
                 self.update_checkstat()
                 return self.db_containers.check_stat
-        except Exception,e :
+        except Exception as e :
             print(e)
             print('ERROR',self.teamname,self.db_containers.check_stat)
             self.db_containers.check_stat = 1 
