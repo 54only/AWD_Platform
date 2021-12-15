@@ -7,7 +7,7 @@ import sys
 sys.path.append("..")
 from log import logset,console
 
-image_name = '54only/yunnan_simple'
+imagename = '54only/yunnan_simple'
 #from models import db,containers
 logger=logset('subject.yunnam_simple')
 logger.addHandler(console)
