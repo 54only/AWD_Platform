@@ -276,7 +276,7 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route('/admin2ee24916bf1bafd60cd58b8555a53a9e')
+@app.route('/admin2ee24916bf1bafd60cd58b8555a53a9e', methods=['GET'])
 @login_required
 def admin():
     if session.get('user_id') != 'admin':
