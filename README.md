@@ -28,6 +28,10 @@ session.get('_user_id')
 
 ## 基本使用方式
 * 准备 docker 服务
+```
+# 拉取测试题目镜像
+docker pull 54only/yunnan_simple
+```
 * 准备 mysql ，并建立 awd 数据库 ，请一定要设定字符集为 utf-8 ，不然会报错
 
 ```
