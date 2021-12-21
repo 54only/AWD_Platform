@@ -84,6 +84,13 @@ docker container prune && docker volume rm $(docker volume ls -qf dangling=true)
 subject #比赛环境目录
 ```
 
+## 开始比赛
+
+用 admin 登录，访问  /admin2ee24916bf1bafd60cd58b8555a53a9e ，把比赛时间调整到合适时间，环境自动运行
+
+admin 密码在 models.py 270 行
+
+
 ## 规则
 * 主机信息
 
