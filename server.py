@@ -282,7 +282,7 @@ def admin():
     if session.get('user_id') != 'admin':
         return render_template("login2.html", error="No privileges")
     else:
-        return render_template('other.html')
+        return render_template('base_admin.html')
 
 
 @app.route('/admin2ee24916bf1bafd60cd58b8555a53a9e/math', methods=['GET', 'POST'])
