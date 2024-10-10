@@ -174,3 +174,6 @@ admin 密码在 models.py 270 行
 2019.11.25 | 跪\* | 1.00 
 2019.11.25 | 跪\* | 50 
 2019.12.12 |\*齢松 | 30 
+
+## Stargazers over time
+[![Stargazers over time](https://starchart.cc/54only/AWD_Platform.svg?variant=adaptive)](https://starchart.cc/54only/AWD_Platform)
