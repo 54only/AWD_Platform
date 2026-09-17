@@ -175,5 +175,6 @@ admin 密码在 models.py 270 行
 2019.11.25 | 跪\* | 50 
 2019.12.12 |\*齢松 | 30 
 
-## Stargazers over time
-[![Stargazers over time](https://starchart.cc/54only/AWD_Platform.svg?variant=adaptive)](https://starchart.cc/54only/AWD_Platform)
+## Star History
+
+[![Star History Chart](https://star-history.dera.page/svg?repos=54only/AWD_Platform&type=Date)](https://star-history.dera.page/#54only/AWD_Platform&Date)
